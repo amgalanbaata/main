@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_flutter_project/screens/bottonMenuPages/post_form.dart';
 import 'package:my_flutter_project/screens/bottonMenuPages/ubSoil.dart';
 import 'package:my_flutter_project/screens/home.dart';
+import 'package:my_flutter_project/screens/menuPages/userInformation.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class _MainAppState extends State<MainApp> {
   final List<Widget> _pages = <Widget>[
     Home(),
     PostForm(),
-    UbSoilPageView()
+    Userinformation()
   ];
 
   void _onItemTapped(int index) {
@@ -30,9 +31,7 @@ class _MainAppState extends State<MainApp> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    print("AAAAA");
     _onItemTapped(_selectedIndex);
   }
 
@@ -52,8 +51,8 @@ class _MainAppState extends State<MainApp> {
             label: 'Мэдэгдэл',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.poll),
-            label: 'Түвшин',
+            icon: Icon(Icons.history),
+            label: 'Түүх',
           ),
         ],
         currentIndex: _selectedIndex,

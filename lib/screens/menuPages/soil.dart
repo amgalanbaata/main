@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_project/main.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class SoilWebView extends StatefulWidget {
@@ -7,7 +8,6 @@ class SoilWebView extends StatefulWidget {
 }
 
 class _SoilWebViewState extends State<SoilWebView> {
-  final String url = 'http://192.168.50.243:8000/soil';
   bool isLoading = true;
 
   @override
@@ -34,7 +34,7 @@ class _SoilWebViewState extends State<SoilWebView> {
       //     },
       //   ),
       // )
-      ..loadRequest(Uri.parse(url));
+      ..loadRequest(Uri.parse('${apiUrl}soil'));
 
     return Scaffold(
       appBar: AppBar(

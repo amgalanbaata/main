@@ -51,7 +51,7 @@ android {
         // versionName flutterVersionName
 
         minSdkVersion 23
-        targetSdkVersion 33
+        // targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         versionCode 1
@@ -70,14 +70,3 @@ android {
 flutter {
     source '../..'
 }
-
-//   dependencies {
-//     classpath 'com.android.tools.build:gradle:4.1.0'
-//     classpath "org.jetbrains.kotlin:kotlin-gradle plugin:$kotlin_version"
-//   }
-// }
-
-// dependencies {
-//     classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20'
-//     implementation 'androidx.multidex:multidex:2.0.1'
-// }

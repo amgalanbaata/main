@@ -3,20 +3,11 @@ import 'package:my_flutter_project/screens/bottonMenuPages/navigationBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_flutter_project/screens/register.dart';
 
-// const String apiUrl = 'https://nbog.susano-tech.mn/api/';
-const String apiUrl = 'http://192.168.50.243:8000/api/';
+// const String apiUrl = 'https://nbog.susano-tech.mn/';
+const String apiUrl = 'http://192.168.50.243:8000/';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(
-  //   options: FirebaseOptions(
-  //     apiKey: 'YOUR_API_KEY',
-  //     appId: 'YOUR_APP_ID',
-  //     messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-  //     projectId: 'YOUR_PROJECT_ID',
-  //     storageBucket: 'YOUR_STORAGE_BUCKET',
-  //   ),
-  // );
   runApp(const MyApp());
 }
 
