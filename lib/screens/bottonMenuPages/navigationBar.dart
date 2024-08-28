@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_project/screens/bottonMenuPages/post_form.dart';
-import 'package:my_flutter_project/screens/bottonMenuPages/ubSoil.dart';
-import 'package:my_flutter_project/screens/home.dart';
+import 'package:my_flutter_project/screens/bottonMenuPages/home.dart';
 import 'package:my_flutter_project/screens/menuPages/userInformation.dart';
 
 class MainApp extends StatefulWidget {
@@ -9,7 +8,6 @@ class MainApp extends StatefulWidget {
 
   @override
   _MainAppState createState() {
-    print("SSSSS");
      return _MainAppState();
   }
 }
@@ -48,7 +46,7 @@ class _MainAppState extends State<MainApp> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add),
-            label: 'Мэдэгдэл',
+            label: 'Хүсэлт',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history),

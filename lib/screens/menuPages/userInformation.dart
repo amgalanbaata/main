@@ -145,7 +145,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
         'longitude': item['longitude'],
       };
       final http.Response response = await http.post(
-        Uri.parse('${apiUrl}posts'),
+        Uri.parse('${apiUrl}api/posts'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         },
@@ -193,7 +193,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
   Future<void> allPostCount() async {
     try {
     final http.Response response = await http.post(
-    Uri.parse('${apiUrl}count'),
+    Uri.parse('${apiUrl}api/count'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -224,7 +224,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
         'id': allID
       };
       final http.Response response = await http.post(
-        Uri.parse('${apiUrl}myposts'),
+        Uri.parse('${apiUrl}api/myposts'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         },

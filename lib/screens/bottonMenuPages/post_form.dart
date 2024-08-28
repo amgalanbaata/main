@@ -140,7 +140,7 @@ class _PostFormState extends State<PostForm> {
 
     try {
       final http.Response response = await http.post(
-        Uri.parse('${apiUrl}posts'),
+        Uri.parse('${apiUrl}api/posts'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         },
@@ -455,7 +455,7 @@ class _PostFormState extends State<PostForm> {
             },
             icon: Icon(Icons.send, color: Colors.white,),
             label: Text(
-              'Мэдэгдэл илгээх',
+              'Хүсэлт илгээх',
               style: TextStyle(color: Colors.white),
             ),
             backgroundColor: Colors.transparent,

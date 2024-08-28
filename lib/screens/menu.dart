@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_project/screens/bottonMenuPages/ubSoil.dart';
 import 'package:my_flutter_project/screens/menuPages/news.dart';
 import 'package:my_flutter_project/screens/menuPages/companies.dart';
-import 'package:my_flutter_project/screens/menuPages/contact.dart';
+import 'package:my_flutter_project/screens/menuPages/contactUs.dart';
 import 'package:my_flutter_project/screens/menuPages/listPage.dart';
 import 'package:my_flutter_project/screens/menuPages/profile.dart';
 import 'package:my_flutter_project/screens/menuPages/soil.dart';
+import 'package:my_flutter_project/screens/menuPages/ubSoil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Menu extends StatefulWidget {
@@ -77,7 +77,7 @@ class _MenuState extends State<Menu> {
               Navigator.pop(context);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => UbSoilPageView()),
+                MaterialPageRoute(builder: (context) => UbSoilWebView()),
               );
             },
           ),
@@ -99,7 +99,7 @@ class _MenuState extends State<Menu> {
               Navigator.pop(context);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Listpage()),
+                MaterialPageRoute(builder: (context) => ListPage()),
               );
             },
           ),
