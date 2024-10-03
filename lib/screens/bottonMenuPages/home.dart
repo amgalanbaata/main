@@ -82,92 +82,69 @@ class _HomePageState extends State<Home> {
     );
   }
 
-  // Future<void> getLocation() async {
-  //   PermissionStatus status = await Permission.location.request();
-  //   print('call getLocation function');
-  
-  //   try {
-  //   Position position = await Geolocator.getCurrentPosition(
-  //     desiredAccuracy: LocationAccuracy.high,
-  //   );
+  Future<void> getLocation() async {
+    PermissionStatus status = await Permission.location.request();
 
-  //     String latitude = position.latitude.toString();
-  //     String longitude = position.longitude.toString();
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      
+      String latitude = position.latitude.toString();
+      String longitude = position.longitude.toString();
 
-  //     final http.Response response = await http.post(
-  //       Uri.parse('${apiUrl}map?lat=' + latitude + '&lon=' + longitude),
-  //       headers: <String, String>{
-  //       },
-  //     );
-  //     print('amjilttai');
-  //   } catch (e) {
-  //       print('Error posting location: $e');
-  //   }
-  // }
+      final Uri url = Uri.parse('${apiUrl}map?lat=$latitude&lon=$longitude');
+      
+      final http.Response response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+      );
+      print('${apiUrl}map?lat=$latitude&lon=$longitude');
 
-Future<void> getLocation() async {
-  PermissionStatus status = await Permission.location.request();
-  print('call getLocation function');
-
-  try {
-    Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
-    
-    String latitude = position.latitude.toString();
-    String longitude = position.longitude.toString();
-
-    final Uri url = Uri.parse('${apiUrl}map?lat=$latitude&lon=$longitude');
-    
-    final http.Response response = await http.post(
-      url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-    );
+      print('Location data sent: $latitude, $longitude');
+      print('Response: ${response.body}');
+      
+      controller = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    ..setBackgroundColor(const Color(0x00000000))
+    ..setNavigationDelegate(
+      NavigationDelegate(
+        onProgress: (int progress) {
+          // Update loading bar.
+        },
+        onPageStarted: (String url) {},
+        onPageFinished: (String url) {},
+        onWebResourceError: (WebResourceError error) {},
+      ),
+    )
+    ..loadRequest(Uri.parse('${apiUrl}map?lat=$latitude&lon=$longitude'));
     print('${apiUrl}map?lat=$latitude&lon=$longitude');
-
-    print('Location data sent: $latitude, $longitude');
-    print('Response: ${response.body}');
-    
-    controller = WebViewController()
-  ..setJavaScriptMode(JavaScriptMode.unrestricted)
-  ..setBackgroundColor(const Color(0x00000000))
-  ..setNavigationDelegate(
-    NavigationDelegate(
-      onProgress: (int progress) {
-        // Update loading bar.
-      },
-      onPageStarted: (String url) {},
-      onPageFinished: (String url) {},
-      onWebResourceError: (WebResourceError error) {},
-    ),
-  )
-  ..loadRequest(Uri.parse('${apiUrl}map?lat=$latitude&lon=$longitude'));
-    setState((){
-      isLoading = false;
-    });
-  } catch (e) {
-    print('Error posting location: $e');
-    controller = WebViewController()
-  ..setJavaScriptMode(JavaScriptMode.unrestricted)
-  ..setBackgroundColor(const Color(0x00000000))
-  ..setNavigationDelegate(
-    NavigationDelegate(
-      onProgress: (int progress) {
-        // Update loading bar.
-      },
-      onPageStarted: (String url) {},
-      onPageFinished: (String url) {},
-      onWebResourceError: (WebResourceError error) {},
-    ),
-  )
-  ..loadRequest(Uri.parse('${apiUrl}map'));
-    setState((){
-      isLoading = false;
-    });
+      setState((){
+        isLoading = false;
+      });
+    } catch (e) {
+      print('Error posting location: $e');
+      controller = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    ..setBackgroundColor(const Color(0x00000000))
+    ..setNavigationDelegate(
+      NavigationDelegate(
+        onProgress: (int progress) {
+          // Update loading bar.
+        },
+        onPageStarted: (String url) {},
+        onPageFinished: (String url) {},
+        onWebResourceError: (WebResourceError error) {},
+      ),
+    )
+    ..loadRequest(Uri.parse('${apiUrl}map'));
+      setState((){
+        isLoading = false;
+      });
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {

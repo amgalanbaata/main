@@ -35,12 +35,33 @@ class _PostFormState extends State<PostForm> {
   String? _name;
   String? _number;
   String formattedDate = DateFormat('yyy-MM-dd').format(DateTime.now());
-  int _selectedType = 1;
+  int selectedValue = 1;
 
   @override
   void initState() {
     super.initState();
     _fetchUserData();
+    fetchTypeName();
+  }
+
+  Future<void> fetchTypeName() async {
+    try {
+      final response = await http.post(Uri.parse('${apiUrl}api/typeName'));
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        setState(() {
+          typeNameGlobal = data.toList();
+          print('items:');
+          print(typeNameGlobal);
+        });
+      } else {
+        print('Failed to load type names');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
   Future<void> _fetchUserData() async {
@@ -133,7 +154,7 @@ class _PostFormState extends State<PostForm> {
       'image': image,
       'latitude': latitude,
       'longitude': longitude,
-      'type': _selectedType,
+      'type': selectedValue,
     };
     print('response.body');
     print(body);
@@ -164,7 +185,7 @@ class _PostFormState extends State<PostForm> {
             'name': _name,
             'number': _number,
             'comment': _comment.text,
-            'type': _selectedType,
+            'type': selectedValue,
             'status': 1,
             'image1': _imageFile.length > 0 ? _imageFile[0].path : null,
             'image2': _imageFile.length > 1 ? _imageFile[1].path : null,
@@ -187,15 +208,16 @@ class _PostFormState extends State<PostForm> {
           'image2': _imageFile.length > 1 ? _imageFile[1].path : null,
           'image3': _imageFile.length > 2 ? _imageFile[2].path : null,
           'status': 0,
-          'type': _selectedType,
+          'type': selectedValue,
           'latitude': latitude,
           'longitude': longitude,
           'date': formattedDate,
         };
         _sqliteService.insertPost(row);
         _response = 'Failed: ${response.statusCode}';
-        print('failed response');
+        print('Failed response: ${response.body}'); // Added response body here
         print(response.statusCode);
+          _showDialog('Амжилтгүй', 'дахин оролдоно уу');
       });
     }
   } catch (e) {
@@ -208,12 +230,12 @@ class _PostFormState extends State<PostForm> {
         'image2': _imageFile.length > 1 ? _imageFile[1].path : null,
         'image3': _imageFile.length > 2 ? _imageFile[2].path : null,
         'status': 0,
-        'type': _selectedType,
+        'type': selectedValue,
         'latitude': latitude,
         'longitude': longitude,
         'date': formattedDate,
       };
-      _showDialog('интэрнэт холболт байхгүй', 'Мэдээлэл хадгалагдлаа, Nнтэрнэттэй газраас ахин илгээнэ үү!!!');
+      _showDialog('интернэт холболт байхгүй', 'Мэдээлэл хадгалагдлаа, Nинтернэттэй газраас ахин илгээнэ үү!!!');
       _sqliteService.insertPost(row);
     });
   }
@@ -246,8 +268,7 @@ class _PostFormState extends State<PostForm> {
     );
   }
 
-  final List<String> items = ['Бусад', 'Хог хягдал', 'эвдрэл доройтол', 'Бохир'];
-  String? selectedValue;
+  // final List<String> items = ['Бусад', 'Хог хягдал', 'эвдрэл доройтол', 'Бохир'];
 
   @override
   Widget build(BuildContext context) {
@@ -299,12 +320,13 @@ class _PostFormState extends State<PostForm> {
                       Positioned(
                         right: 0,
                         child: IconButton(
-                            icon: Icon(Icons.remove_circle, color: Colors.red),
-                            onPressed: () {
-                              setState(() {
-                                _imageFile.removeAt(index);
-                              });
-                            }),
+                          icon: Icon(Icons.remove_circle, color: Colors.red),
+                          onPressed: () {
+                            setState(() {
+                              _imageFile.removeAt(index);
+                            });
+                          }
+                        ),
                       )
                     ],
                   );
@@ -329,7 +351,7 @@ class _PostFormState extends State<PostForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Санал гомдлийн төрөл сонгох',
+                    'Төрөл сонгох',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -365,33 +387,20 @@ class _PostFormState extends State<PostForm> {
                             ),
                           ],
                         ),
-                        items: items
-                            .map((String item) => DropdownMenuItem<String>(
-                                  value: item,
+                        items: typeNameGlobal
+                            .map((item) => DropdownMenuItem<String>(
+                                  value: item['id'].toString(),
                                   child: Text(
-                                    item,
+                                    item['name'],
                                     style: const TextStyle(fontSize: 14),
                                   ),
                                 ))
                             .toList(),
-                        value: selectedValue,
+                        value: selectedValue.toString(),
                         onChanged: (String? value) {
                           setState(() {
-                            selectedValue = value;
-                            switch (selectedValue) {
-                              case "Бусад":
-                                _selectedType = 1;
-                                break;
-                              case "Хог хягдал":
-                                _selectedType = 2;
-                                break;
-                              case "эвдрэл доройтол":
-                                _selectedType = 3;
-                                break;
-                              case "Бохир":
-                                _selectedType = 4;
-                                break;
-                            }
+                            selectedValue = int.parse(value!);
+                            print(selectedValue);
                           });
                         },
                         buttonStyleData: const ButtonStyleData(
@@ -455,7 +464,7 @@ class _PostFormState extends State<PostForm> {
             },
             icon: Icon(Icons.send, color: Colors.white,),
             label: Text(
-              'Хүсэлт илгээх',
+              'Мэдэгдэл илгээх',
               style: TextStyle(color: Colors.white),
             ),
             backgroundColor: Colors.transparent,

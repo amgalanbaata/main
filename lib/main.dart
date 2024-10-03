@@ -5,6 +5,9 @@ import 'package:my_flutter_project/screens/register.dart';
 
 // const String apiUrl = 'https://nbog.susano-tech.mn/';
 const String apiUrl = 'http://192.168.50.243:8000/';
+bool committeeOfficer = false;
+List<dynamic> typeNameGlobal = [];
+List<dynamic> statusNameGlobal = [];
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

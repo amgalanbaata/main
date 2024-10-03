@@ -45,6 +45,8 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
     super.initState();
     fetchStatus();
     allPostCount();
+    fetchTypeName();
+    fetchStatusName();
     getCounts();
     _controller = AnimationController(
       duration: const Duration(seconds: 1),
@@ -55,6 +57,47 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
       begin: Colors.red,
       end: Colors.transparent,
     ).animate(_controller);
+  }
+
+  
+  Future<void> fetchTypeName() async {
+    try {
+      final response = await http.post(Uri.parse('${apiUrl}api/typeName'));
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        setState(() {
+          typeNameGlobal = data.toList();
+          print('items:');
+          print(typeNameGlobal);
+        });
+      } else {
+        print('Failed to load type names');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+  
+  Future<void> fetchStatusName() async {
+    try {
+      final response = await http.post(Uri.parse('${apiUrl}api/statusName'));
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        setState(() {
+          statusNameGlobal = data.toList();
+          print('typeNameGlobal');
+          print(typeNameGlobal);
+        });
+      } else {
+        print('Failed to load status names');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
   Future<void> getCounts() async{
@@ -92,6 +135,9 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
     allPostCount();
     getCounts();
     print('working scroll...');
+    typeNameGlobal.forEach((item) {
+      print(item['name']);
+    });
   }
 
   Future<void> _onLoading() async {
@@ -113,6 +159,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
 
   Future<void> send(Map<String, dynamic> item) async {
     try {
+      print('item');
       print(item);
       List<String> image = [];
       String formattedDate = DateFormat('yyy-MM-dd').format(DateTime.now());
@@ -527,13 +574,16 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
   }
 
   statusName(status){
-    List<String> name = ['','Илгээсэн','Хүлээн авсан','Шийдвэрлэсэн','Татгалзсан'];
-    return name[status];
+    print('status');
+    print(status);
+    if(status == 1) {
+      return 'Илгээсэн';
+    } else {
+    return statusNameGlobal.firstWhere((item) => item['id'] == status)['name'];
+    }
   }
-
   typeName(types) {
-    List<String> name = ['', 'Бусад', 'Хог хягдал', 'эвдрэл доройтол', 'Бохир'];
-    return name[types];
+    return typeNameGlobal.firstWhere((item) => item['id'] == types)['name'];
   }
 
   Color _getStatusColor(int status) {
@@ -558,6 +608,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
   }
   
   Widget _cardBuild(Map<String, dynamic> item) {
+    print(item['status']);
     List<String> images = [];
     if (item['image1'] != null) images.add(item['image1']);
 
@@ -763,6 +814,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
                         ),
                         onPressed: () {
                           _showSendDialog('Илгээх', item);
+                          print(item);
                         },
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),

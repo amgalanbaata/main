@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_flutter_project/screens/bottonMenuPages/post_form.dart';
 import 'package:my_flutter_project/screens/bottonMenuPages/home.dart';
 import 'package:my_flutter_project/screens/menuPages/userInformation.dart';
+import 'package:my_flutter_project/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({Key? key}) : super(key: key);
@@ -30,7 +32,19 @@ class _MainAppState extends State<MainApp> {
   @override
   void initState() {
     super.initState();
+    _checkCommitteeOfficer();
     _onItemTapped(_selectedIndex);
+  }
+
+  Future<void> _checkCommitteeOfficer() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? officeStatus = prefs.getBool('committeeOfficer');
+
+    if(officeStatus != null) {
+      setState(() {
+        committeeOfficer = officeStatus;
+      });
+    }
   }
 
   @override
@@ -38,7 +52,8 @@ class _MainAppState extends State<MainApp> {
     return Scaffold(
       body: _pages[_selectedIndex],
       key: GlobalKey(),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: committeeOfficer ?
+       BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -46,7 +61,7 @@ class _MainAppState extends State<MainApp> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add),
-            label: 'Хүсэлт',
+            label: 'Илгээх',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
@@ -56,7 +71,7 @@ class _MainAppState extends State<MainApp> {
         currentIndex: _selectedIndex,
         selectedItemColor: Color.fromARGB(255, 39, 141, 90),
         onTap: _onItemTapped,
-      ),
+      ) : null
     );
   }
 }
