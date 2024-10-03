@@ -1,0 +1,25 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "@popperjs/core": "^2.11.6",
+        "axios": "^1.1.2",
+        "bootstrap": "^5.2.3",
+        "jquery": "^3.6.4",
+        "laravel-vite-plugin": "^0.7.2",
+        "sass": "^1.60.0",
+        "vite": "^4.0.0",
+        "vite-svg-loader": "^4.0.0"
+    },
+    "dependencies": {
+        "collect.js": "^4.36.1",
+        "font-awesome": "^4.7.0",
+        "lodash": "^4.17.21",
+        "pdfjs-dist": "^4.5.136",
+        "sass-loader": "^13.2.2",
+        "vite-plugin-svgr": "^2.4.0"
+    }
+}
