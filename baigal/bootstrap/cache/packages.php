@@ -1,16 +1,4 @@
 <?php return array (
-  'barryvdh/laravel-dompdf' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Barryvdh\\DomPDF\\ServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Pdf' => 'Barryvdh\\DomPDF\\Facade\\Pdf',
-      'PDF' => 'Barryvdh\\DomPDF\\Facade\\Pdf',
-    ),
-  ),
   'laravel/sail' => 
   array (
     'providers' => 
@@ -71,17 +59,6 @@
       0 => 'Termwind\\Laravel\\TermwindServiceProvider',
     ),
   ),
-  'spatie/laravel-googletagmanager' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Spatie\\GoogleTagManager\\GoogleTagManagerServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'GoogleTagManager' => 'Spatie\\GoogleTagManager\\GoogleTagManagerFacade',
-    ),
-  ),
   'spatie/laravel-ignition' => 
   array (
     'providers' => 
@@ -91,17 +68,6 @@
     'aliases' => 
     array (
       'Flare' => 'Spatie\\LaravelIgnition\\Facades\\Flare',
-    ),
-  ),
-  'srmklive/paypal' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Srmklive\\PayPal\\Providers\\PayPalServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'PayPal' => 'Srmklive\\PayPal\\Facades\\PayPal',
     ),
   ),
   'stevebauman/location' => 
