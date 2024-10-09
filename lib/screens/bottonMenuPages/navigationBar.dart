@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_project/screens/bottonMenuPages/post_form.dart';
 import 'package:my_flutter_project/screens/bottonMenuPages/home.dart';
-import 'package:my_flutter_project/screens/menuPages/userInformation.dart';
+import 'package:my_flutter_project/screens/bottonMenuPages/userInformation.dart';
 import 'package:my_flutter_project/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,7 +61,7 @@ class _MainAppState extends State<MainApp> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add),
-            label: 'Илгээх',
+            label: 'Мэдэгдэл',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history),

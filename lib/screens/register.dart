@@ -33,10 +33,7 @@ class _RegisterState extends State<Register> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('name', _nameController.text);
         await prefs.setString('number', _phoneController.text);
-
-        print('Success: Амжилттай');
       } catch (e) {
-        print('Error: Алдаа гарлаа');
       } finally {
         setState(() {
           _isLoading = false;
@@ -59,12 +56,9 @@ class _RegisterState extends State<Register> {
         body: jsonEncode(body),
       );
       if (response.statusCode == 200) {
-        
-        print('OK');
         _showVerifyCodeDialog();
         return true;
       } else {
-        print('Email not found');
         _navigateToHome();
         return false;
       }
@@ -72,7 +66,6 @@ class _RegisterState extends State<Register> {
       setState(() {
         errMessage = 'error $e';
       });
-      print('error');
       return false;
     }
   }
@@ -92,14 +85,11 @@ class _RegisterState extends State<Register> {
         },
         body: jsonEncode(body),
       );
-      print('successs');
       print(response.body);
       if (json.decode(response.body)['message'] == 'OK') {
         final data = jsonDecode(response.body);
         final String district = data['district'];
         final String committee = data['committee'];
-        print('Response: $data');
-        print('OK');
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('committeeOfficer', true);
         await prefs.setString('district', district);
@@ -114,7 +104,6 @@ class _RegisterState extends State<Register> {
       setState(() {
         errMessage = 'error $e';
       });
-      print('error');
       return false;
     }
   }
@@ -235,7 +224,6 @@ class _RegisterState extends State<Register> {
       context,
       MaterialPageRoute(builder: (context) => MainApp()),
     );
-    print('call save user data function');
   }
 
   @override

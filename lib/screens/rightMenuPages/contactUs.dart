@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:my_flutter_project/main.dart';
 
-
-class ListPage extends StatefulWidget {
+class ContactPage extends StatefulWidget {
   @override
-  _ListPageState createState() => _ListPageState();
+  _ContactPageState createState() => _ContactPageState();
 }
 
-class _ListPageState extends State<ListPage> {
+class _ContactPageState extends State<ContactPage> {
   bool isLoading = true;
   late WebViewController controller;
 
@@ -37,7 +36,7 @@ class _ListPageState extends State<ListPage> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('${apiUrl}pdfurl?type=list'));
+      ..loadRequest(Uri.parse('${apiUrl}contact-us'));
   }
 
   @override
@@ -50,7 +49,14 @@ class _ListPageState extends State<ListPage> {
             Navigator.pop(context);
           },
         ),
-        title: Text('Лабораторийн жагсаалт'),
+        title: Text('Бидний тухай'),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(2.0),
+          child: Container(
+            color: Colors.green,
+            height: 2.0,
+          ),
+        ),
       ),
       body: Stack(
         children: [

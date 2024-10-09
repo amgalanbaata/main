@@ -216,13 +216,13 @@ class ApiController extends Controller
             $filePath = public_path('storage/posts/'.$filename);
             file_put_contents($filePath, $fileData);
             // $img->save($filePath, 90);
-            $manager = new ImageManager(new Driver());
-            // read image from file system
-            $image = $manager->read($filePath);
-            // resize image proportionally to 300px width
-            // $image->scale(width: 400);
-            // save modified image in new format
-            $image->toPng()->save(public_path('storage/posts/test.png'));
+            // $manager = new ImageManager(new Driver());
+            // // read image from file system
+            // $image = $manager->read($filePath);
+            // // resize image proportionally to 300px width
+            // // $image->scale(width: 400);
+            // // save modified image in new format
+            // $image->toPng()->save(public_path('storage/posts/test.png'));
             // $image = Image::make($filePath)->resize(400, 200);
             /*list($width, $height) = getimagesize($filename);
             $new_width = 400;

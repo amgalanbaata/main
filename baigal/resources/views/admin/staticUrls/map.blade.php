@@ -1,5 +1,5 @@
 <html>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-mJPcidccQNY9l1-QBXv9VKREeK5f5oM"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAcYhzB6quk1LGZ0wJkwASVvUWt8TDtLw"></script>
 <head>
     <style>
         #map {
@@ -17,7 +17,7 @@
 </head>
 <body  onload="initMap()">
     <div id="map"></div>
-    <p style="font-size: 25px;">sdfkj</p>
+    <p style="font-size: 25px;"></p>
 </body>
 <script>
     function initMap() {

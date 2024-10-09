@@ -30,6 +30,13 @@ class NewsWebView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Мэдээ'),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(2.0),
+          child: Container(
+            color: Colors.green,
+            height: 2.0,
+          ),
+        ),
       ),
       body: WebViewWidget(controller: controller
       ),

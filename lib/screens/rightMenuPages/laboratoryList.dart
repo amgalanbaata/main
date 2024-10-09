@@ -1,16 +1,19 @@
+
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:my_flutter_project/main.dart';
 
-class SoilWebView extends StatefulWidget {
+
+class UbSoilWebView extends StatefulWidget {
   @override
-  _SoilWebViewState createState() => _SoilWebViewState();
+  _UbSoilWebViewState createState() => _UbSoilWebViewState();
 }
 
-class _SoilWebViewState extends State<SoilWebView> {
+class _UbSoilWebViewState extends State<UbSoilWebView> {
   bool isLoading = true;
   late WebViewController controller;
-
+    
   @override
   void initState() {
     super.initState();
@@ -37,14 +40,22 @@ class _SoilWebViewState extends State<SoilWebView> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('${apiUrl}pdfurl?type=soil'));
+      ..loadRequest(Uri.parse('${apiUrl}laboratoryList'));
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Хөрсний шинжилгээ'),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(2.0),
+          child: Container(
+            color: Colors.green,
+            height: 2.0,
+          ),
+        ),
       ),
       body: Stack(
         children: [

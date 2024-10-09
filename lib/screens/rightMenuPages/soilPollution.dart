@@ -1,19 +1,16 @@
-
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:my_flutter_project/main.dart';
 
-
-class UbSoilWebView extends StatefulWidget {
+class SoilWebView extends StatefulWidget {
   @override
-  _UbSoilWebViewState createState() => _UbSoilWebViewState();
+  _SoilWebViewState createState() => _SoilWebViewState();
 }
 
-class _UbSoilWebViewState extends State<UbSoilWebView> {
+class _SoilWebViewState extends State<SoilWebView> {
   bool isLoading = true;
   late WebViewController controller;
-    
+
   @override
   void initState() {
     super.initState();
@@ -40,20 +37,14 @@ class _UbSoilWebViewState extends State<UbSoilWebView> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('${apiUrl}pdfurl?type=ubSoil'));
+      ..loadRequest(Uri.parse('${apiUrl}soil-pollution'));
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text('Хөрсний шинжилгээ')
-          ],
-        ),
+        title: Text('Хөрсний бохирдол'),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(2.0),
           child: Container(

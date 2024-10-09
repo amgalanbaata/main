@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:my_flutter_project/main.dart';
 
-class CompaniesPage extends StatefulWidget {
+
+class ElectronicLibraryPage extends StatefulWidget {
   @override
-  _CompaniesPageState createState() => _CompaniesPageState();
+  _ElectronicLibraryPageState createState() => _ElectronicLibraryPageState();
 }
 
-
-class _CompaniesPageState extends State<CompaniesPage> {
-  late WebViewController controller;
+class _ElectronicLibraryPageState extends State<ElectronicLibraryPage> {
   bool isLoading = true;
-  String companies = 'companies';
+  late WebViewController controller;
 
   @override
   void initState() {
@@ -38,7 +37,7 @@ class _CompaniesPageState extends State<CompaniesPage> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('${apiUrl}pdfurl?type=companies'));
+      ..loadRequest(Uri.parse('${apiUrl}electronic-librery'));
   }
 
   @override
@@ -51,7 +50,14 @@ class _CompaniesPageState extends State<CompaniesPage> {
             Navigator.pop(context);
           },
         ),
-        title: Text('Хамтрагч байгууллага'),
+        title: Text('Цахим номын сан'),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(2.0),
+          child: Container(
+            color: Colors.green,
+            height: 2.0,
+          ),
+        ),
       ),
       body: Stack(
         children: [

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('number');
+            $table->string('number');
             $table->string('comment');
             $table->string('latitude');
             $table->string('longitude');

@@ -67,6 +67,14 @@ Route::post('/admin/location/edit/{id}', [LocationController::class, 'edit']);
 Route::get('/admin/report', [ReportController::class, 'index']);
 Route::post('/admin/report', [ReportController::class, 'generate'])->name('report.generate');
 Route::get('pdfurl', [StaticUrlController::class, 'pdfUrls']);
+Route::get('contact-us', [StaticUrlController::class, 'contactUs']);
+Route::get('standarts', [StaticUrlController::class, 'standarts']);
+Route::get('electronic-librery', [StaticUrlController::class, 'electronicLibrery']);
+Route::get('ubSoil', [StaticUrlController::class, 'ubSoil']);
+Route::get('soil-pollution', [StaticUrlController::class, 'soilPollution']);
+Route::get('laboratoryList', [StaticUrlController::class, 'laboratoryList']);
+Route::get('documents', [StaticUrlController::class, 'documents']);
+Route::get('soil-pollution', [StaticUrlController::class, 'soilPollution']);
 Route::get('map', [StaticUrlController::class, 'map']);
 Route::resource('locations', LocationController::class);
 // app users

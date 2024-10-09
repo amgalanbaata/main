@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:my_flutter_project/main.dart';
 
-class ContactPage extends StatefulWidget {
+class StandartsPageView extends StatefulWidget {
   @override
-  _ContactPageState createState() => _ContactPageState();
+  _StandartsState createState() => _StandartsState();
 }
 
-class _ContactPageState extends State<ContactPage> {
+class _StandartsState extends State<StandartsPageView> {
   bool isLoading = true;
   late WebViewController controller;
 
   @override
   void initState() {
     super.initState();
+
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageStarted: (String url) {
@@ -36,24 +36,18 @@ class _ContactPageState extends State<ContactPage> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('${apiUrl}pdfurl?type=contact-us'));
+      ..loadRequest(Uri.parse('${apiUrl}standarts'));
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Text('Бидний тухай'),
+        title: Text('Хөрсний Стандартууд'),
       ),
       body: Stack(
         children: [
           WebViewWidget(controller: controller),
+          Container(),
           if (isLoading)
             Center(
               child: CircularProgressIndicator(),

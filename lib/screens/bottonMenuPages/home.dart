@@ -21,7 +21,6 @@ class _HomePageState extends State<Home> {
   void initState() {
     super.initState();
     checkLocationService();
-    getLocation();
   }
 
   void checkLocationService() async {
@@ -37,6 +36,7 @@ class _HomePageState extends State<Home> {
       getLocation();
     } else {
       showLocationErrorDialog();
+      getLocation();
     }
   }
 
@@ -45,14 +45,13 @@ class _HomePageState extends State<Home> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Location Services Disabled'),
-          content: Text('Please enable location services to continue.'),
+          title: Text('Байршлын үйлчилгээг идэвхгүй болгосон'),
+          content: Text('Үргэлжлүүлэхийн тулд байршлын үйлчилгээг идэвхжүүлнэ үү.'),
           actions: [
             TextButton(
               child: Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
-                // checkLocationService();
               },
             ),
           ],
@@ -101,10 +100,6 @@ class _HomePageState extends State<Home> {
           'Content-Type': 'application/json; charset=UTF-8'
         },
       );
-      print('${apiUrl}map?lat=$latitude&lon=$longitude');
-
-      print('Location data sent: $latitude, $longitude');
-      print('Response: ${response.body}');
       
       controller = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -120,12 +115,10 @@ class _HomePageState extends State<Home> {
       ),
     )
     ..loadRequest(Uri.parse('${apiUrl}map?lat=$latitude&lon=$longitude'));
-    print('${apiUrl}map?lat=$latitude&lon=$longitude');
       setState((){
         isLoading = false;
       });
     } catch (e) {
-      print('Error posting location: $e');
       controller = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted)
     ..setBackgroundColor(const Color(0x00000000))

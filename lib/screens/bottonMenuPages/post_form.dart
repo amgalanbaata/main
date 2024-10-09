@@ -11,6 +11,7 @@ import 'package:my_flutter_project/screens/menu.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image/image.dart' as img;
 import 'package:intl/intl.dart';
 
 
@@ -73,27 +74,84 @@ class _PostFormState extends State<PostForm> {
   }
 
   Future<void> getImageFromCamera() async {
-    if(_imageFile.length >= 3) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Та зөвхөн 3 хүртэлх зураг байршуулах боломжтой.'),
-      ));
-      return;
-    }
-    PermissionStatus status = await Permission.location.request();
-
-    if (status.isGranted) {
-      final pickedFile = await _picker.pickImage(source: ImageSource.camera);
-      if (pickedFile != null) {
-        setState(() {
-          _imageFile.add(File(pickedFile.path));
-        });
-      }
-    } else if (status.isDenied || status.isPermanentlyDenied) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Камерт хандахын тулд байршлын зөвшөөрөл шаардлагатай.'),
-      ));
-    }
+  if (_imageFile.length >= 3) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Та зөвхөн 3 хүртэлх зураг байршуулах боломжтой.'),
+    ));
+    return;
   }
+
+  PermissionStatus status = await Permission.location.request();
+  print("status.isGranted: ");
+  print(status.isGranted);
+
+  if (status.isGranted) {
+    print(status.isGranted);
+    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      File originalFile = File(pickedFile.path);
+      File resizedFile = await resizeImage(originalFile);
+
+      setState(() {
+        _imageFile.add(resizedFile);
+      });
+    }
+  } else if (!status.isDenied || status.isPermanentlyDenied) {
+    print(status.isDenied);
+    print('call checkLocationService');
+    // it's here again location ask
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Камерт хандахын тулд байршлын зөвшөөрөл шаардлагатай.'),
+    ));
+    Future.delayed(const Duration(seconds: 3)
+    );
+    openAppSettings();
+  }
+}
+
+// Function to resize the image
+Future<File> resizeImage(File file) async {
+  // Read the image file into memory
+  final bytes = await file.readAsBytes();
+  final img.Image? image = img.decodeImage(bytes);
+
+  if (image != null) {
+    // Resize the image to a fixed width (e.g., 400px), keeping aspect ratio
+    img.Image resizedImage = img.copyResize(image, width: 500);
+
+    // Encode the resized image back to file
+    final resizedBytes = img.encodeJpg(resizedImage);
+    final resizedFile = File(file.path)..writeAsBytesSync(resizedBytes);
+
+    return resizedFile;
+  } else {
+    throw Exception("Failed to decode image");
+  }
+}
+
+
+  // Future<void> getImageFromCamera() async {
+  //   if(_imageFile.length >= 3) {
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Text('Та зөвхөн 3 хүртэлх зураг байршуулах боломжтой.'),
+  //     ));
+  //     return;
+  //   }
+  //   PermissionStatus status = await Permission.location.request();
+
+  //   if (status.isGranted) {
+  //     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+  //     if (pickedFile != null) {
+  //       setState(() {
+  //         _imageFile.add(File(pickedFile.path));
+  //       });
+  //     }
+  //   } else if (status.isDenied || status.isPermanentlyDenied) {
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Text('Камерт хандахын тулд байршлын зөвшөөрөл шаардлагатай.'),
+  //     ));
+  //   }
+  // }
 
   Future<void> getImageFromGallery() async {
     final pickedFiles = await _picker.pickMultiImage();
@@ -129,10 +187,8 @@ class _PostFormState extends State<PostForm> {
         )
       );
       return;
-    }
-    setState(() {
-      _isLoading = true;
-    });
+    } 
+    
     PermissionStatus status = await Permission.location.request();
 
     String latitude = '';
@@ -145,8 +201,12 @@ class _PostFormState extends State<PostForm> {
       latitude = position.latitude.toString();
       longitude = position.longitude.toString();
     } else {
+      print('medegdel inlgeehiin tuld location shaardlagatai');
       return;
     }
+    setState(() {
+      _isLoading = true;
+    });
     final Map<String, dynamic> body = {
       'name': _name,
       'number': _number,
@@ -200,20 +260,20 @@ class _PostFormState extends State<PostForm> {
         });
       } else {
       setState(() {
-        final Map<String, dynamic> row = {
-          'name': _name,
-          'number': _number,
-          'comment': _comment.text,
-          'image1': _imageFile.length > 0 ? _imageFile[0].path : null,
-          'image2': _imageFile.length > 1 ? _imageFile[1].path : null,
-          'image3': _imageFile.length > 2 ? _imageFile[2].path : null,
-          'status': 0,
-          'type': selectedValue,
-          'latitude': latitude,
-          'longitude': longitude,
-          'date': formattedDate,
-        };
-        _sqliteService.insertPost(row);
+      //   final Map<String, dynamic> row = {
+      //     'name': _name,
+      //     'number': _number,
+      //     'comment': _comment.text,
+      //     'image1': _imageFile.length > 0 ? _imageFile[0].path : null,
+      //     'image2': _imageFile.length > 1 ? _imageFile[1].path : null,
+      //     'image3': _imageFile.length > 2 ? _imageFile[2].path : null,
+      //     'status': 0,
+      //     'type': selectedValue,
+      //     'latitude': latitude,
+      //     'longitude': longitude,
+      //     'date': formattedDate,
+      //   };
+      //   _sqliteService.insertPost(row);
         _response = 'Failed: ${response.statusCode}';
         print('Failed response: ${response.body}'); // Added response body here
         print(response.statusCode);
@@ -235,7 +295,7 @@ class _PostFormState extends State<PostForm> {
         'longitude': longitude,
         'date': formattedDate,
       };
-      _showDialog('интернэт холболт байхгүй', 'Мэдээлэл хадгалагдлаа, Nинтернэттэй газраас ахин илгээнэ үү!!!');
+      _showDialog('интернэт холболт байхгүй', 'Мэдээлэл хадгалагдлаа, интернэттэй газраас ахин илгээнэ үү!!!');
       _sqliteService.insertPost(row);
     });
   }
@@ -255,11 +315,14 @@ class _PostFormState extends State<PostForm> {
             TextButton(
               child: Text('OK'),
               onPressed: () {
-                // Navigator.of(context).pop();
-                Navigator.push(
-                  context, 
-                  MaterialPageRoute(builder: (context) => MainApp()),
-                );
+                if(title == 'Амжилтгүй') {
+                  Navigator.of(context).pop();
+                } else {
+                  Navigator.push(
+                    context, 
+                    MaterialPageRoute(builder: (context) => MainApp()),
+                  );
+                }
               },
             ),
           ],

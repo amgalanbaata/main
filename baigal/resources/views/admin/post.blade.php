@@ -103,7 +103,11 @@
                                 @foreach ($image_path as $image)
                                 <ul class="imageUl">
                                     <li>
-                                        <img class="small-image" src="{{ asset('storage/posts/'.$image->image_name) }}" alt="Post Image">
+                                        @if ($image->image_name)
+                                            <img class="small-image" src="{{ asset('storage/posts/'.$image->image_name) }}" alt="Post Image">
+                                            @else
+                                            <h1>Зураг хоосон</h1>
+                                        @endif
                                     </li>
                                 </ul>
                                 @endforeach

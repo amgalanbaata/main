@@ -4,8 +4,6 @@ import 'package:my_flutter_project/main.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:math';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import '../bottonMenuPages/navigationBar.dart';
 class Profile extends StatefulWidget {
@@ -81,7 +79,6 @@ class _ProfileState extends State<Profile> {
         _showVerifyCodeDialog();
         return true;
       } else {
-        print('Email not found');
         _saveUserData();
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('committeeOfficer', false);
@@ -93,9 +90,7 @@ class _ProfileState extends State<Profile> {
     } catch (e) {
       setState(() {
         errMessage = 'error $e';
-        print('catch');
       });
-      print('error');
       return false;
     } finally {
       setState(() {
@@ -239,7 +234,6 @@ class _ProfileState extends State<Profile> {
         setState(() {
           committeeOfficer = true;
         });
-        // committeeOfficer = true;
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('committeeOfficer', true);
         await _saveUserData();
@@ -344,6 +338,13 @@ class _ProfileState extends State<Profile> {
           },
         ),
         title: Text('Мэдээлэл шинэчлэх'),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(2.0),
+          child: Container(
+            color: Colors.green,
+            height: 2.0,
+          ),
+        ),
         actions: [
           _isEditing
           ? IconButton(
