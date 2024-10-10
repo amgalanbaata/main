@@ -11,7 +11,6 @@ class AdminController extends Controller
 {
     public function index()
     {
-        print_r('safjhasfk');
         if (Session::get('admin_token') != '') {
             return view('admin.dashboard');
         } else {

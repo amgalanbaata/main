@@ -18,8 +18,8 @@
                                 <form method="POST" action="{{ route('app-users.update', $user->id) }}">
                                     @csrf
                                     <div class="form-group">
-                                        <label for="username">иМэйл</label>
-                                        <input type="text" class="form-control" id="username" name="username" value="{{ $user->email }}" required>
+                                        <label for="email">иМэйл</label>
+                                        <input type="text" class="form-control" id="email" name="email" value="{{ $user->email }}" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="password">Нууц үг</label>

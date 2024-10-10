@@ -66,6 +66,7 @@ Route::post('/admin/location/edit/{id}', [LocationController::class, 'edit']);
 // report
 Route::get('/admin/report', [ReportController::class, 'index']);
 Route::post('/admin/report', [ReportController::class, 'generate'])->name('report.generate');
+// static urls
 Route::get('pdfurl', [StaticUrlController::class, 'pdfUrls']);
 Route::get('contact-us', [StaticUrlController::class, 'contactUs']);
 Route::get('standarts', [StaticUrlController::class, 'standarts']);
@@ -78,8 +79,9 @@ Route::get('soil-pollution', [StaticUrlController::class, 'soilPollution']);
 Route::get('map', [StaticUrlController::class, 'map']);
 Route::resource('locations', LocationController::class);
 // app users
-Route::get('/admin/app-user',  [AppUserController::class, 'index']);
-Route::get('/admin/app-users',  [AppUserController::class, 'store'])->name('app-users.edit');
+Route::get('/admin/app-user',  [AppUserController::class, 'index'])->name('app-users.index');
+Route::get('/admin/app-users/{id}/edit',  [AppUserController::class, 'edit'])->name('app-users.edit');
 Route::get('/admin/app-users/create',  [AppUserController::class, 'create'])->name('app-users.create');
-Route::get('/admin/app-users/{id}/edit',  [AppUserController::class, 'edit'])->name('app-users.update');
-Route::get('/admin/app-users/{id}',  [AppUserController::class, 'destroy'])->name('app-users.destroy');
+Route::post('/admin/app-users/{id}',  [AppUserController::class, 'update'])->name('app-users.update');
+Route::delete('/admin/app-users/{id}',  [AppUserController::class, 'destroy'])->name('app-users.destroy');
+Route::post('/admin/app-users', [AppUserController::class, 'store'])->name('app-users.store');

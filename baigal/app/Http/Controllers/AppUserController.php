@@ -4,16 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AppUsers;
+use Session;
 
 
 class AppUserController extends Controller
 {
     public function index()
     {
-        $model = new AppUsers();
-        $users = $model->appUsers();
+        if (Session::get('admin_token') != '') {
+            $model = new AppUsers();
+            $users = $model->appUsers();
 
-        return view('admin.appUsers.appUsers', ['users' => $users]);
+            return view('admin.appUsers.appUsers', ['users' => $users]);
+        } else {
+            Session::forget('admin_token');
+            return redirect('admin');
+        }
     }
 
     public function create()
@@ -25,32 +31,58 @@ class AppUserController extends Controller
     {
         // Validate the request data
         $request->validate([
-            'email' => 'required|string|max:255',
+            'email' => 'required|string|max:255|email',
             'password' => 'required|string|min:6',
             'district' => 'required|string|max:255',
             'committee' => 'required|string|max:255',
         ]);
 
         // Create a new user
-        $user = new AppUsers([
+        $appUser = new AppUsers([
             'email' => $request->email,
             'password' => ($request->password),
             'district' => $request->district,
             'committee' => $request->committee,
         ]);
 
-        $user->save();
+        $appUser->save();
 
-        return redirect()->route('appUsers.index')->with('success', 'User added successfully.');
+        return redirect()->route('app-users.index')->with('success', 'User added successfully.');
     }
 
     public function edit($id)
     {
         $user = AppUsers::find($id);
 
-        return view('admin.user.appUserEdit', compact('user'));
+        return view('admin.appUsers.appUserEdit', compact('user'));
     }
 
+    public function update(Request $request, $id)
+    {
+        if (Session::get('admin_token') != '') {
+            // Find the user by ID
+            $user = AppUsers::find($id);
+
+            if ($user) {
+                // Update user data
+                $user->email = $request->email;
+                $user->password = $request->password;
+                $user->committee = $request->committee;
+                $user->district = $request->district;
+                $user->updated_at = now();
+
+                $user->save();
+
+                return redirect()->route('app-users.index')->with('success', 'User updated successfully.');
+            } else {
+                return redirect()->route('app-users.index')->with('error', 'User not found.');
+            }
+            return view('admin.appUsers.appUserEdit', compact('user'));
+        } else {
+            Session::forget('admin_token');
+            return redirect('admin');
+        }
+    }
 
     public function destroy($id)
     {
@@ -58,9 +90,9 @@ class AppUserController extends Controller
 
         if ($user) {
             $user->delete();
-            return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+            return redirect()->route('app-users.index')->with('success', 'User deleted successfully.');
         } else {
-            return redirect()->route('users.index')->with('error', 'User not found.');
+            return redirect()->route('app-users.index')->with('error', 'User not found.');
         }
     }
 }

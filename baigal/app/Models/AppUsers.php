@@ -10,6 +10,13 @@ class AppUsers extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'email',
+        'password',
+        'district',
+        'committee',
+    ];
+
     public function appUsers()
     {
         $responce = [];
