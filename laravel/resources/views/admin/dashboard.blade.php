@@ -245,7 +245,7 @@
         var imageUrl = "";
         var contentString = '<div class="content card-image">';
         for (var i = 0; i < images.length; i++) {
-            imageUrl = "{{ asset('storage/posts/') }}" + '/' + images[i].image_name;
+            imageUrl = "{{ asset('images/posts/') }}" + '/' + images[i].image_name;
             contentString += '<img class="image" src="' + imageUrl + '" alt="Post Image">';
         }
         contentString += '<div class="image-body">' +

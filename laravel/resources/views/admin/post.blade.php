@@ -104,7 +104,7 @@
                                 <ul class="imageUl">
                                     <li>
                                         @if ($image->image_name)
-                                            <img class="small-image" src="{{ asset('storage/posts/'.$image->image_name) }}" alt="Post Image">
+                                            <img class="small-image" src="{{ asset('images/posts/'.$image->image_name) }}" alt="Post Image">
                                             @else
                                             <h1>Зураг хоосон</h1>
                                         @endif
@@ -113,7 +113,7 @@
                                 @endforeach
                             </div>
                             <div>
-                                <img class="big-image" src="{{ asset('storage/posts/'.$image_path->first()->image_name) }}" alt="Post Image">
+                                <img class="big-image" src="{{ asset('images/posts/'.$image_path->first()->image_name) }}" alt="Post Image">
                             </div>
                         </div>
                         <div>

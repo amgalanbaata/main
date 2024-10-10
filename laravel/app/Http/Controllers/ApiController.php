@@ -213,7 +213,7 @@ class ApiController extends Controller
             // save image
             $fileData = base64_decode($image);
             // $img = Image::make($fileData);
-            $filePath = public_path('storage/posts/'.$filename);
+            $filePath = public_path('images/posts/'.$filename);
             file_put_contents($filePath, $fileData);
             // $img->save($filePath, 90);
             // $manager = new ImageManager(new Driver());

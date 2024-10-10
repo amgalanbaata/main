@@ -49,15 +49,23 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'status_code' => 2,
-                'name' => 'Хүлээн авсан'
+                'name' => 'Давхардсан'
             ],
             [
                 'status_code' => 3,
-                'name' => 'Шийдвэрлэсэн'
+                'name' => 'Нэмэлт мэдээлэл шаардлагатай'
             ],
             [
                 'status_code' => 4,
-                'name' => 'Татгалзсан'
+                'name' => 'Буцаасан'
+            ],
+            [
+                'status_code' => 5,
+                'name' => 'Хөрсний шинжилгээ хийх'
+            ],
+            [
+                'status_code' => 6,
+                'name' => 'Байршилд шууд бүртгэх'
             ],
         ];
         DB::table('status')->insert($status);
