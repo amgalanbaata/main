@@ -19,9 +19,9 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('quote:questionnaire');
-        $schedule->command('quote:remind');
-        $schedule->command('quote:ticket');
+        // $schedule->command('quote:questionnaire');
+        // $schedule->command('quote:remind');
+        // $schedule->command('quote:ticket');
     }
 
     /**
