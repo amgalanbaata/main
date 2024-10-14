@@ -24,7 +24,7 @@ class Admin extends Model
         return false;
     }
 
-    public function postSelect($check1, $check2, $check3, $check4, $tcode)
+    public function postSelect($check1, $check2, $check3, $check4, $check5, $check6, $tcode)
     {
         $posts = [];
         try {
@@ -43,6 +43,12 @@ class Admin extends Model
             }
             if ($check4) {
                 $posts->orWhere('status', 4);
+            }
+            if ($check5) {
+                $posts->orWhere('status', 5);
+            }
+            if ($check6) {
+                $posts->orWhere('status', 6);
             }
             if($tcode > 0) {
                 $posts->where('type_code', $tcode);
@@ -88,16 +94,20 @@ class Admin extends Model
         if($tcode == 0) {
             $counts = [
                 'new' => DB::table('posts')->where('type', 1)->count(),
-                'received' => DB::table('posts')->where('status', 2)->count(),
-                'resolved' => DB::table('posts')->where('status', 3)->count(),
-                'rejected' => DB::table('posts')->where('status', 4)->count(),
+                'Duplicated' => DB::table('posts')->where('status', 2)->count(),
+                'Additional information is required' => DB::table('posts')->where('status', 3)->count(),
+                'Refused' => DB::table('posts')->where('status', 4)->count(),
+                'Conduct_soil_analysis' => DB::table('posts')->where('status', 5)->count(),
+                'Register_directly_on_location' => DB::table('posts')->where('status', 6)->count(),
             ];
         } else {
             $counts = [
-                'new' => DB::table('posts')->where('status', 1)->where('type', $tcode)->count(),
-                'received' => DB::table('posts')->where('status', 2)->where('type', $tcode)->count(),
-                'resolved' => DB::table('posts')->where('status', 3)->where('type', $tcode)->count(),
-                'rejected' => DB::table('posts')->where('status', 4)->where('type', $tcode)->count(),
+                'new' => DB::table('posts')->where('type', 1)->count(),
+                'Duplicated' => DB::table('posts')->where('status', 2)->count(),
+                'Additional information is required' => DB::table('posts')->where('status', 3)->count(),
+                'Refused' => DB::table('posts')->where('status', 4)->count(),
+                'Conduct_soil_analysis' => DB::table('posts')->where('status', 5)->count(),
+                'Register_directly_on_location' => DB::table('posts')->where('status', 6)->count(),
             ];
         }
         return $counts;

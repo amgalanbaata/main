@@ -143,17 +143,27 @@
 
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" id="status2" name="status" value="2" {{ $post->status == 2 ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="status2">Хүлээн авсан</label>
+                                    <label class="form-check-label" for="status2">Давхардсан</label>
                                 </div>
 
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" id="status3" name="status" value="3" {{ $post->status == 3 ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="status3">Шийдвэрлэсэн</label>
+                                    <label class="form-check-label" for="status3">Нэмэлт мэдээлэл шаардлагатай</label>
                                 </div>
 
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" id="status4" name="status" value="4" {{ $post->status == 4 ? 'checked' : '' }}>
                                     <label class="form-check-label" for="status4">Татгалзсан</label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" id="status5" name="status" value="5" {{ $post->status == 5 ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="status5">Хөрсний шинжилгээ хийх</label>
+                                </div>
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" id="status6" name="status" value="6" {{ $post->status == 6 ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="status6">Байршилд шууд бүртгэх</label>
                                 </div>
                                 <br>
                             </div>

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('status')->nullable();
             $table->string('admin_comment')->nullable();
             $table->integer('type');
+            $table->string('agreed')->nullable();
             $table->timestamps();
         });
     }

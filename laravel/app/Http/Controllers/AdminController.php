@@ -21,12 +21,15 @@ class AdminController extends Controller
 
     public function dashboard(Request $request)
     {
+        if(Session::get('admin_is') == 0) {
+            print_r('admin mun');
+        }
         $model = new Admin;
         $username = $request->input('username');
         $password = $request->input('password');
         $token = $request->input('_token');
         // $code = $request->sendCode();
-        $data = $model->postSelect(false, false, false, false, 0);
+        $data = $model->postSelect(false, false, false, false, false, false, 0);
         $image_path = $model->imagePathAll();
         $admin = $model->adminLogin($username, $password);
         if (count($model->adminLogin($username, $password)) > 0) {
@@ -55,6 +58,8 @@ class AdminController extends Controller
             $check2 = $request->input('check2');
             $check3 = $request->input('check3');
             $check4 = $request->input('check4');
+            $check5 = $request->input('check5');
+            $check6 = $request->input('check6');
             if ($request->status == 1) {
                 $check1 = true;
             }
@@ -67,12 +72,20 @@ class AdminController extends Controller
             if ($request->status == 4) {
                 $check4 = true;
             }
-            $data = $model->postSelect($check1, $check2, $check3, $check4, Session::get('admin_is'));
+            if ($request->status == 5) {
+                $check5 = true;
+            }
+            if ($request->status == 6) {
+                $check6 = true;
+            }
+            $data = $model->postSelect($check1, $check2, $check3, $check4, $check5, $check6, Session::get('admin_is'));
             $condition = [
                 "check1" => $check1,
                 "check2" => $check2,
                 "check3" => $check3,
-                "check4" => $check4
+                "check4" => $check4,
+                "check5" => $check5,
+                "check6" => $check6,
             ];
             return view('admin.posts', ['posts' => $data, 'condition' => $condition]);
         } else {

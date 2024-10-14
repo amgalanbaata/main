@@ -88,6 +88,9 @@
         .bg-info h5, .bg-info h3 {
             color: #212529;
         }
+        .row {
+            justify-content: space-between;
+        }
     </style>
     <body class="sb-nav-fixed" onload="initMap()">
     @include('admin.header')
@@ -100,10 +103,11 @@
                         <form class="row" action="{{route('admin.postsPost')}}" method="POST">
                             @csrf
                             <input type="text" name="status" id="status" style="display: none">
+                            @if (Session::get('admin_is') == 0)
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
-                                    <h4 class="card-body">Шинээр ирсэн {{ $counts['new'] }}</h4>
-                                    <button onclick="statusFunction(1)" class="btn">
+                                    <h4 class="card-body">Зөвшөөрөх хүсэлт {{ $counts['Conduct_soil_analysis'] + $counts['Register_directly_on_location'] }}</h4>
+                                    <button onclick="adminStatusFunction(5, 6)" class="btn">
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         Дэлгэрэнгүй
                                         <div class="small text-white"><i class="icon-angle-right"></i></div>
@@ -111,7 +115,47 @@
                                     </button>
                                 </div>
                             </div>
+                            @endif
+                            @if (Session::get('admin_is') == 2)
                             <div class="col-xl-3 col-md-6">
+                                <div class="card bg-primary text-white mb-4">
+                                    <h4 class="card-body">Шинээр ирсэн {{ $typeCounts['Хог хягдал']  }}</h4>
+                                    <button onclick="statusFunction(2)" class="btn">
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        Дэлгэрэнгүй
+                                        <div class="small text-white"><i class="icon-angle-right"></i></div>
+                                    </div>
+                                    </button>
+                                </div>
+                            </div>
+                            @endif
+                            @if (Session::get('admin_is') == 3)
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-primary text-white mb-4">
+                                    <h4 class="card-body">Шинээр ирсэн {{ $typeCounts['Эвдрэл доройтол']  }}</h4>
+                                    <button onclick="statusFunction(3)" class="btn">
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        Дэлгэрэнгүй
+                                        <div class="small text-white"><i class="icon-angle-right"></i></div>
+                                    </div>
+                                    </button>
+                                </div>
+                            </div>
+                            @endif
+                            @if (Session::get('admin_is') == 4)
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-primary text-white mb-4">
+                                    <h4 class="card-body">Шинээр ирсэн {{ $typeCounts['Бохир']  }}</h4>
+                                    <button onclick="statusFunction(4)" class="btn">
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        Дэлгэрэнгүй
+                                        <div class="small text-white"><i class="icon-angle-right"></i></div>
+                                    </div>
+                                    </button>
+                                </div>
+                            </div>
+                            @endif
+                            {{-- <div class="col-xl-3 col-md-6">
                                 <div class="card bg-warning text-white mb-4">
                                     <div>
                                         <h4 class="card-body">Хүлээн авсан {{ $counts['received'] }}</h4>
@@ -123,7 +167,7 @@
                                     </div>
                                     </button>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-xl-6 col-md-5">
                                 <div class="card bg-secondary text-white mb-4 shadow type-counts-card">
                                     <div class="card-body d-flex">
@@ -257,6 +301,12 @@
     }
     function statusFunction(check) {
         document.getElementById('status').value = check;
+        if (check) {
+            this.form.submit();
+        }
+    }
+    function adminStatusFunction(check1, check2) {
+        document.getElementById('adminStatus').value = check;
         if (check) {
             this.form.submit();
         }

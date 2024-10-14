@@ -149,7 +149,7 @@ class ApiController extends Controller
         if($user) {
             return response()->json(['message' => 'OK'], 200);
         } else {
-            return response()->json(['message' => 'NO'], 404);
+            return response()->json(['message' => 'NO'], 400);
         }
     }
 
@@ -167,7 +167,7 @@ class ApiController extends Controller
                 'committee' => $user->committee
             ], 200);
         } else {
-            return response()->json(['message' => 'NO'], 404);
+            return response()->json(['message' => 'NO'], 400);
         }
     }
 
@@ -181,7 +181,7 @@ class ApiController extends Controller
             return response()->json($typeNames, 200, ['Content-Type' => 'application/json; charset=UTF-8'], JSON_UNESCAPED_UNICODE);
         } else {
             // Return an empty array with a 404 status code
-            return response()->json([], 404);
+            return response()->json([], 400);
         }
     }
 
@@ -195,7 +195,7 @@ class ApiController extends Controller
             return response()->json($statusNames, 200, ['Content-Type' => 'application/json; charset=UTF-8'], JSON_UNESCAPED_UNICODE);
         } else {
             // Return an empty array with a 404 status code
-            return response()->json([], 404);
+            return response()->json([], 400);
         }
     }
 

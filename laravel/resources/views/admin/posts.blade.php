@@ -37,19 +37,31 @@
                                         <input class="form-check-input" type="checkbox" id="check2" value="true" name="check2"
                                             @if($condition['check2']) checked @endif
                                             onchange="javascript:this.form.submit()">
-                                        <label class="form-check-label" for="check2">хүлээн авсан</label>
+                                        <label class="form-check-label" for="check2">Давхардсан</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="checkbox" id="check3" value="true" name="check3"
                                             @if($condition['check3']) checked @endif
                                             onchange="javascript:this.form.submit()">
-                                        <label class="form-check-label" for="check3">шийдвэрлэсэн</label>
+                                        <label class="form-check-label" for="check3">Нэмэлт мэдээлэл шаардлагатай</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="checkbox" id="check4" value="true" name="check4"
                                             @if($condition['check4']) checked @endif
                                             onchange="javascript:this.form.submit()">
-                                        <label class="form-check-label" for="check4">татгалзсан</label>
+                                        <label class="form-check-label" for="check4">Татгалзсан</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="check5" value="true" name="check5"
+                                            @if($condition['check5']) checked @endif
+                                            onchange="javascript:this.form.submit()">
+                                        <label class="form-check-label" for="check5">Хөрсний шинжилгээ хийх</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="check6" value="true" name="check6"
+                                            @if($condition['check6']) checked @endif
+                                            onchange="javascript:this.form.submit()">
+                                        <label class="form-check-label" for="check6">Байршилд шууд бүртгэх</label>
                                     </div>
                                 </form>
                                 <table id="datatablesSimple">
@@ -60,6 +72,7 @@
                                             <th>Сэтгэгдэл</th>
                                             <th>Статус</th>
                                             <th>Төрөл</th>
+                                            <th>Зөвшөөрсөн</th>
                                             <th>Огноо</th>
                                             <th></th>
                                             <th></th>
@@ -72,6 +85,7 @@
                                             <th>Сэтгэгдэл</th>
                                             <th>Статус</th>
                                             <th>Төрөл</th>
+                                            <th>Зөвшөөрсөн</th>
                                             <th>Огноо</th>
                                             <th></th>
                                             <th></th>
@@ -110,6 +124,7 @@
                                                 @endswitch
                                             </td>
                                             <td>{{ $data->type_name }}</td>
+                                            <td>{{ $data->agreed }}</td>
                                             <td>{{ $data->created_at }}</td>
                                             <td>
                                                 <a type="button" class="btn btn-link" href="https://www.google.com/maps/search/?api=1&query={{ $data->latitude}}, {{$data->longitude}}" target="blank">
