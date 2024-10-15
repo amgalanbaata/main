@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:my_flutter_project/main.dart';
+import 'package:ubsoil/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
@@ -59,7 +59,7 @@ class _RegisterState extends State<Register> {
         _showVerifyCodeDialog();
         return true;
       } else {
-        _navigateToHome();
+        _navigateToHome('no');
         return false;
       }
     } catch (e) {
@@ -94,7 +94,7 @@ class _RegisterState extends State<Register> {
         await prefs.setBool('committeeOfficer', true);
         await prefs.setString('district', district);
         await prefs.setString('committee', committee);
-        _navigateToHome();
+        _navigateToHome('yes');
         return true;
       } else {
         print('passwrod is wrong');
@@ -217,9 +217,19 @@ class _RegisterState extends State<Register> {
     );
   }
   
-  void _navigateToHome() async {
+  void _navigateToHome(message) async {
     Navigator.pop(context);
     await _saveUserData();
+    if(message == 'yes') {
+      Navigator.pop(context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MainApp()),
+      );
+      print('committeeOfficer pop');
+      return;
+    }
+    print('simple pop');
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => MainApp()),

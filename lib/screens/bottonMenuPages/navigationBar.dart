@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_project/screens/bottonMenuPages/post_form.dart';
-import 'package:my_flutter_project/screens/bottonMenuPages/home.dart';
-import 'package:my_flutter_project/screens/bottonMenuPages/userInformation.dart';
-import 'package:my_flutter_project/main.dart';
+import 'package:ubsoil/screens/bottonMenuPages/post_form.dart';
+import 'package:ubsoil/screens/bottonMenuPages/home.dart';
+import 'package:ubsoil/screens/bottonMenuPages/userInformation.dart';
+import 'package:ubsoil/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainApp extends StatefulWidget {

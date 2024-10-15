@@ -5,9 +5,9 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:my_flutter_project/main.dart';
-import 'package:my_flutter_project/screens/bottonMenuPages/navigationBar.dart';
-import 'package:my_flutter_project/screens/menu.dart';
+import 'package:ubsoil/main.dart';
+import 'package:ubsoil/screens/bottonMenuPages/navigationBar.dart';
+import 'package:ubsoil/screens/menu.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -254,6 +254,7 @@ Future<File> resizeImage(File file) async {
             'longitude': longitude,
             'date': formattedDate,
           };
+
           _sqliteService.insertSendPost(row);
           // print(DateTime.now().toString());
           _showDialog('Амжилттай илгээлээ', '.....');
@@ -318,9 +319,10 @@ Future<File> resizeImage(File file) async {
                 if(title == 'Амжилтгүй') {
                   Navigator.of(context).pop();
                 } else {
-                  Navigator.push(
+                  Navigator.pushAndRemoveUntil(
                     context, 
                     MaterialPageRoute(builder: (context) => MainApp()),
+                    (Route<dynamic> route) => false,
                   );
                 }
               },

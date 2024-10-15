@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_project/screens/bottonMenuPages/navigationBar.dart';
+import 'package:ubsoil/screens/bottonMenuPages/navigationBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:my_flutter_project/screens/register.dart';
+import 'package:ubsoil/screens/register.dart';
 
 // const String apiUrl = 'https://nbog.susano-tech.mn/';
-const String apiUrl = 'http://192.168.50.243:8000/';
+// const String apiUrl = 'http://192.168.50.243:8000/';
+const String apiUrl = 'https://ubsoil.environment.ub.gov.mn/';
 bool committeeOfficer = false;
 List<dynamic> typeNameGlobal = [];
 List<dynamic> statusNameGlobal = [];

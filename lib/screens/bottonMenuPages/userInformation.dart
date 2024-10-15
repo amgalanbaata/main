@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:my_flutter_project/main.dart';
-import 'package:my_flutter_project/screens/menu.dart';
+import 'package:ubsoil/main.dart';
+import 'package:ubsoil/screens/menu.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 // import '../database.dart';
-import 'package:my_flutter_project/database.dart';
+import 'package:ubsoil/database.dart';
 
 
 class Userinformation extends StatefulWidget {
@@ -45,7 +45,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
     super.initState();
     fetchStatus();
     allPostCount();
-    fetchTypeName();
+    // fetchTypeName();
     fetchStatusName();
     getCounts();
     _controller = AnimationController(
@@ -89,8 +89,8 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
         final List<dynamic> data = jsonDecode(response.body);
         setState(() {
           statusNameGlobal = data.toList();
-          print('typeNameGlobal');
-          print(typeNameGlobal);
+          print('statusNameGlobal');
+          print(statusNameGlobal);
         });
       } else {
         print('Failed to load status names');
@@ -286,7 +286,8 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
                 'status': item['status'],
                 'admin_comment': item['admin_comment'],
               };
-              _sqliteService.updatePostStatus(row, item['id']);
+              int postId = int.parse(item['id'].toString());
+              _sqliteService.updatePostStatus(row, postId);
             }
             getpost();
         }

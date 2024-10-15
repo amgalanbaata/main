@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:my_flutter_project/main.dart';
+import 'package:ubsoil/main.dart';
 
 
 class ElectronicLibraryPage extends StatefulWidget {

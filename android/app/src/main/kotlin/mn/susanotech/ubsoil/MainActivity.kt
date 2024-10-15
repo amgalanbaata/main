@@ -1,4 +1,4 @@
-package com.example.my_flutter_project
+package mn.susanotech.ubsoil
 
 import io.flutter.embedding.android.FlutterActivity
 

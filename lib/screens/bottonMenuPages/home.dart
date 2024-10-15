@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_project/screens/menu.dart';
+import 'package:ubsoil/screens/menu.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:my_flutter_project/main.dart';
+import 'package:ubsoil/main.dart';
 import 'package:http/http.dart' as http;
 
 

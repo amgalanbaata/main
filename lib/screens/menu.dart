@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_project/screens/rightMenuPages/electronicLibrery.dart';
-import 'package:my_flutter_project/screens/rightMenuPages/contactUs.dart';
-import 'package:my_flutter_project/screens/rightMenuPages/documents.dart';
-import 'package:my_flutter_project/screens/rightMenuPages/profile.dart';
-import 'package:my_flutter_project/screens/rightMenuPages/soilPollution.dart';
-import 'package:my_flutter_project/screens/rightMenuPages/standarts.dart';
-import 'package:my_flutter_project/screens/rightMenuPages/laboratoryList.dart';
+import 'package:ubsoil/screens/rightMenuPages/electronicLibrery.dart';
+import 'package:ubsoil/screens/rightMenuPages/contactUs.dart';
+import 'package:ubsoil/screens/rightMenuPages/documents.dart';
+import 'package:ubsoil/screens/rightMenuPages/profile.dart';
+import 'package:ubsoil/screens/rightMenuPages/soilPollution.dart';
+import 'package:ubsoil/screens/rightMenuPages/standarts.dart';
+import 'package:ubsoil/screens/rightMenuPages/laboratoryList.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Menu extends StatefulWidget {
