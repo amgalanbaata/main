@@ -45,6 +45,7 @@ dependencies:
   image: ^4.2.0
   shared_preferences: ^2.2.3
   get: ^4.6.6
+  uiblock: ^2.0.2
 
 dev_dependencies:
   flutter_test:
