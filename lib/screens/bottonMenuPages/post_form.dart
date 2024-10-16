@@ -165,7 +165,7 @@ Future<File> resizeImage(File file) async {
       );
       return;
     } 
-    
+    showLoader(_scaffoldGlobalKey);
     PermissionStatus status = await Permission.location.request();
 
     String latitude = '';
@@ -181,7 +181,7 @@ Future<File> resizeImage(File file) async {
       print('medegdel inlgeehiin tuld location shaardlagatai');
       return;
     }
-    showLoader(_scaffoldGlobalKey);
+    
     final Map<String, dynamic> body = {
       'name': _name,
       'number': _number,
@@ -254,7 +254,7 @@ Future<File> resizeImage(File file) async {
         'longitude': longitude,
         'date': formattedDate,
       };
-      _showDialog('интернэт холболт байхгүй', 'Мэдээлэл хадгалагдлаа, интернэттэй газраас ахин илгээнэ үү!!!');
+      _showDialog('Интернэт холболт байхгүй', 'Мэдээлэл хадгалагдлаа, интернэттэй газраас дахин илгээнэ үү!!!');
       _sqliteService.insertPost(row);
     });
   }  

@@ -187,7 +187,8 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
       print('delete test');
       await _sqliteService.deletePost(id).then((res) {
         setState(() {
-          getpost();
+          // getpost();
+          _onRefresh();
           print('deleted post');
         });
       });
@@ -271,7 +272,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
       }
     } catch (e) {
       setState(() {
-          _showMessage('ERROR: No Internet Connection');
+          _showMessage('Алдаа: Интернэт холболт байхгүй байна, интернэттэй газраас дахин илгээнэ үү!!!');
       });
     }
     hideLoader(_scaffoldGlobalKey);
@@ -564,7 +565,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
           title: Text(title),
           actions: <Widget>[
             TextButton(
-              child: Text('Цуцлах'),
+              child: Text('Буцах'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
