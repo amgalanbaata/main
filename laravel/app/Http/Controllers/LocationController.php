@@ -23,6 +23,10 @@ class LocationController extends Controller
         return view('admin.user.location', compact('locations'));
     }
 
+    public function indexPage() {
+        return view('admin.resolvedAddLocation');
+    }
+
     public function create()
     {
         return view('admin.user.addLocation');
@@ -56,6 +60,10 @@ class LocationController extends Controller
         Location::create($data->all());
 
         return redirect()->route('locations.index')->with('success', 'Location added successfully.');
+    }
+
+    public function createLocation(Request $request) {
+
     }
 
     public function edit(Location $location)

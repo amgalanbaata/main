@@ -91,6 +91,10 @@
         .row {
             justify-content: space-between;
         }
+        .otherButton {
+            cursor: pointer;
+            width: 100%;
+        }
     </style>
     <body class="sb-nav-fixed" onload="initMap()">
     @include('admin.header')
@@ -102,12 +106,12 @@
                         <h1 class="mt-4">Нүүр хуудас</h1>
                         <form class="row" action="{{route('admin.postsPost')}}" method="POST">
                             @csrf
-                            <input type="text" name="status" id="status" style="display: none">
+                            <input type="hidden" name="status" id="status">
                             @if (Session::get('admin_is') == 0)
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
                                     <h4 class="card-body">Зөвшөөрөх хүсэлт {{ $counts['Conduct_soil_analysis'] + $counts['Register_directly_on_location'] }}</h4>
-                                    <button onclick="adminStatusFunction(5, 6)" class="btn">
+                                    <button onclick="adminStatusFunction(10)" class="btn">
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         Дэлгэрэнгүй
                                         <div class="small text-white"><i class="icon-angle-right"></i></div>
@@ -119,8 +123,8 @@
                             @if (Session::get('admin_is') == 2)
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
-                                    <h4 class="card-body">Шинээр ирсэн {{ $typeCounts['Хог хягдал']  }}</h4>
-                                    <button onclick="statusFunction(2)" class="btn">
+                                    <h4 class="card-body">Шинээр ирсэн {{ $typeCounts['Хог хягдал'] }}</h4>
+                                    <button onclick="statusFunction(1)" class="btn">
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         Дэлгэрэнгүй
                                         <div class="small text-white"><i class="icon-angle-right"></i></div>
@@ -132,8 +136,8 @@
                             @if (Session::get('admin_is') == 3)
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
-                                    <h4 class="card-body">Шинээр ирсэн {{ $typeCounts['Эвдрэл доройтол']  }}</h4>
-                                    <button onclick="statusFunction(3)" class="btn">
+                                    <h4 class="card-body">Шинээр ирсэн {{ $typeCounts['Эвдрэл доройтол'] }}</h4>
+                                    <button onclick="statusFunction(1)" class="btn">
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         Дэлгэрэнгүй
                                         <div class="small text-white"><i class="icon-angle-right"></i></div>
@@ -145,8 +149,8 @@
                             @if (Session::get('admin_is') == 4)
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
-                                    <h4 class="card-body">Шинээр ирсэн {{ $typeCounts['Бохир']  }}</h4>
-                                    <button onclick="statusFunction(4)" class="btn">
+                                    <h4 class="card-body">Шинээр ирсэн {{ $typeCounts['Бохир'] }}</h4>
+                                    <button onclick="statusFunction(1)" class="btn">
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         Дэлгэрэнгүй
                                         <div class="small text-white"><i class="icon-angle-right"></i></div>
@@ -173,13 +177,13 @@
                                     <div class="card-body d-flex">
                                         <!-- Left Column -->
                                         <div class="type-column">
-                                            <div class="type-section bg-dark">
-                                                <h5>Бусад</h5>
-                                                <h3>{{ $typeCounts['Бусад'] }}</h3>
-                                            </div>
                                             <div class="type-section bg-warning text-dark">
                                                 <h5>Хог хягдал</h5>
                                                 <h3>{{ $typeCounts['Хог хягдал'] }}</h3>
+                                            </div>
+                                            <div class="type-section bg-info text-dark">
+                                                <h5>Бохир</h5>
+                                                <h3>{{ $typeCounts['Бохир'] }}</h3>
                                             </div>
                                         </div>
                                         <!-- Right Column -->
@@ -188,10 +192,22 @@
                                                 <h5>эвдрэл доройтол</h5>
                                                 <h3>{{ $typeCounts['эвдрэл доройтол'] }}</h3>
                                             </div>
-                                            <div class="type-section bg-info text-dark">
-                                                <h5>Бохир</h5>
-                                                <h3>{{ $typeCounts['Бохир'] }}</h3>
+                                            @if (Session::get('admin_is') == 0)
+                                            <button onclick="fetchPosts(7)" class="type-section bg-dark otherButton">
+                                                <h5>Бусад</h5>
+                                                <div>
+                                                    <h3>{{ $typeCounts['Бусад'] }}</h3>
+                                                </div>
+                                                <input type="hidden" id="check7" name="check7" value="0">
+                                            </button>
+                                            @else
+                                            <div class="type-section bg-dark">
+                                                <h5>Бусад</h5>
+                                                <div>
+                                                    <h3>{{ $typeCounts['Бусад'] }}</h3>
+                                                </div>
                                             </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -299,14 +315,23 @@
         return contentString;
     }
     }
+
+    function fetchPosts(check) {
+        document.getElementById('check7').value = check;
+        // if (check) {
+        //     // Submit the form
+        //     // document.getElementById('check7').submit();
+        //     this.form.submit();
+        // }
+    }
     function statusFunction(check) {
         document.getElementById('status').value = check;
         if (check) {
             this.form.submit();
         }
     }
-    function adminStatusFunction(check1, check2) {
-        document.getElementById('adminStatus').value = check;
+    function adminStatusFunction(check10) {
+        document.getElementById('status').value = check10;
         if (check) {
             this.form.submit();
         }

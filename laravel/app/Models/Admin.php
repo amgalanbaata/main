@@ -23,6 +23,21 @@ class Admin extends Model
         }
         return false;
     }
+    public function postSelectType($type)
+    {
+        $posts  = [];
+        try {
+            $posts = Post::select('posts.*')
+                         ->where('type', $type)
+                         ->orderBy('created_at', 'desc')
+                         ->get();
+        } catch (\Illuminate\Database\QueryException $ex) {
+            $posts = [];
+        }
+
+        return $posts;
+    }
+
 
     public function postSelect($check1, $check2, $check3, $check4, $check5, $check6, $tcode)
     {

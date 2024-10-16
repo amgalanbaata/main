@@ -35,6 +35,20 @@
             border-radius: 4px;
             height: auto;
         }
+        .locationTitle textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            height: auto;
+        }
+        .locationComment textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            height: auto;
+        }
 
         /* Add styles for the map container */
         #map {
@@ -78,6 +92,10 @@
         }
         .statusS {
             margin-right: 20px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
         }
 
     </style>
@@ -133,6 +151,7 @@
 
                         <form action="" method="POST">
                             @csrf
+                            <input type="hidden" id="action_type" name="action_type" value="update">
                             <div class="status">
                                 <strong class="statusS">Статус:</strong>
                                 <input type="text" name="id" value="{{ $post->id }}" style="display: none">
@@ -198,11 +217,61 @@
                             <p><strong>Үүсгэсэн огноо:</strong> {{$post->created_at}}</p>
                             <p><strong>Шинэчлэгдсэн огноо:</strong> {{$post->updated_at}}</p>
                         </div>
-                        <button type="submit" class="custom-button">Шинэчлэх</button>
+                            <button type="submit" class="custom-button" onclick="document.getElementById('action_type').value='update'">Шинэчлэх</button>
+                            @if (Session::get('admin_is') == 0 && $post->type != 1)
+                            <button type="submit" class="custom-button" onclick="document.getElementById('action_type').value='resolve'">Зөвшөөрөх</button>
+                            @endif
                     </form>
+                    <form action="{{ route('location.upload') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                            @if ($post->status == 5 || $post->status == 6 && Session::get('admin_is') != 0)
+                            <div class="addLocation">
+                                <div class="locationTitle">
+                                    <strong>Гарчиг</strong>
+                                    <textarea type="text" name="title" value="text"></textarea>
+                                </div>
+                                <div class="locationComment">
+                                    <strong>Тайлбар</strong>
+                                    <textarea type="text" name="comment" value="text"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="latitude">Latitude</label>
+                                    <input type="text" name="latitude" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="longitude">Longitude</label>
+                                    <input type="text" name="longitude" class="form-control" required>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label class="form-label">Өнгө</label>
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="color" id="colorYellow" value="yellow" {{ old('color') == 'yellow' ? 'checked' : '' }} required>
+                                            <label class="form-check-label" for="colorYellow">Шар</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="color" id="colorBlue" value="blue" {{ old('color') == 'blue' ? 'checked' : '' }} required>
+                                            <label class="form-check-label" for="colorBlue">Цэнхэр</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="pdf">Шинжилгээ хавсаргах</label>
+                                            <input type="file" name="pdf" class="form-control" accept="application/pdf" required>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="color" id="colorBlack" value="black" {{ old('color') == 'black' ? 'checked' : '' }} required>
+                                            <label class="form-check-label" for="colorBlack">Хар</label>
+                                        </div>
+                                    </div>
+                                    @error('color')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <button type="submit" class="custom-button" onclick="document.getElementById('action_type').value='locationAdd'">Цэг нэмэх</button>
+                            @endif
+                        </form>
                     </div>
                 </div>
-
                 {{-- map --}}
                 <div class="card mb-4">
                     <div class="map-body">

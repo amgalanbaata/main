@@ -13,6 +13,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image/image.dart' as img;
 import 'package:intl/intl.dart';
+import 'package:ubsoil/screens/constant/data.dart';
+
 
 
 import '../../database.dart';
@@ -23,13 +25,12 @@ class PostForm extends StatefulWidget {
   @override
   State<PostForm> createState() => _PostFormState();
 }
-
+GlobalKey _scaffoldGlobalKey = GlobalKey();
 class _PostFormState extends State<PostForm> {
   String _response = '';
   final _sqliteService = DatabaseHelper.instance;
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   final TextEditingController _comment = TextEditingController();
-  bool _isLoading = false;
   List<File> _imageFile = [];
   final _picker = ImagePicker();
   String location = 'hooson';
@@ -129,30 +130,6 @@ Future<File> resizeImage(File file) async {
   }
 }
 
-
-  // Future<void> getImageFromCamera() async {
-  //   if(_imageFile.length >= 3) {
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //       content: Text('Та зөвхөн 3 хүртэлх зураг байршуулах боломжтой.'),
-  //     ));
-  //     return;
-  //   }
-  //   PermissionStatus status = await Permission.location.request();
-
-  //   if (status.isGranted) {
-  //     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
-  //     if (pickedFile != null) {
-  //       setState(() {
-  //         _imageFile.add(File(pickedFile.path));
-  //       });
-  //     }
-  //   } else if (status.isDenied || status.isPermanentlyDenied) {
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //       content: Text('Камерт хандахын тулд байршлын зөвшөөрөл шаардлагатай.'),
-  //     ));
-  //   }
-  // }
-
   Future<void> getImageFromGallery() async {
     final pickedFiles = await _picker.pickMultiImage();
     if (pickedFiles != null) {
@@ -204,9 +181,7 @@ Future<File> resizeImage(File file) async {
       print('medegdel inlgeehiin tuld location shaardlagatai');
       return;
     }
-    setState(() {
-      _isLoading = true;
-    });
+    showLoader(_scaffoldGlobalKey);
     final Map<String, dynamic> body = {
       'name': _name,
       'number': _number,
@@ -231,57 +206,40 @@ Future<File> resizeImage(File file) async {
       if (response == null) {
         Navigator.of(context).pop();
         print(response);
-        print('check response');
       }
-
+      hideLoader(_scaffoldGlobalKey);
       if (response.statusCode == 200) {
         setState(() {
           print(response.body);
           final responseBody = json.decode(response.body);
           print(responseBody['id'].toString());
           print(responseBody['post']['status'].toString());
-          final Map<String, dynamic> row = {
-            'id': responseBody['id'],
-            'name': _name,
-            'number': _number,
-            'comment': _comment.text,
-            'type': selectedValue,
-            'status': 1,
-            'image1': _imageFile.length > 0 ? _imageFile[0].path : null,
-            'image2': _imageFile.length > 1 ? _imageFile[1].path : null,
-            'image3': _imageFile.length > 2 ? _imageFile[2].path : null,
-            'latitude': latitude,
-            'longitude': longitude,
-            'date': formattedDate,
-          };
+          // final Map<String, dynamic> row = {
+          //   'id': responseBody['id'],
+          //   'name': _name,
+          //   'number': _number,
+          //   'comment': _comment.text,
+          //   'type': selectedValue,
+          //   'status': 1,
+          //   'image1': _imageFile.length > 0 ? _imageFile[0].path : null,
+          //   'image2': _imageFile.length > 1 ? _imageFile[1].path : null,
+          //   'image3': _imageFile.length > 2 ? _imageFile[2].path : null,
+          //   'latitude': latitude,
+          //   'longitude': longitude,
+          //   'date': formattedDate,
+          // };
 
-          _sqliteService.insertSendPost(row);
-          // print(DateTime.now().toString());
+          // _sqliteService.insertSendPost(row);
           _showDialog('Амжилттай илгээлээ', '.....');
         });
       } else {
       setState(() {
-      //   final Map<String, dynamic> row = {
-      //     'name': _name,
-      //     'number': _number,
-      //     'comment': _comment.text,
-      //     'image1': _imageFile.length > 0 ? _imageFile[0].path : null,
-      //     'image2': _imageFile.length > 1 ? _imageFile[1].path : null,
-      //     'image3': _imageFile.length > 2 ? _imageFile[2].path : null,
-      //     'status': 0,
-      //     'type': selectedValue,
-      //     'latitude': latitude,
-      //     'longitude': longitude,
-      //     'date': formattedDate,
-      //   };
-      //   _sqliteService.insertPost(row);
         _response = 'Failed: ${response.statusCode}';
-        print('Failed response: ${response.body}'); // Added response body here
-        print(response.statusCode);
           _showDialog('Амжилтгүй', 'дахин оролдоно уу');
       });
     }
   } catch (e) {
+    hideLoader(_scaffoldGlobalKey);
     setState(() {
       final Map<String, dynamic> row = {
         'name': _name,
@@ -299,10 +257,7 @@ Future<File> resizeImage(File file) async {
       _showDialog('интернэт холболт байхгүй', 'Мэдээлэл хадгалагдлаа, интернэттэй газраас ахин илгээнэ үү!!!');
       _sqliteService.insertPost(row);
     });
-  }
-  setState(() {
-    _isLoading = !_isLoading;
-  });
+  }  
 }
 
   void _showDialog(String title, String _showDialog) {
@@ -338,6 +293,7 @@ Future<File> resizeImage(File file) async {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldGlobalKey,
       endDrawer: Menu(),
       appBar: AppBar(
         title: Row(
@@ -347,7 +303,6 @@ Future<File> resizeImage(File file) async {
               margin: EdgeInsets.all(8.0),
               child: Image(
                 height: 50,
-                // image: NetworkImage('https://environment.ub.gov.mn/assets/images/resources/NBOG-logo.png'),
                 image: AssetImage('lib/assets/NBOG-logo.png'),
               ),
             ),
@@ -361,9 +316,7 @@ Future<File> resizeImage(File file) async {
           ),
         ),
       ),
-      body: _isLoading
-      ? Center(child: CircularProgressIndicator())
-      : ListView(
+      body: ListView(
           children: [
             Container(
               width: MediaQuery.of(context).size.width,

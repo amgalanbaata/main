@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'bottonMenuPages/navigationBar.dart';
+import 'constant/data.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -13,6 +14,8 @@ class Register extends StatefulWidget {
   @override
   _RegisterState createState() => _RegisterState();
 }
+
+GlobalKey _scaffoldGlobalKey = GlobalKey();
 
 class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
@@ -47,6 +50,7 @@ class _RegisterState extends State<Register> {
     final body = {
       "email": email,
     };
+    showLoader(_scaffoldGlobalKey);
     try {
       final http.Response response = await http.post(
         Uri.parse('${apiUrl}api/email'),
@@ -55,6 +59,7 @@ class _RegisterState extends State<Register> {
         },
         body: jsonEncode(body),
       );
+      hideLoader(_scaffoldGlobalKey);
       if (response.statusCode == 200) {
         _showVerifyCodeDialog();
         return true;
@@ -63,6 +68,7 @@ class _RegisterState extends State<Register> {
         return false;
       }
     } catch (e) {
+      hideLoader(_scaffoldGlobalKey);
       setState(() {
         errMessage = 'error $e';
       });
@@ -77,6 +83,7 @@ class _RegisterState extends State<Register> {
       "password": password,
       "email": email
     };
+    showLoader(_scaffoldGlobalKey);
     try {
       final http.Response response = await http.post(
         Uri.parse('${apiUrl}api/password'),
@@ -86,6 +93,7 @@ class _RegisterState extends State<Register> {
         body: jsonEncode(body),
       );
       print(response.body);
+      hideLoader(_scaffoldGlobalKey);
       if (json.decode(response.body)['message'] == 'OK') {
         final data = jsonDecode(response.body);
         final String district = data['district'];
@@ -101,6 +109,7 @@ class _RegisterState extends State<Register> {
         return false;
       }
     } catch (e) {
+      hideLoader(_scaffoldGlobalKey);
       setState(() {
         errMessage = 'error $e';
       });
@@ -228,7 +237,7 @@ class _RegisterState extends State<Register> {
       );
       print('committeeOfficer pop');
       return;
-    }
+    } 
     print('simple pop');
     Navigator.push(
       context,
@@ -239,6 +248,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldGlobalKey,
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -260,18 +270,7 @@ class _RegisterState extends State<Register> {
           ),
         ),
       ),
-      body: _isLoading 
-      ? Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CircularProgressIndicator(),
-              SizedBox(height: 8),
-              Text('Loading...'),
-            ],
-          ),
-        )
-      : Padding(
+      body: Padding(
         padding: const EdgeInsets.all(0),
         child: SingleChildScrollView(
           child: Form(
@@ -386,9 +385,9 @@ class _RegisterState extends State<Register> {
                       if (value == null || value.isEmpty) {
                         return 'Утасны дугаараа оруулна уу';
                       }
-                      if (!RegExp(r'^\d{8}$').hasMatch(value)) {
-                        return 'Хүчинтэй 8 оронтой утасны дугаар оруулна уу';
-                      }
+                      // if (!RegExp(r'^\d{8}$').hasMatch(value)) {
+                      //   return 'Хүчинтэй 8 оронтой утасны дугаар оруулна уу';
+                      // }
                       return null;
                     },
                   ), 
@@ -416,9 +415,13 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                     onPressed: () {
-                      setState(() {
-                        _checkUserEmail();
-                      });
+                      if (_formKey.currentState!.validate()) {
+                        setState(() {
+                          _checkUserEmail();
+                        });
+                      } else {
+                        print('validation failed');
+                      }
                     },
                   ),
                 )

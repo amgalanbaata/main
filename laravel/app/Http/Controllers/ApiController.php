@@ -153,6 +153,45 @@ class ApiController extends Controller
         }
     }
 
+    public function getSentPosts(Request $request) {
+        $email = $request->input('email');
+        if($email) {
+            $posts = Post::where('number', $email)->get();
+            $arr = array();
+            $i = 0;
+            foreach($posts as $post) {
+                $arr[$i]['id'] = $post['id'];
+                $arr[$i]['name'] = $post['name'];
+                $arr[$i]['number'] = $post['number'];
+                $arr[$i]['comment'] = $post['comment'];
+                $arr[$i]['type'] = $post['type'];
+                $arr[$i]['status'] = $post['status'];
+                $arr[$i]['latitude'] = $post['latitude'];
+                $arr[$i]['longitude'] = $post['longitude'];
+                $arr[$i]['date'] = substr($post['created_at'],0,10);
+                $arr[$i]['image1'] = null;
+                $arr[$i]['image2'] = null;
+                $arr[$i]['image3'] = null;
+                $images = DB::table('post_images')->where('post_id', $post['id'])->get();
+                for($j = 1; $j <= count($images); $j++) {
+                    $arr[$i]['image'.$j] = "http://192.168.50.243:8000/images/posts/".$images[$j - 1]->image_name;
+                }
+                $i++;
+            }
+
+            if (count($arr) == 0) {
+                return response()->json(['message' => 'No Posts Foind for this email'], 400);
+            }
+
+            return response()->json([
+                'message' => 'OK',
+                'posts' => $arr,
+            ], 200);
+        } else {
+            return response()->json(['message' => 'Email not provided'], 400);
+        }
+    }
+
     public function password(Request $request) {
         $password = $request->input('password');
         $email = $request->input('email');
@@ -198,8 +237,6 @@ class ApiController extends Controller
             return response()->json([], 400);
         }
     }
-
-
 
     public function saveImage($image, $path = 'public')
     {

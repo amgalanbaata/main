@@ -4,6 +4,7 @@ import 'package:ubsoil/main.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:ubsoil/screens/constant/data.dart';
 
 import '../bottonMenuPages/navigationBar.dart';
 class Profile extends StatefulWidget {
@@ -13,13 +14,13 @@ class Profile extends StatefulWidget {
   State<Profile> createState() => _ProfileState();
 }
 
+GlobalKey _scaffoldGlobalKey = GlobalKey();
 class _ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isEditing = false;
-  bool _isLoading = false;
   int randomCode = 0;
   String errMessage = '';
   int? saveCode;
@@ -60,13 +61,12 @@ class _ProfileState extends State<Profile> {
   }
 
   Future<bool> _checkUserEmail() async {
-    setState(() {
-      _isLoading = true;
-    });
     final String email = _phoneController.text;
     final body = {
       "email": email,
     };
+    showLoader(_scaffoldGlobalKey);
+    print('show loader');
     try {
       final http.Response response = await http.post(
         Uri.parse('${apiUrl}api/email'),
@@ -75,11 +75,12 @@ class _ProfileState extends State<Profile> {
         },
         body: jsonEncode(body),
       );
+      hideLoader(_scaffoldGlobalKey);
       if (response.statusCode == 200) {
         _showVerifyCodeDialog();
         return true;
       } else {
-        _saveUserData();
+        _saveUserData('Амжилттай');
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('committeeOfficer', false);
         setState(() {
@@ -88,14 +89,11 @@ class _ProfileState extends State<Profile> {
         return false;
       }
     } catch (e) {
+      hideLoader(_scaffoldGlobalKey);
       setState(() {
         errMessage = 'error $e';
       });
       return false;
-    } finally {
-      setState(() {
-        _isLoading = false  ;
-      });
     }
   }
 
@@ -172,7 +170,8 @@ class _ProfileState extends State<Profile> {
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Нууц үгээ оруулна уу';
-                } else {
+                } 
+                else {
                     return 'Буруу байна';
                   }
                 // return null;
@@ -211,15 +210,13 @@ class _ProfileState extends State<Profile> {
 
   
   Future<bool> _checkPassword() async {
-    setState(() {
-      _isLoading = true;
-    });
     final String password = _passwordController.text;
     final String email = _phoneController.text;
     final body = {
       "password": password,
       "email": email
     };
+    showLoader(_scaffoldGlobalKey);
     try {
       final http.Response response = await http.post(
         Uri.parse('${apiUrl}api/password'),
@@ -228,6 +225,7 @@ class _ProfileState extends State<Profile> {
         },
         body: jsonEncode(body),
       );
+      hideLoader(_scaffoldGlobalKey);
       print('successs');
       print(response.body);
       if (json.decode(response.body)['message'] == 'OK') {
@@ -236,26 +234,23 @@ class _ProfileState extends State<Profile> {
         });
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('committeeOfficer', true);
-        await _saveUserData();
+        await _saveUserData('Амжилттай.');
         return true;
       } else {
         print('password is wrong');
         return false;
       }
     } catch (e) {
+      hideLoader(_scaffoldGlobalKey);
       setState(() {
         errMessage = 'error $e';
       });
       print('error');
       return false;
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
     }
   }
 
-  Future<void> _saveUserData() async {
+  Future<void> _saveUserData(message) async {
     print('callSaveUserData');
     // if (_formKey.currentState!.validate()) {
       try {
@@ -265,13 +260,14 @@ class _ProfileState extends State<Profile> {
         setState(() {
           _isEditing = false;
         });
-        _showDialog('Success', 'Амжилттай');
+        // hideLoader(_scaffoldGlobalKey);
+        _showDialog('Амжилттай', message);
       } catch (e) {
-        _showDialog('Error', 'Алдаа гарлаа');
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
+        // hideLoader(_scaffoldGlobalKey);
+        _showDialog('Амжилгүй', 'Алдаа гарлаа');
+      } 
+      finally {
+        // hideLoader(_scaffoldGlobalKey);
       }
     // }
   }
@@ -310,14 +306,30 @@ class _ProfileState extends State<Profile> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MainApp()),
-                );
+                if(message == 'Амжилттай.') {
+                  print('password correct');
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainApp()),
+                  );
                 _toastMessage('success', 'Амжилттай шинэчлэгдлээ');
+                return;
+                } else {
+                  print('else dskfj');
+                  print(message);
+                  Navigator.of(context).pop();
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainApp()),
+                  );
+                _toastMessage('success', 'Амжилттай шинэчлэгдлээ');
+                }
               },
               child: Text('OK'),
             ),
@@ -330,6 +342,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldGlobalKey,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -357,19 +370,7 @@ class _ProfileState extends State<Profile> {
             ),
         ],
       ),
-      body: _isLoading 
-      ? Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CircularProgressIndicator(),
-              SizedBox(height: 8),
-              Text('Loading...'),
-            ],
-          ),
-        )
-      : 
-      SingleChildScrollView(
+      body: SingleChildScrollView(
           child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
@@ -483,10 +484,6 @@ class _ProfileState extends State<Profile> {
                       if (_nameController.text == _savedName && _phoneController.text == _savedNumber) {
                         _toastMessage('error', 'Өөрчлөлт байхгүй байна');
                       } else {
-                        print(_nameController.text);
-                        print(_phoneController.text);
-                        print(_savedName);
-                        print(_savedNumber);
                         setState(() {
                           _checkUserEmail();
                         });

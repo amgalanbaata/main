@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Admin;
 use Session;
 use App\Models\Post;
+use App\Models\Model\Location;
+use Exception;
 
 class AdminController extends Controller
 {
@@ -21,9 +23,6 @@ class AdminController extends Controller
 
     public function dashboard(Request $request)
     {
-        if(Session::get('admin_is') == 0) {
-            print_r('admin mun');
-        }
         $model = new Admin;
         $username = $request->input('username');
         $password = $request->input('password');
@@ -60,6 +59,8 @@ class AdminController extends Controller
             $check4 = $request->input('check4');
             $check5 = $request->input('check5');
             $check6 = $request->input('check6');
+            $check7 = $request->input('check7');
+            $check10 = $request->input('check10');
             if ($request->status == 1) {
                 $check1 = true;
             }
@@ -78,7 +79,18 @@ class AdminController extends Controller
             if ($request->status == 6) {
                 $check6 = true;
             }
-            $data = $model->postSelect($check1, $check2, $check3, $check4, $check5, $check6, Session::get('admin_is'));
+            if ($request->status == 10) {
+                $check5 = true;
+                $check6 = true;
+            }
+
+            $data = [];
+
+            if ($check7) {
+                $data = $model->postSelectType(1);
+            } else {
+                $data = $model->postSelect($check1, $check2, $check3, $check4, $check5, $check6, Session::get('admin_is'));
+            }
             $condition = [
                 "check1" => $check1,
                 "check2" => $check2,
@@ -86,6 +98,8 @@ class AdminController extends Controller
                 "check4" => $check4,
                 "check5" => $check5,
                 "check6" => $check6,
+                "check7" => $check7,
+                "check10" => $check10,
             ];
             return view('admin.posts', ['posts' => $data, 'condition' => $condition]);
         } else {
@@ -133,6 +147,38 @@ class AdminController extends Controller
                 'admin_comment' => $request->admin_comment,
                 'updated_at' => now(),
             ];
+            if ($request->input('action_type') == 'locationAdd') {
+                $request->validate([
+                    'title' => 'required|string|max:255',
+                    'comment' => 'nullable|string',
+                    'latitude' => 'required|string',
+                    'longitude' => 'required|string',
+                    'color' => 'required|string',
+                ]);
+
+                $locationData = [
+                    'title' => $request->title,
+                    'comment' => $request->comment,
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude,
+                    'color' => $request->color,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+
+                try {
+                    Location::create($locationData);
+                } catch (Exception $e){
+                    dd($e);
+                }
+
+
+                return redirect()->route('locations.index')->with('success', 'Location added successfully.');
+            }
+
+            if ($request->input('action_type') == 'resolve') {
+                $udata['agreed'] = 'Зөвшөөрсөн';
+            }
             if ($modelPost->postUpdate($request->id, $udata)){
                 $message = 'success';
                 return redirect()->back();

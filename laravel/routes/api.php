@@ -28,3 +28,4 @@ Route::post('/email', [ApiController::class, 'email']);
 Route::post('/password', [ApiController::class, 'password']);
 Route::post('/typeName', [ApiController::class, 'typeName']);
 Route::post('/statusName', [ApiController::class, 'statusName']);
+Route::post('/get-sent-posts', [ApiController::class, 'getSentPosts']);

@@ -5,31 +5,41 @@ import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:ubsoil/main.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:ubsoil/screens/constant/data.dart';
 
 class Home extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 WebViewController controller = WebViewController();
+GlobalKey _scaffoldGlobalKey = GlobalKey();
 
 class _HomePageState extends State<Home> {
   String response = '';
-  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    checkLocationService();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showLoader(_scaffoldGlobalKey);
+      checkLocationService();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void checkLocationService() async {
-    print('call checkLocationService');
+    
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    
     if(!serviceEnabled) {
       await Geolocator.openLocationSettings();
 
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      hideLoader(_scaffoldGlobalKey);
     }
 
     if (serviceEnabled) {
@@ -37,7 +47,7 @@ class _HomePageState extends State<Home> {
     } else {
       showLocationErrorDialog();
       getLocation();
-    }
+    }    
   }
 
   void showLocationErrorDialog() {
@@ -81,67 +91,68 @@ class _HomePageState extends State<Home> {
     );
   }
 
-  Future<void> getLocation() async {
-    PermissionStatus status = await Permission.location.request();
+Future<void> getLocation() async {
 
-    try {
+  try {
+    PermissionStatus status = await Permission.location.request();
+    
+    if (status.isGranted) {
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
-      
+
       String latitude = position.latitude.toString();
       String longitude = position.longitude.toString();
 
       final Uri url = Uri.parse('${apiUrl}map?lat=$latitude&lon=$longitude');
-      
-      final http.Response response = await http.post(
-        url,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
-        },
-      );
-      
-      controller = WebViewController()
-    ..setJavaScriptMode(JavaScriptMode.unrestricted)
-    ..setBackgroundColor(const Color(0x00000000))
-    ..setNavigationDelegate(
-      NavigationDelegate(
-        onProgress: (int progress) {
-          // Update loading bar.
-        },
-        onPageStarted: (String url) {},
-        onPageFinished: (String url) {},
-        onWebResourceError: (WebResourceError error) {},
-      ),
-    )
-    ..loadRequest(Uri.parse('${apiUrl}map?lat=$latitude&lon=$longitude'));
-      setState((){
-        isLoading = false;
+
+      setState(() {
+        controller = WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..setBackgroundColor(const Color(0x00000000))
+          ..setNavigationDelegate(
+            NavigationDelegate(
+              onProgress: (int progress) {},
+              onPageStarted: (String url) {},
+              onPageFinished: (String url) {},
+              onWebResourceError: (WebResourceError error) {},
+            ),
+          )
+          ..loadRequest(url);
       });
-    } catch (e) {
-      controller = WebViewController()
-    ..setJavaScriptMode(JavaScriptMode.unrestricted)
-    ..setBackgroundColor(const Color(0x00000000))
-    ..setNavigationDelegate(
-      NavigationDelegate(
-        onProgress: (int progress) {
-          // Update loading bar.
-        },
-        onPageStarted: (String url) {},
-        onPageFinished: (String url) {},
-        onWebResourceError: (WebResourceError error) {},
-      ),
-    )
-    ..loadRequest(Uri.parse('${apiUrl}map'));
-      setState((){
-        isLoading = false;
-      });
+      hideLoader(_scaffoldGlobalKey);
+    } else {
+      // showPermissionDeniedDialog();
+      loadDefaultMap();
     }
+  } catch (e) {
+    print('Error fetching location: $e');
+    loadDefaultMap();
   }
+}
+
+void loadDefaultMap() {
+  hideLoader(_scaffoldGlobalKey);
+  setState(() {
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {},
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) {},
+          onWebResourceError: (WebResourceError error) {},
+        ),
+      )
+      ..loadRequest(Uri.parse('${apiUrl}map'));
+  });  
+}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldGlobalKey,
       endDrawer: Menu(),
       appBar: AppBar(
         title: Row(
@@ -191,16 +202,10 @@ class _HomePageState extends State<Home> {
                 ),
               ),
               Expanded(
-                child: !isLoading 
-                    ? WebViewWidget(controller: controller) 
-                    : Container(),
+                child: WebViewWidget(controller: controller)
               ),
             ],
           ),
-          if (isLoading)
-            Center(
-              child: CircularProgressIndicator(),
-            ),
         ],
       ),
     );

@@ -4,11 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ubsoil/main.dart';
 import 'package:ubsoil/screens/menu.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 // import '../database.dart';
 import 'package:ubsoil/database.dart';
+// import 'constant/data.dart';
+import 'package:ubsoil/screens/constant/data.dart';
 
 
 class Userinformation extends StatefulWidget {
@@ -18,12 +21,11 @@ class Userinformation extends StatefulWidget {
   State<Userinformation> createState() => _UserinformationState();
 }
 
+GlobalKey _scaffoldGlobalKey = GlobalKey();
 class _UserinformationState extends State<Userinformation> with SingleTickerProviderStateMixin {
   final _sqliteService = DatabaseHelper.instance;
   int currentIndex = 0;
-  List<Map<String, dynamic>> data = [];
-  String _message = '';
-  bool _isLoading = false;
+  List<dynamic> data = [];
   RefreshController  _refreshController  = RefreshController(initialRefresh: false);
   bool isDetailsClicked = false;
   late AnimationController _controller;
@@ -32,8 +34,6 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
   bool isSelectButton = true;
 
   String _showdialog = 'Амжилттай илгээлээ';
-  String _dialogSend = 'Илгээх';
-  int age = 10;
 
   String errMessage = '';
   int allPostsCount = 0;
@@ -45,9 +45,12 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
     super.initState();
     fetchStatus();
     allPostCount();
-    // fetchTypeName();
+    fetchTypeName();
     fetchStatusName();
-    getCounts();
+    data.clear();
+    getCounts();    
+    getpost();
+    getSentPosts();
     _controller = AnimationController(
       duration: const Duration(seconds: 1),
       vsync: this,
@@ -63,17 +66,43 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
   Future<void> fetchTypeName() async {
     try {
       final response = await http.post(Uri.parse('${apiUrl}api/typeName'));
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
         setState(() {
           typeNameGlobal = data.toList();
-          print('items:');
-          print(typeNameGlobal);
         });
       } else {
         print('Failed to load type names');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  Future<void> getSentPosts() async {
+    print('call getUserPosts');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? number = prefs.getString('number');
+    if (number == null || number.isEmpty) {
+      print('No number found in SharedPreferences');
+      return;
+    }
+    String userEmail = number;
+    
+    try {
+      final response = await http.post(Uri.parse('${apiUrl}api/get-sent-posts?email=${userEmail}'));
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+        setState(() {
+          List<dynamic> posts = jsonResponse['posts'];
+          data.addAll(jsonResponse['posts']);
+          sendPostsCount = posts.length;
+          print(response.statusCode);
+          print(posts);
+          print(data.length);
+        });        
+      } else {
+        print('Failed to load posts');
       }
     } catch (e) {
       print('Error: $e');
@@ -83,14 +112,10 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
   Future<void> fetchStatusName() async {
     try {
       final response = await http.post(Uri.parse('${apiUrl}api/statusName'));
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
         setState(() {
           statusNameGlobal = data.toList();
-          print('statusNameGlobal');
-          print(statusNameGlobal);
         });
       } else {
         print('Failed to load status names');
@@ -108,24 +133,26 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
     setState(() {
       sendPostsCount = sendPosts;
       unsendPostsCount = posts;
-      print(sendPosts);
-      print(posts);
     });
   }
 
   Future<void> getpost() async {
-    data.clear();
+    
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _sqliteService.getPosts().then((res) {
         setState(() {
           data.addAll(res);
+          print(res);
+          print(data.length);
         });
       });
-      await _sqliteService.getSendPosts().then((res) {
-        setState(() {
-          data.addAll(res);
-        });
-      });
+      // await _sqliteService.getSendPosts().then((res) {
+      //   setState(() {
+      //     data.addAll(res);
+      //   });
+      //   print('getePostsRes: ');
+      //   print(res);
+      // });
     });
   }
 
@@ -133,7 +160,10 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
     fetchStatus();
     _refreshController.refreshCompleted();
     allPostCount();
-    getCounts();
+    data.clear();
+    getCounts();    
+    getpost();
+    getSentPosts();
     print('working scroll...');
     typeNameGlobal.forEach((item) {
       print(item['name']);
@@ -158,6 +188,9 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
   }
 
   Future<void> send(Map<String, dynamic> item) async {
+    print('item: ');
+    print(item);
+    showLoader(_scaffoldGlobalKey);
     try {
       print('item');
       print(item);
@@ -200,29 +233,28 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
       );
 
       if (response.statusCode == 200) {
-        setState(() {
-          print(response.body);
-          final responseBody = json.decode(response.body);
-          print(responseBody['id'].toString());
-          print(responseBody['post']['status'].toString());
-          final Map<String, dynamic> row = {
-            'id': responseBody['id'],
-            'name': item['name'],
-            'number': item['number'],
-            'comment': item['comment'],
-            'type': item['type'],
-            'status': 1,
-            'image1': item['image1'],
-            'image2': item['image2'],
-            'image3': item['image3'],
-            'latitude': item['latitude'],
-            'longitude': item['longitude'],
-            'date' : formattedDate
-          };
-          _sqliteService.insertSendPost(row);
-          deletepost(item['id']);
-          _showDialog(_showdialog, '.....');
-        });
+        _showDialog(_showdialog,'Success');
+        // setState(() {
+        //   final responseBody = json.decode(response.body);
+        //   final Map<String, dynamic> row = {
+        //     'id': responseBody['id'],
+        //     'name': item['name'],
+        //     'number': item['number'],
+        //     'comment': item['comment'],
+        //     'type': item['type'],
+        //     'status': 1,
+        //     'image1': item['image1'],
+        //     'image2': item['image2'],
+        //     'image3': item['image3'],
+        //     'latitude': item['latitude'],
+        //     'longitude': item['longitude'],
+        //     'date' : formattedDate
+        //   };
+        //   _sqliteService.insertSendPost(row);
+        //   deletepost(item['id']);
+        //   _showDialog(_showdialog, '.....');
+        // });
+        getSentPosts();
       } else {
         setState(() {
           _showMessage('Failed to send: ${response.statusCode}');
@@ -235,6 +267,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
           _showMessage('ERROR: No Internet Connection');
       });
     }
+    hideLoader(_scaffoldGlobalKey);
   }
 
   Future<void> allPostCount() async {
@@ -249,7 +282,6 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
       final Map<String, dynamic> responceData = jsonDecode(response.body);
       setState(() {
         allPostsCount = responceData['all'];
-        print(allPostsCount);
       });
     }
     } 
@@ -277,7 +309,6 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
         },
         body: jsonEncode(body),
       );
-      print(response.body);
       setState(() {
         if(response.statusCode == 200) {
           final List<dynamic> responseData = jsonDecode(response.body);
@@ -289,14 +320,14 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
               int postId = int.parse(item['id'].toString());
               _sqliteService.updatePostStatus(row, postId);
             }
-            getpost();
+            // getpost();
         }
       });
   }
 
   void _showMessage(String message) {
     setState(() {
-      _message = message;
+      message = message;
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -332,7 +363,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
       builder: (BuildContext context) {
         return Dialog(
           child: Container(
-            child: Image.file(File(imagePath)),
+            child: !imagePath.contains('http') ? Image.file(File(imagePath)) : Image.network(imagePath),
           ),
         );
       },
@@ -340,6 +371,8 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
   }
 
   void _details(String title, Map<String, dynamic> item) {
+    print('details: ');
+    print(item);
     List<String> images = [];
 
     if (item['image1'] != null) images.add(item['image1']);
@@ -365,8 +398,13 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
                           onTap: () => _showImageDialog(image),
                           child: Padding(
                             padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                            child: Image.file(
+                            child: !image.contains('http') ? Image.file(
                               File(image),
+                              height: 110,
+                              width: 88,
+                              fit: BoxFit.cover,
+                            ) : Image.network(
+                              image,
                               height: 110,
                               width: 88,
                               fit: BoxFit.cover,
@@ -527,7 +565,6 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
             ElevatedButton(
               onPressed: () {
                 send(item);
-                print('call the send function');
                 Navigator.of(context).pop();
               },
               child: Text('OK'),
@@ -554,7 +591,6 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
             ElevatedButton(
               onPressed: () {
                 deletepost(item['id']);
-                print('call the delete function');
                 Navigator.of(context).pop();
               },
               child: Text('OK'),
@@ -575,8 +611,6 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
   }
 
   statusName(status){
-    print('status');
-    print(status);
     if(status == 1) {
       return 'Илгээсэн';
     } else {
@@ -658,8 +692,11 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
                         border: Border.all(color: const Color.fromARGB(255, 195, 223, 196), width: 2),
                         borderRadius: BorderRadius.circular(5.0),
                       ),
-                      child: Image.file(
+                      child: !images[0].contains('http') ? Image.file(
                         File(images[0]),
+                        height: 140,
+                      ) : Image.network(
+                        images[0],
                         height: 140,
                       ),
                     ),
@@ -908,9 +945,10 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> notSentItem = data.where((item) => item['status'] == 0).toList();
-    List<Map<String, dynamic>> sentItem = data.where((item) => item['status'] != 0).toList();
+    List<dynamic> notSentItem = data.where((item) => item['status'] == 0).toList();
+    List<dynamic> sentItem = data.where((item) => item['status'] != 0).toList();
     return Scaffold(
+      key: _scaffoldGlobalKey,
       endDrawer: Menu(),
       appBar: AppBar(
         title: Row(
@@ -926,17 +964,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
           ],
         ),
       ),
-      body: _isLoading 
-      ? Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CircularProgressIndicator(),
-              SizedBox(height: 8),
-              Text('Loading...'),
-            ],
-          ),
-        ) : Stack(
+      body: Stack(
         children: [
           Positioned.fill(
             child: Image.asset('lib/assets/background.jpg', fit: BoxFit.cover,),
@@ -945,7 +973,6 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
             padding: const EdgeInsets.all(BorderSide.strokeAlignCenter),
             child: Column(
               children: <Widget>[
-                if (_isLoading) CircularProgressIndicator(),
                 SizedBox(height: 0),
                 Expanded(
                   child: SmartRefresher(
