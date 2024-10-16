@@ -43,7 +43,7 @@ class _MenuState extends State<Menu> {
               children: [
                 Image(
                   height: 50,
-                  image: NetworkImage('https://environment.ub.gov.mn/assets/images/resources/NBOG-logo.png'),
+                  image: AssetImage('lib/assets/NBOG-logo.png'),
                 ),
               ],
             ),

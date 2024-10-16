@@ -641,322 +641,311 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
     List<String> images = [];
     if (item['image1'] != null) images.add(item['image1']);
 
-    // if (isDetailsClicked || item['status'] != 1) {
-    //   _controller.stop();
-    // } else {
-    //   _controller.repeat(reverse: true);
-    // }
-
-    // return AnimatedBuilder(
-    //   animation: _controller,
-    //   builder: (context, child) {
-        return Card(
-          margin: EdgeInsets.all(8.0),
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              color: !isDetailsClicked && item['status'] != 1 && item['status'] != 0
-                ? _colorAnimation.value!
-                : Colors.transparent,
-              width: 2.0,
-            ),
-            borderRadius: BorderRadius.circular(8.0)
+    return Card(
+      margin: EdgeInsets.all(8.0),
+      shape: RoundedRectangleBorder(
+        side: BorderSide(
+          color: !isDetailsClicked && item['status'] != 1 && item['status'] != 0
+            ? _colorAnimation.value!
+            : Colors.transparent,
+          width: 2.0,
+        ),
+        borderRadius: BorderRadius.circular(8.0)
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: <Color>[
+              Colors.white70,
+              Colors.white54,
+              Colors.white30,
+            ],
           ),
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: <Color>[
-                  Colors.white70,
-                  Colors.white54,
-                  Colors.white30,
-                ],
-              ),
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            padding: EdgeInsets.all(8.0),
-            width: 305,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        padding: EdgeInsets.all(8.0),
+        width: 305,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (images.isNotEmpty)
+            Row(
+              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (images.isNotEmpty)
-                Row(
+                Container(
+                  padding: const EdgeInsets.only(),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: const Color.fromARGB(255, 195, 223, 196), width: 2),
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child: !images[0].contains('http') ? Image.file(
+                    File(images[0]),
+                    height: 140,
+                  ) : Image.network(
+                    images[0],
+                    height: 140,
+                  ),
+                ),
+                SizedBox(height: 15, width: 15,),
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.only(),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: const Color.fromARGB(255, 195, 223, 196), width: 2),
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      child: !images[0].contains('http') ? Image.file(
-                        File(images[0]),
-                        height: 140,
-                      ) : Image.network(
-                        images[0],
-                        height: 140,
-                      ),
-                    ),
-                    SizedBox(height: 15, width: 15,),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 8,),
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Тайлбар: ',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              TextSpan(
-                                text: '...',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 8.0),
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Төрөл: ',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              TextSpan(
-                                text: typeName(item['type']),
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 8.0),
-                        if (item['status'] != 0)
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'Статус: ',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: statusName(item['status']).substring(
-                                    0, min<int>(12, statusName(item['status']).length)
-                                  ),
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: _getStatusColor(item['status']),
-                                  ),
-                                ),
-                              ],
+                    SizedBox(height: 8,),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Тайлбар: ',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          if (statusName(item['status']).length > 12) ...[
-                            SizedBox(height: 8.0),
-                            RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: statusName(item['status']).substring(
-                                      12, 
-                                      min<int>(40, statusName(item['status']).length)
-                                    ),
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: _getStatusColor(item['status']),
-                                    ),
-                                  ),
-                                ],
+                          TextSpan(
+                            text: '...',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 8.0),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Төрөл: ',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: typeName(item['type']),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 8.0),
+                    if (item['status'] != 0)
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Статус: ',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            TextSpan(
+                              text: statusName(item['status']).substring(
+                                0, min<int>(12, statusName(item['status']).length)
+                              ),
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: _getStatusColor(item['status']),
                               ),
                             ),
                           ],
-                        if (item['admin_comment'] != '') ...[
-                        SizedBox(height: 8.0),
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Админ: ',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              TextSpan(
-                                text: "...",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
                         ),
-                        ],
+                      ),
+                      if (statusName(item['status']).length > 12) ...[
                         SizedBox(height: 8.0),
                         RichText(
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                text: 'Огноо: ',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
+                                text: statusName(item['status']).substring(
+                                  12, 
+                                  min<int>(40, statusName(item['status']).length)
                                 ),
-                              ),
-                              TextSpan(
-                                text: item['date'],
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Colors.black,
+                                  color: _getStatusColor(item['status']),
                                 ),
                               ),
                             ],
                           ),
                         ),
                       ],
-                    ),
-                  ],
-                ),
-                const Divider(
-                  height: 5,
-                  color: Colors.green,
-                ),
-                SizedBox(height: 2),
-                item['status'] == 0 
-                ? 
-                Row(
-                  children: [
-                    Container(
-                      height: 35,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: <Color>[
-                            Color(0xFF2a7d2e),
-                            Color(0xFF1b5e20),
-                            Color(0xFF66bb6a),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: TextButton(
-                        child: Text(
-                          'Илгээх',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
+                    if (item['admin_comment'] != '') ...[
+                    SizedBox(height: 8.0),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Админ: ',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        onPressed: () {
-                          _showSendDialog('Илгээх', item);
-                          print(item);
-                        },
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                          TextSpan(
+                            text: "...",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
-                    SizedBox(width: 8,),
-                    Container(
-                      height: 35,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: <Color>[
-                            Color(0xFFd32f2f),
-                            Color(0xFFf44336),
-                            Color(0xFFe57373),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: TextButton(
-                        child: Text(
-                          'Устгах',
-                          style: TextStyle(fontSize: 14, color: Colors.white),
-                        ),
-                        onPressed: () async {
-                          _showDeleteDialog('Устгах', item);
-                        },
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                    ],
+                    SizedBox(height: 8.0),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Огноо: ',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ) : Row(),
-                SizedBox(height: 5, width: 20,),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      height: 35,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: <Color>[
-                            Color(0xFF2a7d2e),
-                            Color(0xFF1b5e20),
-                            Color(0xFF66bb6a),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: TextButton(
-                        child: Text(
-                          'Дэлгэрэнгүй',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
+                          TextSpan(
+                            text: item['date'],
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            isDetailsClicked = true;
-                          });
-                          _details('Дэлгэрэнгүй', item);
-                        },
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          backgroundColor: Colors.transparent,
-                        ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ],
             ),
-          ),
-        );
-    //   }
-    // );
+            const Divider(
+              height: 5,
+              color: Colors.green,
+            ),
+            SizedBox(height: 2),
+            item['status'] == 0 
+            ? 
+            Row(
+              children: [
+                Container(
+                  height: 35,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: <Color>[
+                        Color(0xFF2a7d2e),
+                        Color(0xFF1b5e20),
+                        Color(0xFF66bb6a),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: TextButton(
+                    child: Text(
+                      'Илгээх',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () {
+                      _showSendDialog('Илгээх', item);
+                      print(item);
+                    },
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8,),
+                Container(
+                  height: 35,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: <Color>[
+                        Color(0xFFd32f2f),
+                        Color(0xFFf44336),
+                        Color(0xFFe57373),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: TextButton(
+                    child: Text(
+                      'Устгах',
+                      style: TextStyle(fontSize: 14, color: Colors.white),
+                    ),
+                    onPressed: () async {
+                      _showDeleteDialog('Устгах', item);
+                    },
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ) : Row(),
+            SizedBox(height: 5, width: 20,),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  height: 35,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: <Color>[
+                        Color(0xFF2a7d2e),
+                        Color(0xFF1b5e20),
+                        Color(0xFF66bb6a),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: TextButton(
+                    child: Text(
+                      'Дэлгэрэнгүй',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        isDetailsClicked = true;
+                      });
+                      _details('Дэлгэрэнгүй', item);
+                    },
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      backgroundColor: Colors.transparent,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override

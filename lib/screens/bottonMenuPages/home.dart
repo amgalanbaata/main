@@ -16,6 +16,7 @@ GlobalKey _scaffoldGlobalKey = GlobalKey();
 
 class _HomePageState extends State<Home> {
   String response = '';
+  int loadWeb = 1;
 
   @override
   void initState() {
@@ -115,7 +116,14 @@ Future<void> getLocation() async {
               onProgress: (int progress) {},
               onPageStarted: (String url) {},
               onPageFinished: (String url) {},
-              onWebResourceError: (WebResourceError error) {},
+              onWebResourceError: (WebResourceError error) {
+                print('AAA:' + error.errorCode.toString());
+                if(error.errorCode == -2) {
+                  setState(() {
+                    loadWeb = 0;
+                  });
+                }
+              },
             ),
           )
           ..loadRequest(url);
@@ -202,7 +210,25 @@ void loadDefaultMap() {
                 ),
               ),
               Expanded(
-                child: WebViewWidget(controller: controller)
+                child: loadWeb == 1 ? WebViewWidget(controller: controller) 
+                : Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 50.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Интэрнэт холболт байхгүй .....',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: const Color.fromARGB(255, 11, 65, 38),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               ),
             ],
           ),
