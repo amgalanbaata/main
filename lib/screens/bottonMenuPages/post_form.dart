@@ -357,7 +357,7 @@ Future<File> resizeImage(File file) async {
                 ElevatedButton.icon(
                   onPressed: getImageFromCamera,
                   icon: Icon(Icons.camera),
-                  label: Text('Камер нээх'),
+                  label: Text('Зураг оруулах'),
                   style: ElevatedButton.styleFrom(),
                 ),
               ],

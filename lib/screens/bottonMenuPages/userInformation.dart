@@ -12,6 +12,7 @@ import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:ubsoil/database.dart';
 // import 'constant/data.dart';
 import 'package:ubsoil/screens/constant/data.dart';
+import 'dart:math';
 
 
 class Userinformation extends StatefulWidget {
@@ -33,7 +34,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
   bool showItem = true;
   bool isSelectButton = true;
 
-  String _showdialog = 'Амжилттай илгээлээ';
+  String message = 'Амжилттай илгээлээ';
 
   String errMessage = '';
   int allPostsCount = 0;
@@ -88,11 +89,12 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
       return;
     }
     String userEmail = number;
-    
+    showLoader(_scaffoldGlobalKey);
     try {
       final response = await http.post(Uri.parse('${apiUrl}api/get-sent-posts?email=${userEmail}'));
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+        hideLoader(_scaffoldGlobalKey);
         setState(() {
           List<dynamic> posts = jsonResponse['posts'];
           data.addAll(jsonResponse['posts']);
@@ -102,11 +104,16 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
           print(data.length);
         });        
       } else {
+        hideLoader(_scaffoldGlobalKey);
+        _showDialog('Алдаа', 'Хэрэглэгчийн мэдээллийг уншиж чадсангүй');
         print('Failed to load posts');
       }
     } catch (e) {
+      hideLoader(_scaffoldGlobalKey);
+      _showDialog('Алдаа', 'Хэрэглэгчийн мэдээллийг уншиж чадсангүй');
       print('Error: $e');
     }
+    // hideLoader(_scaffoldGlobalKey);
   }
   
   Future<void> fetchStatusName() async {
@@ -233,7 +240,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
       );
 
       if (response.statusCode == 200) {
-        _showDialog(_showdialog,'Success');
+        _showDialog(message,'Success');
         // setState(() {
         //   final responseBody = json.decode(response.body);
         //   final Map<String, dynamic> row = {
@@ -337,13 +344,13 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
     );
   }
 
-  void _showDialog(String title, String _showDialog) {
+  void _showDialog(String title, String message) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(title),
-          content: Text(_showDialog),
+          content: Text(message),
           actions: <Widget>[
             TextButton(
               child: Text('OK'),
@@ -614,11 +621,11 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
     if(status == 1) {
       return 'Илгээсэн';
     } else {
-    return statusNameGlobal.firstWhere((item) => item['id'] == status)['name'];
+      return statusNameGlobal.isEmpty ? '' : statusNameGlobal.firstWhere((item) => item['id'] == status)['name'];
     }
   }
   typeName(types) {
-    return typeNameGlobal.firstWhere((item) => item['id'] == types)['name'];
+    return typeNameGlobal.isEmpty ? '' : typeNameGlobal.firstWhere((item) => item['id'] == types)['name'];
   }
 
   Color _getStatusColor(int status) {
@@ -679,6 +686,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
               borderRadius: BorderRadius.circular(8.0),
             ),
             padding: EdgeInsets.all(8.0),
+            width: 305,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -748,29 +756,50 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
                             ],
                           ),
                         ),
-                        SizedBox(height: 8.0,),
+                        SizedBox(height: 8.0),
                         if (item['status'] != 0)
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Статус: ',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Статус: ',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              TextSpan(
-                              text: '${statusName(item['status'])}',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: _getStatusColor(item['status']),
+                                TextSpan(
+                                  text: statusName(item['status']).substring(
+                                    0, min<int>(12, statusName(item['status']).length)
+                                  ),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: _getStatusColor(item['status']),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
+                          if (statusName(item['status']).length > 12) ...[
+                            SizedBox(height: 8.0),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: statusName(item['status']).substring(
+                                      12, 
+                                      min<int>(40, statusName(item['status']).length)
+                                    ),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: _getStatusColor(item['status']),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         if (item['admin_comment'] != '') ...[
                         SizedBox(height: 8.0),
                         RichText(
@@ -994,7 +1023,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'Санал хүсэлтийн жагсаалт',
+                                'Мэдэгдлийн жагсаалт',
                                 style: 
                                   TextStyle(
                                   fontSize: 18,

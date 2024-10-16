@@ -36,6 +36,11 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     _loadUserData();
+    // _phoneController.addListener(() {
+    //   if(_formKey.currentState != null) {
+    //     _formKey.currentState!.validate();
+    //   }
+    // });
   }
 
   void _toastMessage(String title, String message) {
@@ -61,38 +66,42 @@ class _ProfileState extends State<Profile> {
   }
 
   Future<bool> _checkUserEmail() async {
-    final String email = _phoneController.text;
-    final body = {
-      "email": email,
-    };
-    showLoader(_scaffoldGlobalKey);
-    print('show loader');
-    try {
-      final http.Response response = await http.post(
-        Uri.parse('${apiUrl}api/email'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(body),
-      );
-      hideLoader(_scaffoldGlobalKey);
-      if (response.statusCode == 200) {
-        _showVerifyCodeDialog();
-        return true;
-      } else {
-        _saveUserData('Амжилттай');
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setBool('committeeOfficer', false);
+    if(_savedNumber != _phoneController.text) {
+      final String email = _phoneController.text;
+      final body = {
+        "email": email,
+      };
+      showLoader(_scaffoldGlobalKey);
+      print('show loader');
+      try {
+        final http.Response response = await http.post(
+          Uri.parse('${apiUrl}api/email'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(body),
+        );
+        hideLoader(_scaffoldGlobalKey);
+        if (response.statusCode == 200) {
+          _showVerifyCodeDialog();
+          return true;
+        } else {
+          _saveUserData('Амжилттай');
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setBool('committeeOfficer', false);
+          setState(() {
+            committeeOfficer = false;
+          });
+          return false;
+        }
+      } catch (e) {
+        hideLoader(_scaffoldGlobalKey);
         setState(() {
-          committeeOfficer = false;
+          errMessage = 'error $e';
         });
         return false;
       }
-    } catch (e) {
-      hideLoader(_scaffoldGlobalKey);
-      setState(() {
-        errMessage = 'error $e';
-      });
+    } else {
       return false;
     }
   }
@@ -420,7 +429,7 @@ class _ProfileState extends State<Profile> {
                   controller: _phoneController,
                   enabled: _isEditing,
                   decoration: InputDecoration(
-                    labelText: 'Утас,иМэйл',
+                    labelText: 'Утас эсвэл имэйл',
                     labelStyle: TextStyle(color: Color(0xFF1b5e20)),
                     prefixIcon: Icon(Icons.person, color: Color(0xFF2a7d2e),),
                     border: OutlineInputBorder(),
@@ -447,13 +456,21 @@ class _ProfileState extends State<Profile> {
                     fillColor: Colors.white,
                   ),
                   validator: (value) {
+                    String emailPattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                    RegExp emailRegExp = RegExp(emailPattern);
+                    value = value?.trim() ?? '';
                     if (value == null || value.isEmpty) {
-                      return 'Дугаараа оруулна уу';
-                    } 
-                    // if (_nameController == _savedName && _phoneController == _savedNumber) {
-                    //   return 'Өөрчлөлт байхгүй';
-                    // }
-                    return null;
+                      return 'Утасны дугаар эсвэл имэйл оруулна уу !!!';
+                    }
+                    if (_nameController.text == _savedName && _phoneController.text == _savedNumber) {
+                      // _toastMessage('error', 'Өөрчлөлт байхгүй байна');
+                      return 'Өөрчлөлт байхгүй байна';
+                    } else if(emailRegExp.hasMatch(value)) {
+                      return null;
+                    } else if (value.length == 8 && RegExp(r'^\d{8}$').hasMatch(value) && int.parse(value.substring(0,1)) >= 6) {
+                      return null;
+                    }
+                    return 'Утасны дугаар эсвэл имэйл оруулна уу !!!';
                   },
                 ),
                 SizedBox(height: 30),
@@ -481,14 +498,17 @@ class _ProfileState extends State<Profile> {
                       ),
                     ),
                     onPressed: () {
-                      if (_nameController.text == _savedName && _phoneController.text == _savedNumber) {
-                        _toastMessage('error', 'Өөрчлөлт байхгүй байна');
-                      } else {
+                      if (_formKey.currentState!.validate() && _savedNumber != _phoneController.text) { 
                         setState(() {
                           _checkUserEmail();
                         });
+                      } else if (_nameController.text != _savedName && _phoneController.text == _savedNumber && _nameController.text != '') {
+                        print('only name change');
+                        _saveUserData('Амжилттай');
+                      } else {
+                        print('validation failed');
                       }
-                    },
+                    }
                   ),
                 ),
                 committeeOfficer

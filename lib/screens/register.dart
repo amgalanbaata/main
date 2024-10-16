@@ -22,12 +22,16 @@ class _RegisterState extends State<Register> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _isLoading = false;
   String errMessage = '';
   bool passwordIs = false;
   @override
   void initState() {
     super.initState();
+    // _phoneController.addListener(() {
+    //   if(_formKey.currentState != null) {
+    //     _formKey.currentState!.validate();
+    //   }
+    // });
   }
 
   Future<void> _saveUserData() async {
@@ -38,9 +42,6 @@ class _RegisterState extends State<Register> {
         await prefs.setString('number', _phoneController.text);
       } catch (e) {
       } finally {
-        setState(() {
-          _isLoading = false;
-        });
       // }
     }
   }
@@ -351,7 +352,7 @@ class _RegisterState extends State<Register> {
                     controller: _phoneController,
                     // maxLength: 8,
                     decoration: InputDecoration(
-                      labelText: 'Дугаар, Имэйл',
+                      labelText: 'Утас эсвэл имэйл',
                       labelStyle: TextStyle(color: Color(0xFF1b5e20)),
                       prefixIcon: Icon(Icons.phone, color: Color(0xFF2a7d2e),),
                       enabledBorder: OutlineInputBorder(
@@ -382,13 +383,18 @@ class _RegisterState extends State<Register> {
                     ),
                     keyboardType: TextInputType.text,
                     validator: (value) {
+                      String emailPattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                      RegExp emailRegExp = RegExp(emailPattern);
+                      value = value?.trim() ?? '';
                       if (value == null || value.isEmpty) {
-                        return 'Утасны дугаараа оруулна уу';
+                        return 'Утасны дугаар эсвэл имэйл оруулна уу !!!';
                       }
-                      // if (!RegExp(r'^\d{8}$').hasMatch(value)) {
-                      //   return 'Хүчинтэй 8 оронтой утасны дугаар оруулна уу';
-                      // }
-                      return null;
+                      if (emailRegExp.hasMatch(value)) {
+                        return null;
+                      } else if (value.length == 8 && RegExp(r'^\d{8}$').hasMatch(value) && int.parse(value.substring(0,1)) >= 6) {
+                        return null;
+                      } 
+                      return 'Утасны дугаар эсвэл имэйл оруулна уу !!!';
                     },
                   ), 
                 ),
@@ -415,7 +421,7 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
+                      if (_formKey.currentState!.validate()) { 
                         setState(() {
                           _checkUserEmail();
                         });
