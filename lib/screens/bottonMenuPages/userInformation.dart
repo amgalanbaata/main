@@ -44,11 +44,13 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
   @override
   initState() {
     super.initState();
+    data.clear();
+    typeNameGlobal = [];
+    statusNameGlobal = [];
     fetchStatus();
     allPostCount();
     fetchTypeName();
     fetchStatusName();
-    data.clear();
     getCounts();    
     getpost();
     getSentPosts();
@@ -239,43 +241,24 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
         },
         body: jsonEncode(body),
       );
-
+      hideLoader(_scaffoldGlobalKey);
       if (response.statusCode == 200) {
-        _showDialog(message,'Success');
-        // setState(() {
-        //   final responseBody = json.decode(response.body);
-        //   final Map<String, dynamic> row = {
-        //     'id': responseBody['id'],
-        //     'name': item['name'],
-        //     'number': item['number'],
-        //     'comment': item['comment'],
-        //     'type': item['type'],
-        //     'status': 1,
-        //     'image1': item['image1'],
-        //     'image2': item['image2'],
-        //     'image3': item['image3'],
-        //     'latitude': item['latitude'],
-        //     'longitude': item['longitude'],
-        //     'date' : formattedDate
-        //   };
-        //   _sqliteService.insertSendPost(row);
-        //   deletepost(item['id']);
-        //   _showDialog(_showdialog, '.....');
-        // });
-        getSentPosts();
+        _showDialog(message,'Мэдээллээ амжилттай илгээлээ.');
+        deletepost(item['id']);
+        // _onRefresh();
       } else {
         setState(() {
-          _showMessage('Failed to send: ${response.statusCode}');
+          _showMessage('Илгээж чадсангүй: Та дахин оролдоно уу...');
           print('failed response');
           print(response.statusCode);
         });
       }
     } catch (e) {
+      hideLoader(_scaffoldGlobalKey);
       setState(() {
           _showMessage('Алдаа: Интернэт холболт байхгүй байна, интернэттэй газраас дахин илгээнэ үү!!!');
       });
-    }
-    hideLoader(_scaffoldGlobalKey);
+    }    
   }
 
   Future<void> allPostCount() async {
@@ -622,6 +605,9 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
     if(status == 1) {
       return 'Илгээсэн';
     } else {
+      if(status == 0) {
+        return 'Илгээгээгүй';
+      }
       return statusNameGlobal.isEmpty ? '' : statusNameGlobal.firstWhere((item) => item['id'] == status)['name'];
     }
   }
@@ -655,15 +641,15 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
     List<String> images = [];
     if (item['image1'] != null) images.add(item['image1']);
 
-    if (isDetailsClicked || item['status'] != 1) {
-      _controller.stop();
-    } else {
-      _controller.repeat(reverse: true);
-    }
+    // if (isDetailsClicked || item['status'] != 1) {
+    //   _controller.stop();
+    // } else {
+    //   _controller.repeat(reverse: true);
+    // }
 
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
+    // return AnimatedBuilder(
+    //   animation: _controller,
+    //   builder: (context, child) {
         return Card(
           margin: EdgeInsets.all(8.0),
           shape: RoundedRectangleBorder(
@@ -969,8 +955,8 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
             ),
           ),
         );
-      }
-    );
+    //   }
+    // );
   }
 
   @override

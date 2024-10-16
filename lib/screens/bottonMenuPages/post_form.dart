@@ -42,6 +42,7 @@ class _PostFormState extends State<PostForm> {
   @override
   void initState() {
     super.initState();
+    typeNameGlobal = [];
     _fetchUserData();
     fetchTypeName();
   }
