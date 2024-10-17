@@ -841,6 +841,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
             item['status'] == 0 
             ? 
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   height: 35,
@@ -907,7 +908,8 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
             ) : Row(),
             SizedBox(height: 5, width: 20,),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   height: 35,
