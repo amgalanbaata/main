@@ -469,7 +469,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
                                 text: '${statusName(item['status'])}',
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: _getStatusColor(item['status']),
+                                    color: _getStatusColor(int.parse(item['status'])),
                                   ),
                                 ),
                               ],
@@ -744,7 +744,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
                               ),
                               style: TextStyle(
                                 fontSize: 14,
-                                color: _getStatusColor(item['status']),
+                                color: _getStatusColor(int.parse(item['status'])),
                               ),
                             ),
                           ],
@@ -762,7 +762,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
                                 ),
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: _getStatusColor(item['status']),
+                                  color: _getStatusColor(int.parse(item['status'])),
                                 ),
                               ),
                             ],
