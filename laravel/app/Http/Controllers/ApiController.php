@@ -156,7 +156,9 @@ class ApiController extends Controller
     public function getSentPosts(Request $request) {
         $email = $request->input('email');
         if($email) {
-            $posts = Post::where('number', $email)->get();
+            $posts = Post::where('number', $email)
+                        ->orderBy('created_at', 'desc')
+                        ->get();
             $arr = array();
             $i = 0;
             foreach($posts as $post) {
