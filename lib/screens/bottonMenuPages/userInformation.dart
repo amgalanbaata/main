@@ -643,15 +643,6 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
 
     return Card(
       margin: EdgeInsets.all(8.0),
-      shape: RoundedRectangleBorder(
-        side: BorderSide(
-          color: !isDetailsClicked && item['status'] != 1 && item['status'] != 0
-            ? _colorAnimation.value!
-            : Colors.transparent,
-          width: 2.0,
-        ),
-        borderRadius: BorderRadius.circular(8.0)
-      ),
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

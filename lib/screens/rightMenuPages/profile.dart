@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:ubsoil/screens/constant/data.dart';
+import 'package:ubsoil/screens/instructions.dart';
 
 import '../bottonMenuPages/navigationBar.dart';
 class Profile extends StatefulWidget {
@@ -323,7 +324,7 @@ class _ProfileState extends State<Profile> {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MainApp()),
+                    MaterialPageRoute(builder: (context) => InstructionsPageView()),
                   );
                 _toastMessage('success', 'Амжилттай шинэчлэгдлээ');
                 return;

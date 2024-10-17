@@ -5,6 +5,7 @@ import 'package:ubsoil/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ubsoil/screens/instructions.dart';
 import 'bottonMenuPages/navigationBar.dart';
 import 'constant/data.dart';
 
@@ -32,6 +33,19 @@ class _RegisterState extends State<Register> {
     //     _formKey.currentState!.validate();
     //   }
     // });
+  }
+
+  
+  void _toastMessage(String title, String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 3,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
   }
 
   Future<void> _saveUserData() async {
@@ -73,6 +87,7 @@ class _RegisterState extends State<Register> {
       setState(() {
         errMessage = 'error $e';
       });
+      _toastMessage('Алдаа', 'Интернэт холболтоо шалгана уу !!!');
       return false;
     }
   }
@@ -234,7 +249,7 @@ class _RegisterState extends State<Register> {
       Navigator.pop(context);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => MainApp()),
+        MaterialPageRoute(builder: (context) => InstructionsPageView()),
       );
       print('committeeOfficer pop');
       return;

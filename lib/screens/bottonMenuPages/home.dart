@@ -198,7 +198,7 @@ void loadDefaultMap() {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Хөрсний бохирдлыг цэгээр харуулав',
+                      'Хөрсний бохирдлын байршил',
                       style: 
                       TextStyle(
                       fontSize: 18,
