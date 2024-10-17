@@ -252,13 +252,16 @@ class _RegisterState extends State<Register> {
         MaterialPageRoute(builder: (context) => InstructionsPageView()),
       );
       print('committeeOfficer pop');
-      return;
-    } 
-    print('simple pop');
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => MainApp()),
-    );
+      // return;
+    } else if (message == 'no') {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isAgreed', true);
+      print('simple pop');
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MainApp()),
+      );
+    }
   }
 
   @override

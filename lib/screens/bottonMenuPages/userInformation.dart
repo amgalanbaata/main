@@ -672,9 +672,11 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
                   child: !images[0].contains('http') ? Image.file(
                     File(images[0]),
                     height: 140,
+                    width: 105,
                   ) : Image.network(
                     images[0],
                     height: 140,
+                    width: 105,
                   ),
                 ),
                 SizedBox(height: 15, width: 5,),

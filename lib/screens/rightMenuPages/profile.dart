@@ -236,15 +236,24 @@ class _ProfileState extends State<Profile> {
         body: jsonEncode(body),
       );
       hideLoader(_scaffoldGlobalKey);
-      print('successs');
-      print(response.body);
       if (json.decode(response.body)['message'] == 'OK') {
         setState(() {
           committeeOfficer = true;
         });
+        final data = jsonDecode(response.body);
+        final String district = data['district'];
+        final String committee = data['committee'];
+        print(district);
+        print('district');
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('committeeOfficer', true);
+        await prefs.setString('district', district);
+        await prefs.setString('committee', committee);
         await _saveUserData('Амжилттай.');
+        setState(() {
+          userCommittee = committee;
+          userDistrict = district;
+        });
         return true;
       } else {
         print('password is wrong');
@@ -295,9 +304,10 @@ class _ProfileState extends State<Profile> {
     _savedName = name;
     _savedNumber = number;
     userDistrict = district;
-    userCommittee = committee; 
+    userCommittee = committee;
+    print(name); 
     print(district);
-    print(name);
+    print(committee);
   }
 
   void _toggleEdit() {
@@ -309,6 +319,7 @@ class _ProfileState extends State<Profile> {
   void _showDialog(String title, String message) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
           title: Text(title),
