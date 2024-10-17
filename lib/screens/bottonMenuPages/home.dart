@@ -109,6 +109,7 @@ Future<void> getLocation() async {
       String longitude = position.longitude.toString();
 
       final Uri url = Uri.parse('${apiUrl}map?lat=$latitude&lon=$longitude');
+      hideLoader(_scaffoldGlobalKey);
       if (_isMounted) {
         setState(() {
           controller = WebViewController()
@@ -121,18 +122,15 @@ Future<void> getLocation() async {
                 onPageFinished: (String url) {},
                 onWebResourceError: (WebResourceError error) {
                   print('AAA:' + error.errorCode.toString());
-                  if(error.errorCode == -2) {
-                    setState(() {
-                      loadWeb = 0;
-                    });
-                  }
+                  setState(() {
+                    loadWeb = 0;
+                  });
                 },
               ),
             )
             ..loadRequest(url);
         });
       }
-      hideLoader(_scaffoldGlobalKey);
     } else {
       // showPermissionDeniedDialog();
       loadDefaultMap();
