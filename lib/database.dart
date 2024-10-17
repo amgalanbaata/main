@@ -63,7 +63,7 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> getPosts() async {
     Database? db = await instance.database;
     return await db!.rawQuery(
-        "SELECT * FROM posts");
+        "SELECT * FROM posts ORDER BY date DESC");
   }
   Future<List<Map<String, dynamic>>> getSendPosts() async {
     Database? db = await instance.database;

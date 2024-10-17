@@ -601,7 +601,13 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
     ];
   }
 
-  statusName(status){
+  statusName(_status){
+    int status = 0;
+    try {
+      status = int.parse(_status);
+    } catch(e) {
+      status = _status;
+    }
     if(status == 1) {
       return 'Илгээсэн';
     } else {
@@ -611,8 +617,14 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
       return statusNameGlobal.isEmpty ? '' : statusNameGlobal.firstWhere((item) => item['id'] == status)['name'];
     }
   }
-  typeName(types) {
-    return typeNameGlobal.isEmpty ? '' : typeNameGlobal.firstWhere((item) => item['id'] == types)['name'];
+  typeName(_types) {
+    int types = 0;
+    try {
+      types = int.parse(_types);
+    } catch(e) {
+      types = _types;
+    }
+    return typeNameGlobal.isEmpty ? '' : typeNameGlobal.firstWhere((item) => int.parse(item['id']) == types)['name'];
   }
 
   Color _getStatusColor(int status) {
