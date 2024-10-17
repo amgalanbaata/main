@@ -117,28 +117,41 @@ class _InstructionsState extends State<InstructionsPageView> {
                     controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.green,
                   ),
-              ),
+                ),
               SizedBox(height: 10),
               Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    if(_isAgreed) {
-                      _navigateToHome();
-                    } else {
-                      _toastMessage('title', 'Зөвшөөрөөгүй байна ');
-                    }
-                  },
-                  child: Text('Үргэлжлүүлэх'),
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                    // primary: Colors.green,
-                    // onPrimary: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+                child:  Container(
+                  width: 200,
+                  height: 45,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: <Color>[
+                        Color(0xFF2a7d2e),
+                        Color(0xFF1b5e20),
+                        Color(0xFF66bb6a),
+                      ],
                     ),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
-                ),
-              ),
+                  child: TextButton(
+                    child: Text(
+                      'Үргэлжлүүлэх', 
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onPressed: () {
+                      if(_isAgreed) {
+                        _navigateToHome();
+                      } else {
+                        _toastMessage('title', 'Зөвшөөрөөгүй байна ');
+                      }
+                    },
+                  ),
+                )
+              )
             ],
           ),
         )

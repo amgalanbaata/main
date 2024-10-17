@@ -315,7 +315,7 @@ class _ProfileState extends State<Profile> {
           content: Text(message),
           actions: [
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 if(message == 'Амжилттай.') {
                   print('password correct');
                   Navigator.of(context).pop();
@@ -326,9 +326,11 @@ class _ProfileState extends State<Profile> {
                     context,
                     MaterialPageRoute(builder: (context) => InstructionsPageView()),
                   );
-                _toastMessage('success', 'Амжилттай шинэчлэгдлээ');
-                return;
+                  _toastMessage('success', 'Амжилттай шинэчлэгдлээ');
+                  return;
                 } else {
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  await prefs.setBool('isAgreed', false);
                   print('else dskfj');
                   print(message);
                   Navigator.of(context).pop();
@@ -338,8 +340,8 @@ class _ProfileState extends State<Profile> {
                     context,
                     MaterialPageRoute(builder: (context) => MainApp()),
                   );
-                _toastMessage('success', 'Амжилттай шинэчлэгдлээ');
-                }
+                  _toastMessage('success', 'Амжилттай шинэчлэгдлээ');
+                } 
               },
               child: Text('OK'),
             ),
