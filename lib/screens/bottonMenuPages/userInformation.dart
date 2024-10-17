@@ -677,7 +677,7 @@ class _UserinformationState extends State<Userinformation> with SingleTickerProv
                     height: 140,
                   ),
                 ),
-                SizedBox(height: 15, width: 15,),
+                SizedBox(height: 15, width: 5,),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
