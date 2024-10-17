@@ -17,10 +17,12 @@ GlobalKey _scaffoldGlobalKey = GlobalKey();
 class _HomePageState extends State<Home> {
   String response = '';
   int loadWeb = 1;
+  bool _isMounted = false;
 
   @override
   void initState() {
     super.initState();
+    _isMounted = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       showLoader(_scaffoldGlobalKey);
       checkLocationService();
@@ -30,6 +32,7 @@ class _HomePageState extends State<Home> {
   @override
   void dispose() {
     super.dispose();
+    _isMounted = false;
   }
 
   void checkLocationService() async {
@@ -106,28 +109,29 @@ Future<void> getLocation() async {
       String longitude = position.longitude.toString();
 
       final Uri url = Uri.parse('${apiUrl}map?lat=$latitude&lon=$longitude');
-
-      setState(() {
-        controller = WebViewController()
-          ..setJavaScriptMode(JavaScriptMode.unrestricted)
-          ..setBackgroundColor(const Color(0x00000000))
-          ..setNavigationDelegate(
-            NavigationDelegate(
-              onProgress: (int progress) {},
-              onPageStarted: (String url) {},
-              onPageFinished: (String url) {},
-              onWebResourceError: (WebResourceError error) {
-                print('AAA:' + error.errorCode.toString());
-                if(error.errorCode == -2) {
-                  setState(() {
-                    loadWeb = 0;
-                  });
-                }
-              },
-            ),
-          )
-          ..loadRequest(url);
-      });
+      if (_isMounted) {
+        setState(() {
+          controller = WebViewController()
+            ..setJavaScriptMode(JavaScriptMode.unrestricted)
+            ..setBackgroundColor(const Color(0x00000000))
+            ..setNavigationDelegate(
+              NavigationDelegate(
+                onProgress: (int progress) {},
+                onPageStarted: (String url) {},
+                onPageFinished: (String url) {},
+                onWebResourceError: (WebResourceError error) {
+                  print('AAA:' + error.errorCode.toString());
+                  if(error.errorCode == -2) {
+                    setState(() {
+                      loadWeb = 0;
+                    });
+                  }
+                },
+              ),
+            )
+            ..loadRequest(url);
+        });
+      }
       hideLoader(_scaffoldGlobalKey);
     } else {
       // showPermissionDeniedDialog();
@@ -141,20 +145,22 @@ Future<void> getLocation() async {
 
 void loadDefaultMap() {
   hideLoader(_scaffoldGlobalKey);
-  setState(() {
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0x00000000))
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onProgress: (int progress) {},
-          onPageStarted: (String url) {},
-          onPageFinished: (String url) {},
-          onWebResourceError: (WebResourceError error) {},
-        ),
-      )
-      ..loadRequest(Uri.parse('${apiUrl}map'));
-  });  
+  if (_isMounted) {
+    setState(() {
+      controller = WebViewController()
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..setBackgroundColor(const Color(0x00000000))
+        ..setNavigationDelegate(
+          NavigationDelegate(
+            onProgress: (int progress) {},
+            onPageStarted: (String url) {},
+            onPageFinished: (String url) {},
+            onWebResourceError: (WebResourceError error) {},
+          ),
+        )
+        ..loadRequest(Uri.parse('${apiUrl}map'));
+    });
+  }
 }
 
   @override
