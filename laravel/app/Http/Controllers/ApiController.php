@@ -180,7 +180,7 @@ class ApiController extends Controller
                 $arr[$i]['image3'] = null;
                 $images = DB::table('post_images')->where('post_id', $post['id'])->get();
                 for($j = 1; $j <= count($images); $j++) {
-                    $arr[$i]['image'.$j] = "http://192.168.50.243:8000/images/posts/".$images[$j - 1]->image_name;
+                    $arr[$i]['image'.$j] = url('/')."/images/posts/".$images[$j - 1]->image_name;
                 }
                 $i++;
             }
