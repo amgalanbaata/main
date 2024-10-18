@@ -79,6 +79,10 @@ class ApiController extends Controller
         return response()->json($allPost);
     }
 
+    public function privacy() {
+        return view('admin.privacy');
+    }
+
     // public function location(Request $request)
     // {
     //     $request->validate([

@@ -79,6 +79,7 @@ Route::get('laboratoryList', [StaticUrlController::class, 'laboratoryList']);
 Route::get('documents', [StaticUrlController::class, 'documents']);
 Route::get('soil-pollution', [StaticUrlController::class, 'soilPollution']);
 Route::get('map', [StaticUrlController::class, 'map']);
+Route::get('privacy', [ApiController::class, 'privacy']);
 Route::resource('locations', LocationController::class);
 // app users
 Route::get('/admin/app-user',  [AppUserController::class, 'index'])->name('app-users.index');
