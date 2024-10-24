@@ -16,6 +16,7 @@ class Location extends Model
         'latitude',
         'longitude',
         'color',
+        'pdf_path'
     ];
 
     public function getLocation()
@@ -27,6 +28,18 @@ class Location extends Model
         } catch (\Illuminate\Database\QueryException $ex) {
             return $data;
         }
+    }
+
+    public function locationSingleSelect($latitude, $longitude)
+    {
+        $location = [];
+        try {
+            $location = DB::table('locations')->where('latitude', $latitude)->where('longitude', $longitude)->first();
+        } catch(\Illuminate\Database\QueryException $ex){
+            $location;
+        }
+        // dd($location);
+        return $location;
     }
 
     // public function locationSave(array $data)

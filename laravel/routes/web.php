@@ -50,7 +50,7 @@ Route::get('/admin/addpost', [AdminController::class, 'addPost']);
 Route::post('/admin/addpost', [ApiController::class, 'insert']);
 Route::get('/admin/user', [UserController::class, 'index'])->name('users.index');
 Route::get('admin/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
-Route::get('/admin/post', [AdminController::class, 'post']);
+// Route::get('/admin/post', [AdminController::class, 'post']);
 // add post location
 Route::post('/admin/post/location/upload', [LocationController::class, 'createLocation']);
 // add user and delete

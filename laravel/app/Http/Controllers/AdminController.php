@@ -8,7 +8,7 @@ use Session;
 use App\Models\Post;
 use App\Models\Model\Location;
 use Exception;
-
+use Illuminate\Support\Facades\Storage;
 class AdminController extends Controller
 {
     public function index()
@@ -114,7 +114,19 @@ class AdminController extends Controller
             $model = new Admin;
             $data = $model->postSingleSelect($request->id);
             $image_path = $model->imagePathSelect($request->id);
-            return view('admin.post', ['post' => $data, 'image_path' => $image_path, 'message' => '']);
+
+            $model = new Location;
+            $latitude = $data->latitude;
+            $longitude = $data->longitude;
+            $location = $model->locationSingleSelect($latitude, $longitude);
+            // dd($location);
+            // dd($location);
+            if ($location != null) {
+                return view('admin.post', ['post' => $data, 'image_path' => $image_path, 'message' => '', 'location' => $location]);
+            }
+            else {
+                return view('admin.post', ['post' => $data, 'image_path' => $image_path, 'message' => '']);
+            }
         } else {
             Session::forget('admin_token');
             return redirect('admin');
@@ -148,13 +160,28 @@ class AdminController extends Controller
                 'updated_at' => now(),
             ];
             if ($request->input('action_type') == 'locationAdd') {
-                $request->validate([
-                    'title' => 'required|string|max:255',
-                    'comment' => 'nullable|string',
-                    'latitude' => 'required|string',
-                    'longitude' => 'required|string',
-                    'color' => 'required|string',
-                ]);
+                // $request->validate([
+                //     'title' => 'required|string|max:255',
+                //     'comment' => 'nullable|string',
+                //     'latitude' => 'required|string',
+                //     'longitude' => 'required|string',
+                //     'color' => 'required|string',
+                //     'pdfUpload' => 'nullable|file|mimes:pdf|max:10000',
+                // ]);
+                // dd('wtsf');
+
+                $pdfPath = null;
+
+                if ($request->hasFile('pdfUpload')) {
+                    // $pdfPath = $request->file('pdfUpload')->store('uploads', 'public');
+                    $file = $request->file('pdfUpload');
+
+                    $fileName = time() . '_' . $file->getClientOriginalName();
+                    $destinationPath = public_path('uploads');
+                    $file->move($destinationPath, $fileName);
+                    $pdfPath = 'uploads/' . $fileName;
+                }
+                // dd($pdfPath);
 
                 $locationData = [
                     'title' => $request->title,
@@ -162,18 +189,20 @@ class AdminController extends Controller
                     'latitude' => $request->latitude,
                     'longitude' => $request->longitude,
                     'color' => $request->color,
+                    'pdf_path' => $pdfPath,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
+                // dd($pdfPath);
 
                 try {
                     Location::create($locationData);
+                    return redirect()->back()->with('message', 'success');
                 } catch (Exception $e){
-                    dd($e);
+                    return redirect()->back()->with('message', 'error');
                 }
-
-
-                return redirect()->route('locations.index')->with('success', 'Location added successfully.');
+                // return redirect()->route('locations.index')->with('success', 'Location added successfully.');
+                // return redirect()->back()->with('message', 'Амжилттай байршил бүртгэгдлээ.');
             }
 
             if ($request->input('action_type') == 'resolve') {
@@ -185,6 +214,7 @@ class AdminController extends Controller
             } else {
                 $message = 'error';
             }
+            // print_r($request->input('action_type'));
             $model = new Admin;
             $data = $model->postSingleSelect($request->id);
             $image_path = $model->imagePathSelect($request->id);

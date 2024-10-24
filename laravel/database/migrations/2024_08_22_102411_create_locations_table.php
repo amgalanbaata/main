@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('latitude');
             $table->string('longitude');
             $table->string('color');
+            $table->string('pdf_path')->nullable();
             $table->timestamps();
         });
     }

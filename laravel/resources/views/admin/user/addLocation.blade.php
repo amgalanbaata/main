@@ -61,7 +61,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="form-group mb-4">
                                     <label class="form-label">Өнгө</label>
                                     <div>
@@ -70,12 +69,12 @@
                                             <label class="form-check-label" for="colorYellow">Шар</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="color" id="colorBlue" value="blue" {{ old('color') == 'blue' ? 'checked' : '' }} required>
-                                            <label class="form-check-label" for="colorBlue">Цэнхэр</label>
+                                            <input class="form-check-input" type="radio" name="color" id="colorGreen" value="blue" {{ old('color') == 'blue' ? 'checked' : '' }} required>
+                                            <label class="form-check-label" for="colorGreen">Ногоон</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="color" id="colorBlack" value="black" {{ old('color') == 'black' ? 'checked' : '' }} required>
-                                            <label class="form-check-label" for="colorBlack">Хар</label>
+                                            <input class="form-check-input" type="radio" name="color" id="colorRed" value="black" {{ old('color') == 'black' ? 'checked' : '' }} required>
+                                            <label class="form-check-label" for="colorRed">Улаан</label>
                                         </div>
                                     </div>
                                     @error('color')
