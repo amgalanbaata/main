@@ -17,6 +17,18 @@ class AppUsers extends Model
         'committee',
     ];
 
+    public function appUserSelect($number)
+    {
+        $location = [];
+        // dd($location);
+        try {
+            $location = DB::table('app_users')->where('email', $number)->first();
+        } catch(\Illuminate\Database\QueryException $ex){
+            return $location;
+        }
+        return $location;
+    }
+
     public function appUsers()
     {
         $responce = [];

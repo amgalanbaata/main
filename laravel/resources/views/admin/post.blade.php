@@ -106,6 +106,38 @@
         .swal2-confirm {
             background: #007bff !important;
         }
+        .location-info {
+            background-color: #f8f9fa; /* Light background */
+            border-radius: 5px; /* Rounded corners */
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px; /* Keep layout centered and limited in width */
+        }
+
+        .info-item {
+            margin-bottom: 15px; /* Space between each item */
+        }
+
+        .info-item strong {
+            font-weight: bold;
+        }
+
+        .info-item span {
+            margin-left: 10px;
+        }
+
+        .link {
+            color: #007bff; /* Blue link color */
+            text-decoration: underline;
+        }
+
+        .link:hover {
+            text-decoration: none; /* Remove underline on hover */
+        }
+        .fileButton a {
+            text-decoration: none;
+            color: white;
+        }
     </style>
 </head>
 <body class="sb-nav-fixed" onload="initMap()">
@@ -114,23 +146,23 @@
     @include('admin.menu')
     <div id="layoutSidenav_content">
         <main>
-            <h1 class="title">Санал хүсэлт</h1>
+            <h1 class="title">Мэдэгдэл</h1>
             <div class="container-fluid px-4 d-flex">
                 <div class="card">
                     <div class="card-body">
-                        @if($message == 'success')
+                        {{-- @if($message == 'success')
                         <div class="alert alert-success">Амжилттай</div>
                         @elseif ($message == 'error')
                         <div class="alert alert-info">Алдаа Гарлаа</div>
-                        @endif
-                        @if(session('message') == 'success')
+                        @endif --}}
+                        {{-- @if(session('message') == 'success')
                             <div class="alert alert-success">Амжилттай</div>
                             <div class="text-danger">{{ $message }}</div>
                         @elseif (session('message') == 'error')
                             <div class="alert alert-info">Алдаа Гарлаа</div>
                             <div class="text-danger">{{ $message }}</div>
-                        @endif
-                        <h5 class="card-title">Санал хүсэлтийн дэлгэрэнгүй мэдээлэл</h5>
+                        @endif --}}
+                        <h5 class="card-title">Мэдэгдлүүдийн дэлгэрэнгүй мэдээлэл</h5>
                         <div class="image-container dflex">
                             <div>
                                 @foreach ($image_path as $image)
@@ -152,8 +184,16 @@
                         <div>
                             {{-- <p><strong>ID:</strong> {{$post->id}}</p> --}}
                             <div class="d-flex justify-content-between">
-                                <p><strong>Нэр:</strong> {{$post->name}}</p>
-                                <p><strong>Утасны дугаар:</strong> {{$post->number}}</p>
+                                <div>
+                                    <p><strong>Нэр:</strong> {{$post->name}}</p>
+                                    @if(isset($userData))
+                                    <p><strong>Байршил:</strong> {{$userData->district}}-Дүүрэг {{ $userData->committee }}-хороо</p>
+                                    @endif
+                                </div>
+                                <div>
+                                    <p><strong>Утасны дугаар:</strong> {{$post->number}}</p>
+                                    <p><strong>Үүсгэсэн огноо:</strong>{{$post->created_at}}</p>
+                                </div>
                             </div>
                             <hr>
                             <p><strong>Тайлбар:</strong> {{$post->comment}}</p>
@@ -166,7 +206,6 @@
 
                         <form action="" method="POST">
                             @csrf
-                            <h1>{{ $message }}</h1>
                             <input type="hidden" id="action_type" name="action_type" value="update">
                             <div class="status">
                                 <strong class="statusS">Статус:</strong>
@@ -216,7 +255,7 @@
 
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" id="type3" name="type" value="3" {{ $post->type == 3 ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="type3">эвдрэл доройтол</label>
+                                    <label class="form-check-label" for="type3">Эвдрэл доройтол</label>
                                 </div>
 
                                 <div class="form-check form-check-inline">
@@ -228,14 +267,16 @@
                                 <strong>Сэтгэгдэл</strong>
                                 <textarea type="text" name="admin_comment" value="text">{{ $post->admin_comment }}</textarea>
                             </div>
-                            <div class="d-flex justify-content-between">
-                                <p><strong>Үүсгэсэн огноо:</strong> {{$post->created_at}}</p>
+                            {{-- <div class="d-flex justify-content-between">
                                 <p><strong>Шинэчлэгдсэн огноо:</strong> {{$post->updated_at}}</p>
-                            </div>
-                            @if ($post->status != 5 || $post->status != 6 && $post->agreed == null)
+                            </div> --}}
+                            <h1>{{ $message }}</h1>
+                            <h1>{{ $post->status }}</h1>
+                            @if ($post->agreed == null && Session::get('admin_is') == 0 && $post->status != 5 &&  $post->status != 6)
                             <button type="submit" class="custom-button" onclick="document.getElementById('action_type').value='update'">Шинэчлэх</button>
                             @endif
-                            @if (Session::get('admin_is') == 0 && $post->type != 1)
+                            <h1>{{ $post->agreed }}</h1>
+                            @if ($post->agreed != 'Зөвшөөрөх' && Session::get('admin_is') == 0 && $post->status == 5 || $post->type == 6 )
                             <button type="submit" class="custom-button" onclick="document.getElementById('action_type').value='resolve'">Зөвшөөрөх</button>
                             @endif
                         </form>
@@ -250,31 +291,43 @@
                         @csrf
                         <input type="hidden" id="action_type" name="action_type" value="locationAdd">
 
-                        @if ($post->status == 5 || $post->status == 6 && Session::get('admin_is') != 0 && $post->agreed != null)
+                        @if ($post->agreed != null && Session::get('admin_is') != 0 && $post->status == 5 || $post->status == 6)
+                        @if(isset($location))
+                        <div class="location-info p-4 bg-light">
+                            <h2 class="text-center mb-4">Цэг нэмэгдсэн</h2>
 
-                            @if(isset($location))
-                            <h1 class="p-8 text-center bg-yellow-50">Цэг нэмэгдсэн</h1>
-                                <!-- Show location information if it exists -->
-                                <div class="locationInfo">
-                                    <p>Гарчиг: {{ $location->title }}</p>
-                                    <p>Тайлбар: {{ $location->comment }}</p>
-                                    <p>Бохирдлын түвшин:
-                                        @if ($location->color == 'red')
-                                            Их
-                                        @elseif ($location->color == 'yellow')
-                                            Дунд
-                                        @elseif ($location->color == 'green')
-                                            Бага
-                                        @else
-                                            Тодорхойгүй
-                                        @endif
-                                    </p>
-                                    <p>Өргөрөг: {{ $location->latitude }}</p>
-                                    <p>Уртраг: {{ $location->longitude }}</p>
-                                    <a href="{{ asset($location->pdf_path) }}" target="_blank">View PDF</a>
-                                    {{-- <a href="{{ asset('uploads/dummy-pdf_2.pdf') }}" target="_blank">View PDF</a> --}}
-                                </div>
-                            @else
+                            <!-- Display location information -->
+                            <div class="info-item">
+                                <strong>Гарчиг:</strong> <span>{{ $location->title }}</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Тайлбар:</strong> <span>{{ $location->comment }}</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Бохирдлын түвшин:</strong>
+                                <span>
+                                    @if ($location->color == 'red')
+                                        Их
+                                    @elseif ($location->color == 'yellow')
+                                        Дунд
+                                    @elseif ($location->color == 'green')
+                                        Бага
+                                    @else
+                                        Тодорхойгүй
+                                    @endif
+                                </span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Өргөрөг:</strong> <span>{{ $location->latitude }}</span>
+                            </div>
+                            <div class="info-item">
+                                <strong>Уртраг:</strong> <span>{{ $location->longitude }}</span>
+                            </div>
+                            <button class="custom-button fileButton">
+                                <a href="{{ asset($location->pdf_path) }}" target="_blank" class="link">Хавсаргасан Файл нээх</a>
+                            </button>
+                        </div>
+                        @else
                             <h1 class="p-8 text-center bg-yellow-50">Цэг нэмэх</h1>
                                 <!-- Display the form to add a new location -->
                                 <div class="addLocation">
@@ -333,40 +386,77 @@
         </main>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if(Session::has('message') && Session::get('message') == 'success1')
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Амжилттай!',
+            text: 'Мэдээлэл амжилттай шинэчлэгдлээ!',
+            confirmButtonText: 'OK'
+        });
+    </script>
+@elseif(Session::has('message') && Session::get('message') == 'error')
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Алдаа!',
+            text: 'Шинэчлэх явцад алдаа гарлаа.',
+            confirmButtonText: 'OK'
+        });
+    </script>
+@endif
+@if(session('message'))
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Check for success message
+        if ("{{ session('message') }}" === 'success') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Амжилттай',
+                text: 'Цэг амжилттай нэмэгдлээ. Та байршил харах цэсээс цэгийн дэлгэрэнгүйг харж болно.',
+            });
+            console.log('success');
+        } else if ("{{ session('message') }}" === 'error') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Алдаа Гарлаа',
+                text: 'An error occurred during the operation.',
+                confirmButtonText: 'OK'
+            });
+        }
+    });
+</script>
+@endif
 </body>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function confirmAddLocation() {
-        // Get the form element
         var form = document.getElementById('locationForm');
 
-        // Check if the title is filled
         var title = form.querySelector('textarea[name="title"]');
         if (!title.value.trim()) {
-            alert("Гарчиг заавал оруулна уу."); // "Title is required"
+            alert("Гарчиг заавал оруулна уу.");
             title.focus();
             return;
         }
 
-        // Check if the comment is filled (optional, since it's nullable)
         var comment = form.querySelector('textarea[name="comment"]');
         if (!comment.value.trim()) {
-            alert("Тайлбар заавал оруулна уу."); // "Comment is required"
+            alert("Тайлбар заавал оруулна уу.");
             comment.focus();
             return;
         }
 
-        // Check if color is selected
         var colorSelected = form.querySelector('input[name="color"]:checked');
         if (!colorSelected) {
-            alert("Бохирдлын түвшинг сонгоно уу."); // "Please select pollution level"
+            alert("Бохирдлын түвшинг сонгоно уу.");
             return;
         }
 
-        // Check if PDF is uploaded based on post status
         var pdfUpload = form.querySelector('input[name="pdfUpload"]');
-        var postStatus = {{ $post->status }}; // Assuming you are passing the status as a variable
+        var postStatus = {{ $post->status }};
 
         if (postStatus == 5 && pdfUpload.required && !pdfUpload.files.length) {
             alert("Шинжилгээ хавсаргах заавал оруулна уу.");
@@ -389,6 +479,9 @@
                 console.log('Form submission canceled.');
             }
         });
+
+        var message = (session('message') == 'success');
+        console.log(message);
     }
 </script>
 <script type="text/javascript">

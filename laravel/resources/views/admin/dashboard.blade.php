@@ -110,7 +110,7 @@
                             @if (Session::get('admin_is') == 0)
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
-                                    <h4 class="card-body">Зөвшөөрөх хүсэлт {{ $counts['Conduct_soil_analysis'] + $counts['Register_directly_on_location'] }}</h4>
+                                    <h4 class="card-body">Зөвшөөрөх хүсэлт: {{ $counts['Conduct_soil_analysis'] + $counts['Register_directly_on_location'] }}</h4>
                                     <button onclick="adminStatusFunction(10)" class="btn">
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         Дэлгэрэнгүй
@@ -122,8 +122,9 @@
                             @endif
                             @if (Session::get('admin_is') == 2)
                             <div class="col-xl-3 col-md-6">
+                                <p class="">Хог хаягдлын админ</p>
                                 <div class="card bg-primary text-white mb-4">
-                                    <h4 class="card-body">Шинээр ирсэн {{ $typeCounts['Хог хягдал'] }}</h4>
+                                    <h4 class="card-body">Шинээр ирсэн: {{ $typeCounts['Хог хягдал'] }}</h4>
                                     <button onclick="statusFunction(1)" class="btn">
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         Дэлгэрэнгүй
@@ -135,8 +136,9 @@
                             @endif
                             @if (Session::get('admin_is') == 3)
                             <div class="col-xl-3 col-md-6">
+                                <p>Эвдрэл доройтлын админ</p>
                                 <div class="card bg-primary text-white mb-4">
-                                    <h4 class="card-body">Шинээр ирсэн {{ $typeCounts['Эвдрэл доройтол'] }}</h4>
+                                    <h4 class="card-body">Шинээр ирсэн: {{ $typeCounts['Эвдрэл доройтол'] }}</h4>
                                     <button onclick="statusFunction(1)" class="btn">
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         Дэлгэрэнгүй
@@ -148,8 +150,9 @@
                             @endif
                             @if (Session::get('admin_is') == 4)
                             <div class="col-xl-3 col-md-6">
+                                <p>Бохирын админ</p>
                                 <div class="card bg-primary text-white mb-4">
-                                    <h4 class="card-body">Шинээр ирсэн {{ $typeCounts['Бохир'] }}</h4>
+                                    <h4 class="card-body">Шинээр ирсэн: {{ $typeCounts['Бохир'] }}</h4>
                                     <button onclick="statusFunction(1)" class="btn">
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         Дэлгэрэнгүй
@@ -189,7 +192,7 @@
                                         <!-- Right Column -->
                                         <div class="type-column">
                                             <div class="type-section bg-danger">
-                                                <h5>эвдрэл доройтол</h5>
+                                                <h5>Эвдрэл доройтол</h5>
                                                 <h3>{{ $typeCounts['эвдрэл доройтол'] }}</h3>
                                             </div>
                                             @if (Session::get('admin_is') == 0)

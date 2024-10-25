@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\AppUsers;
 use Session;
 use App\Models\Post;
 use App\Models\Model\Location;
@@ -115,6 +116,9 @@ class AdminController extends Controller
             $data = $model->postSingleSelect($request->id);
             $image_path = $model->imagePathSelect($request->id);
 
+            $model = new AppUsers;
+            $userData = $model->appUserSelect($data->number);
+
             $model = new Location;
             $latitude = $data->latitude;
             $longitude = $data->longitude;
@@ -122,10 +126,10 @@ class AdminController extends Controller
             // dd($location);
             // dd($location);
             if ($location != null) {
-                return view('admin.post', ['post' => $data, 'image_path' => $image_path, 'message' => '', 'location' => $location]);
+                return view('admin.post', ['post' => $data, 'image_path' => $image_path, 'message' => '', 'location' => $location, 'userData' => $userData]);
             }
             else {
-                return view('admin.post', ['post' => $data, 'image_path' => $image_path, 'message' => '']);
+                return view('admin.post', ['post' => $data, 'image_path' => $image_path, 'message' => '', 'userData' => $userData]);
             }
         } else {
             Session::forget('admin_token');
@@ -210,7 +214,7 @@ class AdminController extends Controller
             }
             if ($modelPost->postUpdate($request->id, $udata)){
                 $message = 'success';
-                return redirect()->back();
+                return redirect()->back()->with('message', 'success1');
             } else {
                 $message = 'error';
             }

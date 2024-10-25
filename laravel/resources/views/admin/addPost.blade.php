@@ -47,7 +47,7 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="title d-flex justify-content-between">
-                        <h1 class="mt-4">Санал хүсэлт оруулах</h1>
+                        <h1 class="mt-4">Мэдэгдэл оруулах</h1>
                     </div>
                     <div class="container-fluid px-4 d-flex">
                         <div class="card mb-4">
@@ -102,7 +102,7 @@
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" id="type3" name="type" value="3">
-                                        <label class="form-check-label" for="type3">эвдрэл доройтол</label>
+                                        <label class="form-check-label" for="type3">Эвдрэл доройтол</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" id="type4" name="type" value="4">

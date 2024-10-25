@@ -18,7 +18,7 @@
                 </a>
                 <a class="nav-link {{ Request::is('admin/posts*') ? 'active' : '' }}" href="/admin/posts">
                     <div class="sb-nav-link-icon"><i class="icon-list"></i></div>
-                    Санал хүсэлт
+                    Мэдэгдлүүд
                 </a>
                 @if(Session::get('admin_is') == 0)
                 <a class="nav-link {{ Request::is('admin/user*') ? 'active' : '' }}" href="/admin/user">
@@ -28,7 +28,7 @@
                 @endif
                 <a class="nav-link {{ Request::is('admin/report*') ? 'active' : '' }}" href="/admin/report">
                     <div class="sb-nav-link-icon"><i class="icon-file"></i></div>
-                    Тайлан
+                    Мэдэгдлийн Тайлан
                 </a>
                 @if(Session::get('admin_is') == 0)
                 <a class="nav-link {{ Request::is('admin/location/*') ? 'active' : '' }}" href="/admin/location">

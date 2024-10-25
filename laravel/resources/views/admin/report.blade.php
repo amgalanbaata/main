@@ -131,7 +131,7 @@
                     <h1>Тайлан</h1>
                     <div class="content">
                         <form class="row" action="{{route('admin.postsPost')}}" method="POST">
-                            @csrf
+                            {{-- @csrf
                             <input type="text" name="status" id="status" style="display: none">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
@@ -147,7 +147,7 @@
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-warning text-white mb-4">
                                     <div>
-                                        <h4 class="card-body">Хүлээн авсан{{ $counts['received'] }}</h4>
+                                        <h4 class="card-body">Хүлээн авсан{{ $counts['Duplicated'] }}</h4>
                                     </div>
                                     <button onclick="statusFunction(2)" class="btn">
                                     <div class="card-footer d-flex align-items-center justify-content-between">
@@ -174,7 +174,7 @@
                                         <!-- Right Column -->
                                         <div class="type-column">
                                             <div class="type-section bg-danger">
-                                                <h5>эвдрэл доройтол</h5>
+                                                <h5>Эвдрэл доройтол</h5>
                                                 <h3>{{ $typeCounts['эвдрэл доройтол'] }}</h3>
                                             </div>
                                             <div class="type-section bg-info text-dark">
@@ -184,7 +184,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             {{-- <div class="col-xl-3 col-md-6">
                                 <div class="card bg-success text-white mb-4">
                                     <h4 class="card-body">Шийдвэрлэсэн{{ $counts['resolved'] }}</h4>
@@ -243,16 +243,24 @@
                                         <td>{{ $counts['new'] ?? 0 }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Шийдвэрлэсэн</td>
-                                        <td>{{ $counts['resolved'] ?? 0 }}</td>
+                                        <td>Давхардсан</td>
+                                        <td>{{ $counts['Duplicated'] ?? 0 }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Хүлээн авсан</td>
-                                        <td>{{ $counts['received'] ?? 0 }}</td>
+                                        <td>Нэмэлт мэдээлэл шаардлагатай</td>
+                                        <td>{{ $counts['Additional information is required'] ?? 0 }}</td>
                                     </tr>
                                     <tr>
                                         <td>Татгалзсан</td>
-                                        <td>{{ $counts['rejected'] ?? 0 }}</td>
+                                        <td>{{ $counts['Refused'] ?? 0 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Хөрсний шинжилгээ хийх</td>
+                                        <td>{{ $counts['Conduct_soil_analysis'] ?? 0 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Байршилд шууд бүртгэх</td>
+                                        <td>{{ $counts['Register_directly_on_location'] ?? 0 }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -267,7 +275,7 @@
                     var chart = new CanvasJS.Chart("chartContainer", {
                         animationEnabled: true,
                         title: {
-                            text: "Санал хүсэлтийн статус хуваарилалт"
+                            text: "Мэдэгдлүүдийн статус хуваарилалт"
                         },
                         data: [{
                             type: "pie",
@@ -276,9 +284,11 @@
                             indexLabel: "{label} {y}",
                             dataPoints: [
                                 {y: {{ $counts['new'] ?? 0 }}, label: "Шинээр ирсэн"},
-                                {y: {{ $counts['received'] ?? 0 }}, label: "Хүлээн авсан"},
-                                {y: {{ $counts['resolved'] ?? 0 }}, label: "Шийдвэрлэсэн"},
-                                {y: {{ $counts['rejected'] ?? 0 }}, label: "Татгалзсан"},
+                                {y: {{ $counts['Duplicated'] ?? 0 }}, label: "Давхардсан"},
+                                {y: {{ $counts['Additional information is required'] ?? 0 }}, label: "Нэмэлт мэдээлэл шаардлагатай"},
+                                {y: {{ $counts['Refused'] ?? 0 }}, label: "Татгалзсан"},
+                                {y: {{ $counts['Conduct_soil_analysis'] ?? 0 }}, label: "Хөрсний шинжилгээ хийх"},
+                                {y: {{ $counts['Register_directly_on_location'] ?? 0 }}, label: "Байршилд шууд бүртгэх"},
                                 // {y: 1.26, label: "Others"}
                             ]
                         }]

@@ -19,8 +19,8 @@
                 <main>
                     <div class="container-fluid px-4">
                         <div class="title d-flex flex-row justify-content-between">
-                            <h1 class="mt-4">Санал хүсэлт</h1>
-                            <button class="addPost btn btn-primary mt-4 mb-2"><a class="addButton text-white" href="/admin/addpost">Санал хүсэлт нэмэх</a></button>
+                            <h1 class="mt-4">Мэдэгдлүүд</h1>
+                            <button class="addPost btn btn-primary mt-4 mb-2"><a class="addButton text-white" href="/admin/addpost">Мэдэгдэл нэмэх</a></button>
                         </div>
                         <div class="card mb-4">
                             <div class="card-body">
