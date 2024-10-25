@@ -128,6 +128,16 @@ class Admin extends Model
         return $counts;
     }
 
+    public function getAgreedCounts() {
+        $counts = [];
+        try {
+            $counts = DB::table('posts')->where('agreed', 'Зөвшөөрсөн')->count();
+        } catch(\Illuminate\Database\QueryException $ex){
+           return $counts;
+        }
+        return $counts;
+    }
+
     public function getTypeCount() {
         $typeCounts = [
             'Бусад' => DB::table('posts')->where('type', 1)->count(),

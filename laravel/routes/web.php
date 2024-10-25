@@ -49,7 +49,10 @@ Route::post('/admin/post', [AdminController::class, 'updatePost']);
 Route::get('/admin/addpost', [AdminController::class, 'addPost']);
 Route::post('/admin/addpost', [ApiController::class, 'insert']);
 Route::get('/admin/user', [UserController::class, 'index'])->name('users.index');
+// Route::post('admin/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
 Route::get('admin/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+Route::post('admin/users/{id}', [UserController::class, 'update'])->name('users.update');
+
 // Route::get('/admin/post', [AdminController::class, 'post']);
 // add post location
 Route::post('/admin/post/location/upload', [LocationController::class, 'createLocation']);

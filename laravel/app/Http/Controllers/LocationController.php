@@ -9,6 +9,7 @@ class LocationController extends Controller
 {
     public function index()
     {
+        $model = new Location();
         $colorName = [
             'yellow' => 'шар',
             'red' => 'улаан',
@@ -20,7 +21,9 @@ class LocationController extends Controller
         foreach ($locations as $location) {
         $location->color = $colorName[$location->color] ?? $location->color;
     }
-        return view('admin.user.location', compact('locations'));
+        $data = $model->getLocation();
+
+        return view('admin.user.location', compact('locations'), ['data' => $data]);
     }
 
     public function indexPage() {

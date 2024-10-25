@@ -16,6 +16,14 @@
                                         <label for="username">Нэвтрэх нэр</label>
                                         <input type="text" class="form-control" id="username" name="username" value="{{ $user->username }}" required>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="phone">Утас</label>
+                                        <input type="text" class="form-control" id="phone" name="phone" value="{{ $user->phone }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Мэйл</label>
+                                        <input type="text" class="form-control" id="email" name="email" value="{{ $user->email }}" required>
+                                    </div>
 
                                     <div class="form-group">
                                         <label for="password">Нууц үг</label>
@@ -43,7 +51,6 @@
                                         <br>
                                     </div>
                                     @endif
-
                                     <button type="submit" class="btn btn-primary">Шинэчлэх</button>
                                     <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancel</a>
                                 </form>
@@ -54,4 +61,29 @@
             </div>
         </div>
     </body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if(Session::has('message') && Session::get('message') == 'successUserEdit')
+    <p>{{ Session::get('message') }}</p>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Амжилттай!',
+            text: 'Шинэчлэлт амжилттай боллоо',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "{{ route('users.index') }}";
+            }
+        });
+    </script>
+    @elseif(Session::has('message') && Session::get('message') == 'errorUserEdit')
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Алдаа!',
+            text: 'Шинэчлэх явцад алдаа гарлаа.',
+            confirmButtonText: 'OK'
+        });
+    </script>
+    @endif
 </html>

@@ -110,7 +110,7 @@
                             @if (Session::get('admin_is') == 0)
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
-                                    <h4 class="card-body">Зөвшөөрөх хүсэлт: {{ $counts['Conduct_soil_analysis'] + $counts['Register_directly_on_location'] }}</h4>
+                                    <h4 class="card-body">Зөвшөөрөх хүсэлт: {{ $counts['Conduct_soil_analysis'] + $counts['Register_directly_on_location'] - $agreedCounts }}</h4>
                                     <button onclick="adminStatusFunction(10)" class="btn">
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         Дэлгэрэнгүй
@@ -122,9 +122,10 @@
                             @endif
                             @if (Session::get('admin_is') == 2)
                             <div class="col-xl-3 col-md-6">
-                                <p class="">Хог хаягдлын админ</p>
+                                <p class="">Хог хаягдал хариуцсан админ</p>
                                 <div class="card bg-primary text-white mb-4">
                                     <h4 class="card-body">Шинээр ирсэн: {{ $typeCounts['Хог хягдал'] }}</h4>
+                                    {{-- <h4 class="card-body">Шинээр ирсэн: {{ $counts['new'] }}</h4> --}}
                                     <button onclick="statusFunction(1)" class="btn">
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         Дэлгэрэнгүй
@@ -136,7 +137,7 @@
                             @endif
                             @if (Session::get('admin_is') == 3)
                             <div class="col-xl-3 col-md-6">
-                                <p>Эвдрэл доройтлын админ</p>
+                                <p>Эвдрэл доройтлын хариуцсан админ</p>
                                 <div class="card bg-primary text-white mb-4">
                                     <h4 class="card-body">Шинээр ирсэн: {{ $typeCounts['Эвдрэл доройтол'] }}</h4>
                                     <button onclick="statusFunction(1)" class="btn">
@@ -150,7 +151,7 @@
                             @endif
                             @if (Session::get('admin_is') == 4)
                             <div class="col-xl-3 col-md-6">
-                                <p>Бохирын админ</p>
+                                <p>Бохир хариуцсан админ</p>
                                 <div class="card bg-primary text-white mb-4">
                                     <h4 class="card-body">Шинээр ирсэн: {{ $typeCounts['Бохир'] }}</h4>
                                     <button onclick="statusFunction(1)" class="btn">

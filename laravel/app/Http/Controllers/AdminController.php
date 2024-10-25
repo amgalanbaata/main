@@ -32,6 +32,7 @@ class AdminController extends Controller
         $data = $model->postSelect(false, false, false, false, false, false, 0);
         $image_path = $model->imagePathAll();
         $admin = $model->adminLogin($username, $password);
+        $agreedCounts = $model->getAgreedCounts();
         if (count($model->adminLogin($username, $password)) > 0) {
             Session::put('admin_id', $admin[0]->id);
             Session::put('admin_token', $token);
@@ -39,11 +40,11 @@ class AdminController extends Controller
             $typeCounts = $model->getTypeCount(Session::get('admin_is'));
             $admin_is = $model->adminLogin($username, $password);
             Session::put('admin_is', $admin_is[0]->type_code);
-            return view('admin.dashboard', ['counts' => $counts, 'data' => $data, 'image_path' => $image_path, 'typeCounts' => $typeCounts]);
+            return view('admin.dashboard', ['counts' => $counts, 'data' => $data, 'image_path' => $image_path, 'typeCounts' => $typeCounts, 'agreedCounts' => $agreedCounts]);
         } elseif (Session::get('admin_token') != '') {
             $counts = $model->getCountsByStatus(Session::get('admin_is'));
             $typeCounts = $model->getTypeCount(Session::get('admin_is'));
-            return view('admin.dashboard', ['counts' => $counts, 'data' => $data, 'image_path' => $image_path, 'typeCounts' => $typeCounts]);
+            return view('admin.dashboard', ['counts' => $counts, 'data' => $data, 'image_path' => $image_path, 'typeCounts' => $typeCounts, 'agreedCounts' => $agreedCounts]);
         } else {
             Session::forget('admin_token');
             return redirect('admin');

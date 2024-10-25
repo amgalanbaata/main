@@ -13,6 +13,7 @@
                 @if (Session::get('admin_is') != 0)
                 <li><a class="dropdown-item" href="user/settings">Нууц үг солих</a></li>
                 @endif
+                {{-- <li><a class="dropdown-item" href="/admin/logout">Профайл</a></li> --}}
                 <li><a class="dropdown-item" href="/admin/logout">Гарах</a></li>
             </ul>
             </ul>

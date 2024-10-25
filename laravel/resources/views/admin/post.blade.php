@@ -241,6 +241,7 @@
                                 </div>
                                 <br>
                             </div>
+                            @if(Session::get('admin_is') == 0)
                             <div class="type mt-2 mb-2">
                                 <strong class="typeS mt-10 mr-10">Төрөл:</strong>
                                 <div class="form-check form-check-inline ml-10">
@@ -263,20 +264,44 @@
                                     <label class="form-check-label" for="type4">Бохир</label>
                                 </div>
                             </div>
+                            @else
+                                <!-- Display type as a word instead of radio buttons -->
+                                <div class="type mt-2 mb-2">
+                                    <strong class="typeS mt-10 mr-10">Төрөл:</strong>
+                                    <span class="type-value">
+                                        @switch($post->type)
+                                            @case(1)
+                                                Бусад
+                                                @break
+                                            @case(2)
+                                                Хог Хаягдал
+                                                @break
+                                            @case(3)
+                                                Эвдрэл доройтол
+                                                @break
+                                            @case(4)
+                                                Бохир
+                                                @break
+                                            @default
+                                                Тодорхойгүй
+                                        @endswitch
+                                    </span>
+                                </div>
+                                <div style="display: none;">
+                                    <input class="form-check-input" type="radio" id="type1" name="type" value="1" {{ $post->type == 1 ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="radio" id="type2" name="type" value="2" {{ $post->type == 2 ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="radio" id="type3" name="type" value="3" {{ $post->type == 3 ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="radio" id="type4" name="type" value="4" {{ $post->type == 4 ? 'checked' : '' }}>
+                                </div>
+                            @endif
                             <div class="adminComment">
                                 <strong>Сэтгэгдэл</strong>
                                 <textarea type="text" name="admin_comment" value="text">{{ $post->admin_comment }}</textarea>
                             </div>
-                            {{-- <div class="d-flex justify-content-between">
-                                <p><strong>Шинэчлэгдсэн огноо:</strong> {{$post->updated_at}}</p>
-                            </div> --}}
-                            <h1>{{ $message }}</h1>
-                            <h1>{{ $post->status }}</h1>
-                            @if ($post->agreed == null && Session::get('admin_is') == 0 && $post->status != 5 &&  $post->status != 6)
+                            @if ($post->agreed != "Зөвшөөрсөн" && $post->status != 5 ||  $post->status != 6)
                             <button type="submit" class="custom-button" onclick="document.getElementById('action_type').value='update'">Шинэчлэх</button>
                             @endif
-                            <h1>{{ $post->agreed }}</h1>
-                            @if ($post->agreed != 'Зөвшөөрөх' && Session::get('admin_is') == 0 && $post->status == 5 || $post->type == 6 )
+                            @if ($post->agreed != "Зөвшөөрсөн" && Session::get('admin_is') == 0 && $post->status == 5 || $post->type == 6 )
                             <button type="submit" class="custom-button" onclick="document.getElementById('action_type').value='resolve'">Зөвшөөрөх</button>
                             @endif
                         </form>
@@ -291,7 +316,7 @@
                         @csrf
                         <input type="hidden" id="action_type" name="action_type" value="locationAdd">
 
-                        @if ($post->agreed != null && Session::get('admin_is') != 0 && $post->status == 5 || $post->status == 6)
+                        @if ($post->agreed == "Зөвшөөрсөн")
                         @if(isset($location))
                         <div class="location-info p-4 bg-light">
                             <h2 class="text-center mb-4">Цэг нэмэгдсэн</h2>
@@ -394,6 +419,10 @@
             title: 'Амжилттай!',
             text: 'Мэдээлэл амжилттай шинэчлэгдлээ!',
             confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "{{ route('admin.posts') }}";
+            }
         });
     </script>
 @elseif(Session::has('message') && Session::get('message') == 'error')

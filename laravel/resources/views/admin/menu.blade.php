@@ -23,22 +23,22 @@
                 @if(Session::get('admin_is') == 0)
                 <a class="nav-link {{ Request::is('admin/user*') ? 'active' : '' }}" href="/admin/user">
                     <div class="sb-nav-link-icon"><i class="icon-user"></i></div>
-                    Хэрэглэгчид
+                    НБОГ хэрэглэгч
                 </a>
                 @endif
                 <a class="nav-link {{ Request::is('admin/report*') ? 'active' : '' }}" href="/admin/report">
                     <div class="sb-nav-link-icon"><i class="icon-file"></i></div>
                     Мэдэгдлийн Тайлан
                 </a>
-                @if(Session::get('admin_is') == 0)
+                {{-- @if(Session::get('admin_is') == 0) --}}
                 <a class="nav-link {{ Request::is('admin/location/*') ? 'active' : '' }}" href="/admin/location">
                     <div class="sb-nav-link-icon"><i class="icon-list"></i></div>
                     Байршил
                 </a>
-                @endif
+                {{-- @endif --}}
                 @if(Session::get('admin_is') == 0)
                 <a class="nav-link {{ Request::is('admin/app-user') ? 'active' : '' }}" href="/admin/app-user">
-                    <div class="sb-nav-link-icon"><i class="icon-list"></i></div>
+                    <div class="sb-nav-link-icon"><i class="icon-user"></i></div>
                     Апп Хэрэглэгчид
                 </a>
                 @endif

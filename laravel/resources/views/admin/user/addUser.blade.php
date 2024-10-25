@@ -19,6 +19,16 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="phone">Утас</label>
+                                        <input type="text" class="form-control" id="phone" name="phone" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="email">Мэйл</label>
+                                        <input type="text" class="form-control" id="email" name="email" required>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="password">Нууц үг</label>
                                         <input type="text" class="form-control" id="password" name="password" required>
                                     </div>
@@ -51,4 +61,28 @@
             </div>
         </div>
     </body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if(Session::has('message') && Session::get('message') == 'success')
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Амжилттай!',
+                text: 'Админ үүсгэлт амжилттай боллоо',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{{ route('users.index') }}";
+                }
+            });
+        </script>
+    @elseif(Session::has('message') && Session::get('message') == 'error')
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Алдаа!',
+                text: 'Шинэчлэх явцад алдаа гарлаа.',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
 </html>
