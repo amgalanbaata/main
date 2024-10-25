@@ -125,89 +125,61 @@
                     .bg-info h5, .bg-info h3 {
                         color: #212529;
                     }
+
+                    /* report */
+                    .report-container {
+                        width: 100%;
+                        margin-top: 20px;
+                    }
+
+                    .reportDate {
+                        font-size: 1.5rem;
+                        font-weight: bold;
+                        text-align: center;
+                        margin-bottom: 10px;
+                        padding: 10px;
+                        border-radius: 5px;
+                    }
+
+                    .table-custom {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-top: 10px;
+                    }
+
+                    .table-custom th, .table-custom td {
+                        padding: 12px 15px;
+                        text-align: left;
+                        border-bottom: 1px solid #ddd;
+                    }
+
+                    .table-custom thead th {
+                        background-color: #007bff;
+                        color: #ffffff;
+                        font-size: 1.1rem;
+                        text-transform: uppercase;
+                        border-bottom: 2px solid #004d99;
+                    }
+
+                    .table-custom tbody tr:nth-child(even) {
+                        background-color: #f9f9f9;
+                    }
+
+                    .table-custom tbody tr:hover {
+                        background-color: #f1f1f1;
+                    }
+
+                    .report-note {
+                        font-size: 0.9rem;
+                        color: #666;
+                        text-align: center;
+                        margin-top: 10px;
+                    }
                 </style>
                 @include('admin.header')
                 <div class="container-fluid">
                     <h1>Тайлан</h1>
                     <div class="content">
-                        <form class="row" action="{{route('admin.postsPost')}}" method="POST">
-                            {{-- @csrf
-                            <input type="text" name="status" id="status" style="display: none">
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-primary text-white mb-4">
-                                    <h4 class="card-body">Шинээр ирсэн {{ $counts['new'] }}</h4>
-                                    <button onclick="statusFunction(1)" class="btn">
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        Дэлгэрэнгүй
-                                        <div class="small text-white"><i class="icon-angle-right"></i></div>
-                                    </div>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-warning text-white mb-4">
-                                    <div>
-                                        <h4 class="card-body">Хүлээн авсан{{ $counts['Duplicated'] }}</h4>
-                                    </div>
-                                    <button onclick="statusFunction(2)" class="btn">
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        Дэлгэрэнгүй
-                                        <div class="small text-white"><i class="icon-angle-right"></i></div>
-                                    </div>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-md-5">
-                                <div class="card bg-secondary text-white mb-4 shadow type-counts-card">
-                                    <div class="card-body d-flex">
-                                        <!-- Left Column -->
-                                        <div class="type-column">
-                                            <div class="type-section bg-dark">
-                                                <h5>Бусад</h5>
-                                                <h3>{{ $typeCounts['Бусад'] }}</h3>
-                                            </div>
-                                            <div class="type-section bg-warning text-dark">
-                                                <h5>Хог хягдал</h5>
-                                                <h3>{{ $typeCounts['Хог хягдал'] }}</h3>
-                                            </div>
-                                        </div>
-                                        <!-- Right Column -->
-                                        <div class="type-column">
-                                            <div class="type-section bg-danger">
-                                                <h5>Эвдрэл доройтол</h5>
-                                                <h3>{{ $typeCounts['эвдрэл доройтол'] }}</h3>
-                                            </div>
-                                            <div class="type-section bg-info text-dark">
-                                                <h5>Бохир</h5>
-                                                <h3>{{ $typeCounts['Бохир'] }}</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
-                            {{-- <div class="col-xl-3 col-md-6">
-                                <div class="card bg-success text-white mb-4">
-                                    <h4 class="card-body">Шийдвэрлэсэн{{ $counts['resolved'] }}</h4>
-                                    <button onclick="statusFunction(3)" class="btn">
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        Дэлгэрэнгүй
-                                        <div class="small text-white"><i class="icon-angle-right"></i></div>
-                                    </div>
-                                    </button>
-                                </div>
-                            </div> --}}
-                            {{-- <div class="col-xl-3 col-md-6">
-                                <div class="card bg-danger text-white mb-4">
-                                    <h4 class="card-body">Татгалзсан{{ $counts['rejected'] }}</h4>
-                                    <button onclick="statusFunction(4)" class="btn">
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        Дэлгэрэнгүй
-                                        <div class="small text-white"><i class="icon-angle-right"></i></div>
-                                    </div>
-                                    </button>
-                                </div>
-                            </div> --}}
-                        </form>
                         <form action="{{ route('report.generate') }}" method="POST">
                             @csrf
                             <input type="text" style="display: none" id="action_type" name="action_type">
@@ -224,7 +196,7 @@
                               </div>
                               <div>
                                 <button type="submit" id="seeReportBtn" class="btn btn-primary mt-4 mb-2" onclick="setActionType('html')">Мэдээлэл шүүх</button>
-                                <button type="submit" class="btn btn-primary mt-4 mb-2" onclick="setActionType('excel')">Тайлан гаргах</button>
+                                <button type="submit" class="btn btn-primary mt-4 mb-2" onclick="exportTableToExcel()">Тайлан гаргах</button>
                               </div>
                             </div>
                         </form>
@@ -267,9 +239,82 @@
                         </div>
                     </div>
                 </div>
+                <div id="reportTable" style="display: none;" class="report-container">
+                    <h2 class="reportDate bg-primary text-white p-3 ">Тайлан {{ $startDate ?? '' }} -> {{ $endDate ?? '' }}</h2>
+                    <table class="table-custom">
+                        <thead>
+                            <tr>
+                                <th>Статус</th>
+                                <th>Тоо</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Шинээр ирсэн</td>
+                                <td>{{ $counts['new'] ?? 0 }}</td>
+                            </tr>
+                            <tr>
+                                <td>Давхардсан</td>
+                                <td>{{ $counts['Duplicated'] ?? 0 }}</td>
+                            </tr>
+                            <tr>
+                                <td>Нэмэлт мэдээлэл шаардлагатай</td>
+                                <td>{{ $counts['Additional information is required'] ?? 0 }}</td>
+                            </tr>
+                            <tr>
+                                <td>Татгалзсан</td>
+                                <td>{{ $counts['Refused'] ?? 0 }}</td>
+                            </tr>
+                            <tr>
+                                <td>Хөрсний шинжилгээ хийх</td>
+                                <td>{{ $counts['Conduct_soil_analysis'] ?? 0 }}</td>
+                            </tr>
+                            <tr>
+                                <td>Байршилд шууд бүртгэх</td>
+                                <td>{{ $counts['Register_directly_on_location'] ?? 0 }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="report-note">
+                        <p>Энэ тайлан нь {{ $startDate ?? 'эхлэх огноо' }} -аас {{ $endDate ?? 'дуусах огноо' }} хүртэлх мэдэгдлүүдийн статусын хуваарилалтыг харуулж байна.</p>
+                    </div>
+                </div>
                 <div id="chartContainer" style="height: 300px; width: 100%;"></div>
                 <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+
                 <script>
+                    function exportTableToExcel() {
+                        // Get the data from the table
+                        let table = document.getElementById('reportTable');
+                        let workbook = XLSX.utils.book_new();
+                        let worksheet = XLSX.utils.table_to_sheet(table);
+
+                        // Optional: Customize header style by adding a title row
+                        XLSX.utils.sheet_add_aoa(worksheet, [["Тайлан - Статусын Тоо Хуваарилалт"]], { origin: "A1" });
+                        XLSX.utils.sheet_add_aoa(worksheet, [[`Хугацаа: ${document.querySelector('.reportDate').innerText}`]], { origin: "A2" });
+
+                        // Move the table data to start from the third row to make room for the title and date
+                        worksheet['!ref'] = XLSX.utils.encode_range({
+                            s: { r: 2, c: 0 },
+                            e: XLSX.utils.decode_range(worksheet['!ref']).e
+                        });
+
+                        // Add custom styles
+                        worksheet['A1'].s = { fill: { fgColor: { rgb: "007BFF" } }, font: { color: { rgb: "FFFFFF" }, bold: true } };
+                        worksheet['B1'].s = { fill: { fgColor: { rgb: "007BFF" } }, font: { color: { rgb: "FFFFFF" }, bold: true } };
+
+                        // Apply general styling across cells if needed
+                        for (let cell in worksheet) {
+                            if (cell[0] === "!") continue; // skip metadata keys
+                            worksheet[cell].s = { font: { name: "Arial", sz: 12 } };
+                        }
+
+                        XLSX.utils.book_append_sheet(workbook, worksheet, "Тайлан");
+                        XLSX.writeFile(workbook, "Тайлан_Статусын_Тооллого.xlsx");
+                    }
+
+                    // circle graphics
                     window.onload = function() {
 
                     var chart = new CanvasJS.Chart("chartContainer", {

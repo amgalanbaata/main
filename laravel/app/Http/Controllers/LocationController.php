@@ -11,9 +11,9 @@ class LocationController extends Controller
     {
         $model = new Location();
         $colorName = [
-            'yellow' => 'шар',
-            'red' => 'улаан',
-            'green' => 'ногоон',
+            'red' => 'Их',
+            'yellow' => 'Дунд',
+            'green' => 'Бага',
         ];
 
         $locations = Location::all();
@@ -62,7 +62,7 @@ class LocationController extends Controller
 
         Location::create($data->all());
 
-        return redirect()->route('locations.index')->with('success', 'Location added successfully.');
+        return redirect()->route('locations.index')->with('success', 'Байршил амжилттай бүртгэгдлээ');
     }
 
     public function createLocation(Request $request) {
@@ -86,13 +86,13 @@ class LocationController extends Controller
 
         $location->update($request->all());
 
-        return redirect()->route('locations.index')->with('success', 'Location updated successfully.');
+        return redirect()->route('locations.index')->with('success', 'Байршил амжилттай шинэчлэгдлээ');
     }
 
     public function destroy(Location $location)
     {
         $location->delete();
 
-        return redirect()->route('locations.index')->with('success', 'Location deleted successfully.');
+        return redirect()->route('locations.index')->with('success', 'Байршил амжилттай устгагдлаа');
     }
 }

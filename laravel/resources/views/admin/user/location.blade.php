@@ -14,7 +14,7 @@
             margin-bottom: 30px;
             border-radius: 10px;
             /* width: 95%; */
-            width: 100%
+            width: 100%;
         }
         .element.style {
             width: 200px;
@@ -49,8 +49,8 @@
                         @endif
                     </div>
                     <div class="container d-flex justify-content-evenly align-items-center mb-4">
-                        <button class="btn btn-lg active-button" id="mapButton" onclick="showMap()">Газрын зургаар харах</button>
-                        <button class="btn btn-lg" id="listButton" onclick="showList()">Жагсаалтаар харах</button>
+                        <button class="btn btn-lg border border-dark rounded-sm active-button" id="mapButton" onclick="showMap()">Газрын зургаар харах</button>
+                        <button class="btn btn-lg border border-dark rounded" id="listButton" onclick="showList()">Жагсаалтаар харах</button>
                     </div>
 
                     @if (session('success'))
@@ -73,7 +73,7 @@
                                         <th>Тайлбар</th>
                                         <th>Өргөрөг</th>
                                         <th>Уртраг</th>
-                                        <th>Өнгө</th>
+                                        <th>Бохирдлын түвшин</th>
                                         <th>Үйлдлүүд</th>
                                     </tr>
                                 </thead>

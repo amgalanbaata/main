@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Model\User;
 use Illuminate\Contracts\Session\Session as SessionSession;
 use Illuminate\Http\Request;
@@ -44,52 +45,39 @@ class UserController extends Controller
     public function userIndex()
     {
         if (Session::get('admin_token') != '') {
-            if (Session::get('admin_is') != 0) {
                 $model = new User;
-                $users = $model->userSelect();
-                $data = [
-                    'title' => 'Users',
-                    'users' => $users,
-                ];
-                return view('admin.user.changePassword', $data);
+                $id = Session::get('admin_id');
+                $admin = $model->adminSelect($id);
+
+                return view('admin.user.userProfile', ['admin' => $admin]);
             } else {
                 return redirect('admin/dashboard');
             }
-        } else {
-            Session::forget('admin_token');
-            return redirect('admin');
-        }
     }
 
-    public function editPassword(Request $request)
+    public function profileEdit(Request $request)
     {
-        if (Session::get('admin_token') != '') {
-            $userId = Session::get('admin_id');
-            $user = User::find($userId);
+        // if (Session::get('admin_toker') != 0) {
+            $id = Session::get('admin_id');
+            $admin = User::find($id);
 
-            $request->validate([
-                'password' => [
-                    'required',
-                    'string',
-                    'min:6',
-                    'confirmed',
-                ],
-            ]);
+            if ($admin) {
+                $admin->username = $request->username;
+                $admin->phone = $request->phone;
+                $admin->email = $request->email;
+                $admin->password = $request->password;
+                $admin->updated_at = now();
 
-            if ($user) {
-                $user->password = $request->password;
-                $user->updated_at = now();
+                $admin->save();
 
-                $user->save();
-
-                return redirect()->route('admin.user.settings')->with('success', 'Password updated successfully.');
+                return redirect()->back()->with('message', 'successEditProfile');
             } else {
-                return redirect()->back()->with('error', 'User not found.');
+                return redirect()->back()->with('message', 'errorEditProfile');
             }
-        } else {
-            Session::forget('admin_token');
-            return redirect('admin');
-        }
+        // } else {
+        //     Session::forget('admin_token');
+        //     return redirect('admin');
+        // }
     }
 
     /**

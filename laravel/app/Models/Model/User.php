@@ -39,6 +39,17 @@ class User extends Model
     //     }
     // }
 
+    public function adminSelect($id)
+    {
+        $admin = [];
+        try {
+            $admin = DB::table('admin')->where('id', $id)->first();
+        } catch (\Illuminate\Database\QueryException $ex) {
+            return $admin;
+        }
+        return $admin;
+    }
+
     public function userSelect()
     {
         try {

@@ -37,6 +37,7 @@ class ReportController extends Controller
         $endDate = $validated['end_date'];
         $actionType = $request->input('action_type');
 
+
         if ($actionType == 'excel') {
             // Generate Excel report
             return Excel::download(new PostsExport($startDate, $endDate), 'posts_report.xlsx');

@@ -124,7 +124,8 @@
                             <div class="col-xl-3 col-md-6">
                                 <p class="">Хог хаягдал хариуцсан админ</p>
                                 <div class="card bg-primary text-white mb-4">
-                                    <h4 class="card-body">Шинээр ирсэн: {{ $typeCounts['Хог хягдал'] }}</h4>
+                                    {{-- <h4 class="card-body">Шинээр ирсэн: {{ $typeCounts['Хог хягдал'] }}</h4> --}}
+                                    <h4 class="card-body">Шинээр ирсэн: {{ $newCounts }}</h4>
                                     {{-- <h4 class="card-body">Шинээр ирсэн: {{ $counts['new'] }}</h4> --}}
                                     <button onclick="statusFunction(1)" class="btn">
                                     <div class="card-footer d-flex align-items-center justify-content-between">
@@ -139,7 +140,8 @@
                             <div class="col-xl-3 col-md-6">
                                 <p>Эвдрэл доройтлын хариуцсан админ</p>
                                 <div class="card bg-primary text-white mb-4">
-                                    <h4 class="card-body">Шинээр ирсэн: {{ $typeCounts['Эвдрэл доройтол'] }}</h4>
+                                    {{-- <h4 class="card-body">Шинээр ирсэн: {{ $typeCounts['Эвдрэл доройтол'] }}</h4> --}}
+                                    <h4 class="card-body">Шинээр ирсэн: {{ $newCounts }}</h4>
                                     <button onclick="statusFunction(1)" class="btn">
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         Дэлгэрэнгүй
@@ -153,7 +155,8 @@
                             <div class="col-xl-3 col-md-6">
                                 <p>Бохир хариуцсан админ</p>
                                 <div class="card bg-primary text-white mb-4">
-                                    <h4 class="card-body">Шинээр ирсэн: {{ $typeCounts['Бохир'] }}</h4>
+                                    {{-- <h4 class="card-body">Шинээр ирсэн: {{ $typeCounts['Бохир'] }}</h4> --}}
+                                    <h4 class="card-body">Шинээр ирсэн: {{ $newCounts }}</h4>
                                     <button onclick="statusFunction(1)" class="btn">
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         Дэлгэрэнгүй
@@ -330,6 +333,7 @@
     }
     function statusFunction(check) {
         document.getElementById('status').value = check;
+        conosle.log(check);
         if (check) {
             this.form.submit();
         }

@@ -61,8 +61,8 @@ Route::post('admin/users', [UserController::class, 'store'])->name('users.store'
 Route::get('admin/users/create', [UserController::class, 'create'])->name('users.create');
 Route::delete('admin/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 // user change password and name
-Route::get('admin/user/settings', [UserController::class, 'userIndex'])->name('user.settings');
-Route::post('admin/user/settings', [UserController::class, 'editPassword']);
+Route::get('admin/user/profile', [UserController::class, 'userIndex'])->name('user.profile');
+Route::post('admin/user/profile/edit', [UserController::class, 'profileEdit'])->name('user.profile.edit');
 // admin location page
 Route::get('/admin/location', [LocationController::class, 'index']);
 Route::get('/admin/location/add', [LocationController::class, 'create']);

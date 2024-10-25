@@ -19,6 +19,7 @@
     <div id="map"></div>
     <p style="font-size: 25px;"></p>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 <script>
     function initMap() {
 
@@ -86,5 +87,4 @@
         @endforeach
     }
 </script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 </html>

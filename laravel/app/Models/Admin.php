@@ -138,6 +138,18 @@ class Admin extends Model
         return $counts;
     }
 
+    public function getNewCounts($adminType) {
+        $counts = [];
+        try {
+            $counts = DB::table('posts')->where('status', 1)
+            ->where('type', $adminType)
+            ->count();
+        } catch(\Illuminate\Database\QueryException $ex){
+           return $counts;
+        }
+        return $counts;
+    }
+
     public function getTypeCount() {
         $typeCounts = [
             'Бусад' => DB::table('posts')->where('type', 1)->count(),

@@ -62,19 +62,19 @@
                                     </div>
                                 </div>
                                 <div class="form-group mb-4">
-                                    <label class="form-label">Өнгө</label>
+                                    <label class="form-label">Бохирдлын түвшин</label>
                                     <div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="color" id="colorYellow" value="yellow" {{ old('color') == 'yellow' ? 'checked' : '' }} required>
-                                            <label class="form-check-label" for="colorYellow">Шар</label>
+                                            <input class="form-check-input" type="radio" name="color" id="yellow" value="yellow" {{ old('color') == 'yellow' ? 'checked' : '' }} required>
+                                            <label class="form-check-label" for="yellow">Их</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="color" id="colorGreen" value="blue" {{ old('color') == 'blue' ? 'checked' : '' }} required>
-                                            <label class="form-check-label" for="colorGreen">Ногоон</label>
+                                            <input class="form-check-input" type="radio" name="color" id="green" value="green" {{ old('color') == 'green' ? 'checked' : '' }} required>
+                                            <label class="form-check-label" for="green">Дунд</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="color" id="colorRed" value="black" {{ old('color') == 'black' ? 'checked' : '' }} required>
-                                            <label class="form-check-label" for="colorRed">Улаан</label>
+                                            <input class="form-check-input" type="radio" name="color" id="red" value="red" {{ old('color') == 'red' ? 'checked' : '' }} required>
+                                            <label class="form-check-label" for="red">Бага</label>
                                         </div>
                                     </div>
                                     @error('color')
