@@ -95,6 +95,46 @@
             cursor: pointer;
             width: 100%;
         }
+        /* Badge Styles */
+        .admin-type-badge {
+            /* display: inline-block; */
+            padding: 0.3em 0.8em;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            background-color: #007bff;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .admin-type-wrapper {
+            position: absolute;
+            top: 45px;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .admin-type-wrapper {
+                top: 206px;
+            }
+            .type-counts-card {
+                margin-top: 20px;
+            }
+        }
+
+        /* Responsive Card Layout */
+        .card-admin {
+            width: 100%;
+            max-width: 300px;
+            margin: 10px auto;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-body h4 {
+            color: #212529;
+        }
     </style>
     <body class="sb-nav-fixed" onload="initMap()">
     @include('admin.header')
@@ -122,7 +162,7 @@
                             @endif
                             @if (Session::get('admin_is') == 2)
                             <div class="col-xl-3 col-md-6">
-                                <p class="">Хог хаягдал хариуцсан админ</p>
+                                {{-- <p class="admin_type">Хог хаягдал хариуцсан админ</p> --}}
                                 <div class="card bg-primary text-white mb-4">
                                     {{-- <h4 class="card-body">Шинээр ирсэн: {{ $typeCounts['Хог хягдал'] }}</h4> --}}
                                     <h4 class="card-body">Шинээр ирсэн: {{ $newCounts }}</h4>
@@ -138,7 +178,7 @@
                             @endif
                             @if (Session::get('admin_is') == 3)
                             <div class="col-xl-3 col-md-6">
-                                <p>Эвдрэл доройтлын хариуцсан админ</p>
+                                {{-- <p class="admin_type">Эвдрэл доройтлын хариуцсан админ</p> --}}
                                 <div class="card bg-primary text-white mb-4">
                                     {{-- <h4 class="card-body">Шинээр ирсэн: {{ $typeCounts['Эвдрэл доройтол'] }}</h4> --}}
                                     <h4 class="card-body">Шинээр ирсэн: {{ $newCounts }}</h4>
@@ -153,7 +193,7 @@
                             @endif
                             @if (Session::get('admin_is') == 4)
                             <div class="col-xl-3 col-md-6">
-                                <p>Бохир хариуцсан админ</p>
+                                {{-- <p class="admin_type">Бохир хариуцсан админ</p> --}}
                                 <div class="card bg-primary text-white mb-4">
                                     {{-- <h4 class="card-body">Шинээр ирсэн: {{ $typeCounts['Бохир'] }}</h4> --}}
                                     <h4 class="card-body">Шинээр ирсэн: {{ $newCounts }}</h4>
@@ -166,22 +206,21 @@
                                 </div>
                             </div>
                             @endif
-                            {{-- <div class="col-xl-3 col-md-6">
-                                <div class="card bg-warning text-white mb-4">
-                                    <div>
-                                        <h4 class="card-body">Хүлээн авсан {{ $counts['received'] }}</h4>
-                                    </div>
-                                    <button onclick="statusFunction(2)" class="btn">
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        Дэлгэрэнгүй
-                                        <div class="small text-white"><i class="icon-angle-right"></i></div>
-                                    </div>
-                                    </button>
-                                </div>
-                            </div> --}}
                             <div class="col-xl-6 col-md-5">
+                                <div class="admin-type-wrapper">
+                                    <!-- Add conditionals for different admin types and styles -->
+                                    @if (Session::get('admin_is') == 2)
+                                        <span class="admin-type-badge" style="background-color: #ffc107;">Хог хаягдал хариуцсан админ</span>
+                                    @elseif (Session::get('admin_is') == 3)
+                                        <span class="admin-type-badge" style="background-color: #dc3545;">Эвдрэл доройтол хариуцсан админ</span>
+                                    @elseif (Session::get('admin_is') == 4)
+                                        <span class="admin-type-badge" style="background-color: #28a745;">Бохир хариуцсан админ</span>
+                                    @else
+                                        <span class="admin-type-badge">Ерөнхий админ</span>
+                                    @endif
+                                </div>
                                 <div class="card bg-secondary text-white mb-4 shadow type-counts-card">
-                                    <div class="card-body d-flex">
+                                    <div class="card-body d-flex type-card">
                                         <!-- Left Column -->
                                         <div class="type-column">
                                             <div class="type-section bg-warning text-dark">
@@ -220,28 +259,6 @@
                                 </div>
                             </div>
                         </form>
-                            {{-- <div class="col-xl-3 col-md-6">
-                                <div class="card bg-success text-white mb-4">
-                                    <h4 class="card-body">Шийдвэрлэсэн {{ $counts['resolved'] }}</h4>
-                                    <button onclick="statusFunction(3)" class="btn">
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        Дэлгэрэнгүй
-                                        <div class="small text-white"><i class="icon-angle-right"></i></div>
-                                    </div>
-                                    </button>
-                                </div>
-                            </div> --}}
-                            {{-- <div class="col-xl-3 col-md-6">
-                                <div class="card bg-danger text-white mb-4">
-                                    <h4 class="card-body">Татгалзсан {{ $counts['rejected'] }}</h4>
-                                    <button onclick="statusFunction(4)" class="btn">
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        Дэлгэрэнгүй
-                                        <div class="small text-white"><i class="icon-angle-right"></i></div>
-                                    </div>
-                                    </button>
-                                </div>
-                            </div> --}}
                         <div class="card mb-4">
                             <div class="card-body">
                                 <div id="map"></div>

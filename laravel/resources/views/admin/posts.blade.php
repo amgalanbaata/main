@@ -150,9 +150,16 @@
         window.addEventListener('DOMContentLoaded', event => {
             const datatablesSimple = document.getElementById('datatablesSimple');
             if (datatablesSimple) {
-                new simpleDatatables.DataTable(datatablesSimple);
+                new simpleDatatables.DataTable(datatablesSimple, {
+                    labels: {
+                        placeholder: "Хайх...",
+                        perPage: "Хуудас",
+                        noRows: "Өгөгдөл алга.",
+                        info: "Нийт {rows}-с {start}-ээс {end}-ийг харуулж байна.",
+                        noResults: "Таны хайлтын асуулгад тохирох илэрц олдсонгүй.",
+                    }
+                });
             }
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 </html>

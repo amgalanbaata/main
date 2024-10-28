@@ -5,7 +5,6 @@
             <body class="sb-nav-fixed">
                 @include('admin.menu')
                 <style>
-                <style>
                     body {
                         font-family: Arial, sans-serif;
                     }
@@ -61,26 +60,7 @@
                         text-align: left;
                     }
                     .reportDate {
-                        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-                    }
-                    .row {
-                        /* justify-content: space-around; */
-                    }
-
-                    .type-counts-card {
-                        border-radius: 10px;
-                        overflow: hidden;
-                    }
-
-                    .card-body {
-                        display: flex;
-                        justify-content: space-between;
-                        flex-wrap: wrap;
-                    }
-
-                    .type-column {
-                        flex: 1;
-                        margin: 0 10px;
+                        font-family: sans-serif;
                     }
 
                     .type-section {
@@ -92,38 +72,6 @@
                         border-radius: 8px;
                         box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
                         transition: transform 0.2s ease, box-shadow 0.2s ease;
-                    }
-
-                    .type-section h5 {
-                        margin: 0;
-                        font-size: 1.2rem;
-                    }
-
-                    .type-section h3 {
-                        margin: 0;
-                        font-size: 1.5rem;
-                        font-weight: bold;
-                    }
-
-                    .type-section:hover {
-                        transform: translateY(-3px);
-                        box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
-                    }
-
-                    .bg-dark h5, .bg-dark h3 {
-                        color: #f8f9fa;
-                    }
-
-                    .bg-warning h5, .bg-warning h3 {
-                        color: #212529;
-                    }
-
-                    .bg-danger h5, .bg-danger h3 {
-                        color: #f8f9fa;
-                    }
-
-                    .bg-info h5, .bg-info h3 {
-                        color: #212529;
                     }
 
                     /* report */
@@ -160,21 +108,6 @@
                         text-transform: uppercase;
                         border-bottom: 2px solid #004d99;
                     }
-
-                    .table-custom tbody tr:nth-child(even) {
-                        background-color: #f9f9f9;
-                    }
-
-                    .table-custom tbody tr:hover {
-                        background-color: #f1f1f1;
-                    }
-
-                    .report-note {
-                        font-size: 0.9rem;
-                        color: #666;
-                        text-align: center;
-                        margin-top: 10px;
-                    }
                 </style>
                 @include('admin.header')
                 <div class="container-fluid">
@@ -184,25 +117,25 @@
                             @csrf
                             <input type="text" style="display: none" id="action_type" name="action_type">
                             <div class="d-flex flex-row justify-content-between">
-                              <div class="d-flex">
+                            <div class="d-flex">
                                 <div class="form-group">
-                                  <label for="start_date">Эхлэх огноо:</label>
-                                  <input type="date" name="start_date" class="form-control" required>
+                                <label for="start_date">Эхлэх огноо:</label>
+                                <input type="date" name="start_date" class="form-control" required>
                                 </div>
                                 <div class="form-group">
-                                  <label for="end_date">Дуусах огноо:</label>
-                                  <input type="date" name="end_date" class="form-control" required>
+                                <label for="end_date">Дуусах огноо:</label>
+                                <input type="date" name="end_date" class="form-control" required>
                                 </div>
-                              </div>
-                              <div>
+                            </div>
+                            <div>
                                 <button type="submit" id="seeReportBtn" class="btn btn-primary mt-4 mb-2" onclick="setActionType('html')">Мэдээлэл шүүх</button>
                                 <button type="submit" class="btn btn-primary mt-4 mb-2" onclick="exportTableToExcel()">Тайлан гаргах</button>
-                              </div>
+                            </div>
                             </div>
                         </form>
-                        <div id="reportDetails">
+                        <div>
                             <h2 class="reportDate bg-primary text-white p-3 ">Тайлан {{ $startDate ?? '' }} -> {{ $endDate ?? '' }}</h2>
-                            <table class="table-custom">
+                            <table class="table-custom" id="reportTable">
                                 <thead>
                                     <tr>
                                         <th>Статус</th>
@@ -239,88 +172,15 @@
                         </div>
                     </div>
                 </div>
-                <div id="reportTable" style="display: none;" class="report-container">
-                    <h2 class="reportDate bg-primary text-white p-3 ">Тайлан {{ $startDate ?? '' }} -> {{ $endDate ?? '' }}</h2>
-                    <table class="table-custom">
-                        <thead>
-                            <tr>
-                                <th>Статус</th>
-                                <th>Тоо</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Шинээр ирсэн</td>
-                                <td>{{ $counts['new'] ?? 0 }}</td>
-                            </tr>
-                            <tr>
-                                <td>Давхардсан</td>
-                                <td>{{ $counts['Duplicated'] ?? 0 }}</td>
-                            </tr>
-                            <tr>
-                                <td>Нэмэлт мэдээлэл шаардлагатай</td>
-                                <td>{{ $counts['Additional information is required'] ?? 0 }}</td>
-                            </tr>
-                            <tr>
-                                <td>Татгалзсан</td>
-                                <td>{{ $counts['Refused'] ?? 0 }}</td>
-                            </tr>
-                            <tr>
-                                <td>Хөрсний шинжилгээ хийх</td>
-                                <td>{{ $counts['Conduct_soil_analysis'] ?? 0 }}</td>
-                            </tr>
-                            <tr>
-                                <td>Байршилд шууд бүртгэх</td>
-                                <td>{{ $counts['Register_directly_on_location'] ?? 0 }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="report-note">
-                        <p>Энэ тайлан нь {{ $startDate ?? 'эхлэх огноо' }} -аас {{ $endDate ?? 'дуусах огноо' }} хүртэлх мэдэгдлүүдийн статусын хуваарилалтыг харуулж байна.</p>
-                    </div>
-                </div>
                 <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+                {{-- circle graphics --}}
                 <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
-
                 <script>
-                    function exportTableToExcel() {
-                        // Get the data from the table
-                        let table = document.getElementById('reportTable');
-                        let workbook = XLSX.utils.book_new();
-                        let worksheet = XLSX.utils.table_to_sheet(table);
-
-                        // Optional: Customize header style by adding a title row
-                        XLSX.utils.sheet_add_aoa(worksheet, [["Тайлан - Статусын Тоо Хуваарилалт"]], { origin: "A1" });
-                        XLSX.utils.sheet_add_aoa(worksheet, [[`Хугацаа: ${document.querySelector('.reportDate').innerText}`]], { origin: "A2" });
-
-                        // Move the table data to start from the third row to make room for the title and date
-                        worksheet['!ref'] = XLSX.utils.encode_range({
-                            s: { r: 2, c: 0 },
-                            e: XLSX.utils.decode_range(worksheet['!ref']).e
-                        });
-
-                        // Add custom styles
-                        worksheet['A1'].s = { fill: { fgColor: { rgb: "007BFF" } }, font: { color: { rgb: "FFFFFF" }, bold: true } };
-                        worksheet['B1'].s = { fill: { fgColor: { rgb: "007BFF" } }, font: { color: { rgb: "FFFFFF" }, bold: true } };
-
-                        // Apply general styling across cells if needed
-                        for (let cell in worksheet) {
-                            if (cell[0] === "!") continue; // skip metadata keys
-                            worksheet[cell].s = { font: { name: "Arial", sz: 12 } };
-                        }
-
-                        XLSX.utils.book_append_sheet(workbook, worksheet, "Тайлан");
-                        XLSX.writeFile(workbook, "Тайлан_Статусын_Тооллого.xlsx");
-                    }
-
-                    // circle graphics
                     window.onload = function() {
-
                     var chart = new CanvasJS.Chart("chartContainer", {
                         animationEnabled: true,
                         title: {
-                            text: "Мэдэгдлүүдийн статус хуваарилалт"
+                            text: "Мэдэгдэлийн статус хуваарилалт"
                         },
                         data: [{
                             type: "pie",
@@ -339,9 +199,56 @@
                         }]
                     });
                     chart.render();
-
                     }
-                    </script>
+                </script>
+                {{-- report to excel --}}
+                <script>
+                    function exportTableToExcel() {
+                        // Get the report date text
+                        var reportDate = document.querySelector('.reportDate').innerText;
+
+                        // Create the Excel-compatible HTML structure with the report date as the first row
+                        var tab_text = "<table border='2px' style='border-collapse:collapse; width: 40%;'>";
+                        tab_text += "<tr><th colspan='2' style='background-color: #007BFF; color: white; padding: 10px; font-size: 18px;'>" + reportDate + "</th></tr>";
+
+                        // Get the table content
+                        var tab = document.getElementById('reportTable');
+
+                        // Add padding and style adjustments for the table rows
+                        for (var j = 0; j < tab.rows.length; j++) {
+                            tab_text += "<tr>";
+                            for (var i = 0; i < tab.rows[j].cells.length; i++) {
+                                tab_text += "<td style='padding: 8px; font-size: 14px; border: 1px solid #000;'>" + tab.rows[j].cells[i].innerHTML + "</td>";
+                            }
+                            tab_text += "</tr>";
+                        }
+
+                        tab_text += "</table>";
+
+                        // Remove links, images, and input fields from the exported content
+                        tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");
+                        tab_text = tab_text.replace(/<img[^>]*>/gi, "");
+                        tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
+
+                        var msie = window.navigator.userAgent.indexOf("MSIE ");
+                        var sa;
+
+                        // Check if the browser is Internet Explorer
+                        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                            txtArea1.document.open("txt/html", "replace");
+                            txtArea1.document.write(tab_text);
+                            txtArea1.document.close();
+                            txtArea1.focus();
+                            sa = txtArea1.document.execCommand("SaveAs", true, "Report.xls");
+                        } else {
+                            // For other browsers
+                            sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
+                        }
+
+                        return sa;
+                    }
+                </script>
+
                 <script>
                     function statusFunction(status) {
                         document.getElementById('status').value = status;

@@ -7,7 +7,7 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Edit User</h1>
+                        <h1 class="mt-4">Хэрэглэгчийг засах</h1>
                         <div class="card mb-4">
                             <div class="card-body">
                                 <form method="POST" action="{{ route('users.update', $user->id) }}">
@@ -16,16 +16,16 @@
                                         <label for="username">Нэвтрэх нэр</label>
                                         <input type="text" class="form-control" id="username" name="username" value="{{ $user->username }}" required>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group mt-3">
                                         <label for="phone">Утас</label>
                                         <input type="text" class="form-control" id="phone" name="phone" value="{{ $user->phone }}" required>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group mt-3">
                                         <label for="email">Мэйл</label>
                                         <input type="text" class="form-control" id="email" name="email" value="{{ $user->email }}" required>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group mt-3">
                                         <label for="password">Нууц үг</label>
                                         <input type="password" class="form-control" id="password" name="password" value="{{ $user->password }}" required>
                                     </div>
@@ -51,8 +51,8 @@
                                         <br>
                                     </div>
                                     @endif
-                                    <button type="submit" class="btn btn-primary">Шинэчлэх</button>
-                                    <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancel</a>
+                                    <button type="submit" class="btn btn-primary mt-3">Шинэчлэх</button>
+                                    <a href="{{ route('users.index') }}" class="btn btn-secondary mt-3">Cancel</a>
                                 </form>
                             </div>
                         </div>

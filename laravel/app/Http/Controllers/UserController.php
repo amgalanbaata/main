@@ -145,7 +145,7 @@ class UserController extends Controller
                 $user->phone = $request->phone;
                 $user->email = $request->email;
                 $user->password = $request->password;
-                $user->type_code = $request->type_code;
+                $user->type_code = $request->type_code ?? 0;
                 $user->updated_at = now();
 
                 $user->save();
