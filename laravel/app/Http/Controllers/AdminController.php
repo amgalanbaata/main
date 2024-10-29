@@ -15,7 +15,8 @@ class AdminController extends Controller
     public function index()
     {
         if (Session::get('admin_token') != '') {
-            return view('admin.dashboard');
+            // return view('admin.dashboard');
+            return redirect('/admin/dashboard');
         } else {
             Session::forget('admin_token');
             return view('admin.login');

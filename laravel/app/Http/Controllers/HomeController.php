@@ -10,6 +10,10 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('admin.login');
+        if (Session::get('admin_token') != '') {
+            return redirect('/admin/dashboard');
+        } else {
+            return view('admin.login');
+        }
     }
 }
