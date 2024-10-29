@@ -12,13 +12,13 @@
                 </style>
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Edit User</h1>
+                        <h1 class="mt-4">АПП хэрэглэгч засах</h1>
                         <div class="card mb-4">
                             <div class="card-body">
                                 <form method="POST" action="{{ route('app-users.update', $user->id) }}">
                                     @csrf
                                     <div class="form-group">
-                                        <label for="email">иМэйл</label>
+                                        <label for="email">Имэйл</label>
                                         <input type="text" class="form-control" id="email" name="email" value="{{ $user->email }}" required>
                                     </div>
                                     <div class="form-group">

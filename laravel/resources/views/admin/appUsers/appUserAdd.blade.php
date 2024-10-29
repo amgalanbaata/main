@@ -18,7 +18,7 @@
                                 <form method="POST" action="{{ route('app-users.store') }}">
                                     @csrf
                                     <div class="form-group">
-                                        <label for="username">иМэйл</label>
+                                        <label for="username">Имэйл</label>
                                         <input type="text" class="form-control" id="email" name="email" required>
                                     </div>
                                     <div class="form-group">
@@ -33,7 +33,7 @@
                                         <label for="committee">Хороо</label>
                                         <input type="text" class="form-control" id="committee" name="committee" required>
                                     </div>
-                                    <button type="submit" class="btn btn-primary mt-4">Хэрэглэгч нэмэх</button>
+                                    <button type="submit" class="btn btn-primary mt-4">АПП Хэрэглэгч нэмэх</button>
                                     <a href="{{ route('app-users.index') }}" class="btn btn-secondary mt-4">Буцах</a>
                                 </form>
                             </div>

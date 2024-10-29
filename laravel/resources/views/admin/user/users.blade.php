@@ -20,6 +20,8 @@
                                         <th>ID</th>
                                         <th>Нэвтрэх нэр</th>
                                         <th>Нууц үг</th>
+                                        <th>Утас</th>
+                                        <th>Имэйл</th>
                                         <th>Төрөл</th>
                                         <th>Шинэчилсэн Огноо</th>
                                     </tr>
@@ -29,9 +31,9 @@
                                     <tr>
                                         <td>{{ $user->id }}</td>
                                         <td>{{ $user->username }}</td>
-                                        <td>{{ $user->phone }}</td>
-                                        <td>{{ $user->email }}</td>
                                         <td>{{ $user->password }}</td>
+                                        <td>{{ $user->phone }}</td>
+                                        <td>{{ $user->email }}</td>                                        
                                         <td>
                                             @php
                                                 $typeName = '';
@@ -67,7 +69,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmModalLabel">Confirm Deletion</h5>
+                    <h5 class="modal-title" id="confirmModalLabel">Устгах хүсэлт</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

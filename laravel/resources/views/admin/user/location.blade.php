@@ -65,7 +65,7 @@
                     </div>
                     <div id="listSection" class="card" style="display: none;">
                         <div class="card-body">
-                            <table class="table table-striped table-hover align-middle">
+                            <table class="table table-striped table-hover align-middle" id="datatablesSimple">
                                 <thead class="table-Primary">
                                     <tr>
                                         <th>ID</th>
@@ -188,5 +188,22 @@
                     });
             @endforeach
         }
+    </script>
+    {{-- paginate --}}
+    <script>
+        window.addEventListener('DOMContentLoaded', event => {
+            const datatablesSimple = document.getElementById('datatablesSimple');
+            if (datatablesSimple) {
+                new simpleDatatables.DataTable(datatablesSimple, {
+                    labels: {
+                        placeholder: "Хайх...",
+                        perPage: "Хуудас",
+                        noRows: "Өгөгдөл алга.",
+                        info: "Нийт {rows}-с {start}-ээс {end}-ийг харуулж байна.",
+                        noResults: "Таны хайлтын асуулгад тохирох илэрц олдсонгүй.",
+                    }
+                });
+            }
+        });
     </script>
 </html>

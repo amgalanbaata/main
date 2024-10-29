@@ -84,7 +84,7 @@
 
                                 <div class="d-flex justify-content-between">
                                     <button type="submit" class="btn btn-primary">Нэмэх</button>
-                                    <a href="{{ route('locations.index') }}" class="btn btn-outline-secondary">Цуцлах</a>
+                                    <a href="{{ route('locations.index') }}" class="btn btn-outline-secondary">Буцах</a>
                                 </div>
                             </form>
                         </div>

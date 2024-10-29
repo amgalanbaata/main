@@ -52,26 +52,26 @@
                                 </div>
 
                                 <div class="form-group mb-4">
-                                    <label class="form-label">Color</label>
+                                    <label class="form-label">Бохирдлын түвшин</label>
                                     <div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="color" id="colorYellow" value="yellow" {{ $location->color == 'yellow' ? 'checked' : '' }} required>
-                                            <label class="form-check-label" for="colorYellow">Шар</label>
+                                            <input class="form-check-input" type="radio" name="color" id="colorRed" value="red" {{ $location->color == 'red' ? 'checked' : '' }} required>
+                                            <label class="form-check-label" for="colorRed">Их</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="color" id="colorRed" value="red" {{ $location->color == 'red' ? 'checked' : '' }} required>
-                                            <label class="form-check-label" for="colorRed">Улаан</label>
+                                            <input class="form-check-input" type="radio" name="color" id="colorYellow" value="yellow" {{ $location->color == 'yellow' ? 'checked' : '' }} required>
+                                            <label class="form-check-label" for="colorYellow">Дунд</label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="color" id="colorGreen" value="green" {{ $location->color == 'green' ? 'checked' : '' }} required>
-                                            <label class="form-check-label" for="colorGreen">Ногоон</label>
+                                            <label class="form-check-label" for="colorGreen">Бага</label>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="d-flex justify-content-between">
-                                    <button type="submit" class="btn btn-success">Шинэчилэх</button>
-                                    <a href="{{ route('locations.index') }}" class="btn btn-outline-secondary">Цуцлах</a>
+                                    <button type="submit" class="btn btn-success">Шинэчлэх</button>
+                                    <a href="{{ route('locations.index') }}" class="btn btn-outline-secondary">Буцах</a>
                                 </div>
                             </form>
                         </div>
