@@ -42,6 +42,18 @@ class Location extends Model
         return $location;
     }
 
+    public function locationSelect($id)
+    {
+        $location = [];
+        try {
+            $location = DB::table('locations')->where('id', $id)->first();
+        } catch(\Illuminate\Database\QueryException $ex){
+            $location;
+        }
+        // dd($location);
+        return $location;
+    }
+
     // public function locationSave(array $data)
     // {
     //     try {

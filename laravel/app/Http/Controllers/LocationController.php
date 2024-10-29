@@ -19,8 +19,8 @@ class LocationController extends Controller
         $locations = Location::all();
 
         foreach ($locations as $location) {
-        $location->color = $colorName[$location->color] ?? $location->color;
-    }
+            $location->color = $colorName[$location->color] ?? $location->color;
+        }
         $data = $model->getLocation();
 
         return view('admin.user.location', compact('locations'), ['data' => $data]);
@@ -69,8 +69,10 @@ class LocationController extends Controller
 
     }
 
-    public function edit(Location $location)
+    public function edit($locationId)
     {
+        $model = new Location;
+        $location = $model->locationSelect($locationId);
         return view('admin.user.locationEdit', compact('location'));
     }
 

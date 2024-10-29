@@ -23,7 +23,7 @@ class ReportController extends Controller
             $endDate = '';
             $counts = $model->getCountsByStatusReport($tcode);
 
-            $model = new Report();
+            $model = new Report($startDate, $endDate);
             $registeredLocation = $model->getLocationCounts($tcode);
             // dd($tcode);
 
@@ -50,7 +50,7 @@ class ReportController extends Controller
         $typeCounts = $model->getTypeCount($tcode);
 
         // Generate HTML report
-        $report = new Report();
+        $report = new Report($startDate, $endDate);
         $statusCounts = $report->getStatusCounts(Session::get('admin_is'), $startDate, $endDate);
         $registeredLocation = $report->getLocationCounts($tcode);
         // dd($startDate);

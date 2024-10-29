@@ -45,7 +45,7 @@
                     <div class="d-flex justify-content-between align-items-center mb-5">
                         <h1 class="mb-0">Байршил</h1>
                         @if(Session::get('admin_is') == 0)
-                        <a href="{{ route('locations.create') }}" class="btn btn-lg btn-primary">Цэг нэмэх</a>
+                        <a href="/admin/location/add" class="btn btn-lg btn-primary">Цэг нэмэх</a>
                         @endif
                     </div>
                     <div class="container d-flex justify-content-evenly align-items-center mb-4">
@@ -91,7 +91,7 @@
                                             </td>
                                             @if(Session::get('admin_is') == 0)
                                             <td>
-                                                <a href="{{ route('locations.edit', $location->id) }}" class="btn btn-ls btn-Info">Засах</a>
+                                                <a href="/admin/location/edit/{{ $location->id }}" class="btn btn-ls btn-Info">Засах</a>
                                                 <form action="{{ route('locations.destroy', $location) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')

@@ -16,7 +16,7 @@
                     <div class="sb-nav-link-icon"><i class="icon-dashboard"></i></div>
                     Нүүр хуудас
                 </a>
-                <a class="nav-link {{ Request::is('admin/posts*') ? 'active' : '' }}" href="/admin/posts">
+                <a class="nav-link {{ Request::is('admin/post*') || Request::is('admin/addpost*') ? 'active' : '' }}" href="/admin/posts">
                     <div class="sb-nav-link-icon"><i class="icon-list"></i></div>
                     Мэдэгдлүүд
                 </a>
@@ -31,13 +31,13 @@
                     Статистик
                 </a>
                 {{-- @if(Session::get('admin_is') == 0) --}}
-                <a class="nav-link {{ Request::is('admin/location/*') ? 'active' : '' }}" href="/admin/location">
+                <a class="nav-link {{ Request::is('admin/location*') || Request::is('locations*') ? 'active' : '' }}" href="/admin/location">
                     <div class="sb-nav-link-icon"><i class="icon-list"></i></div>
                     Байршил
                 </a>
                 {{-- @endif --}}
                 @if(Session::get('admin_is') == 0)
-                <a class="nav-link {{ Request::is('admin/app-user') ? 'active' : '' }}" href="/admin/app-user">
+                <a class="nav-link {{ Request::is('admin/app-user*') ? 'active' : '' }}" href="/admin/app-user">
                     <div class="sb-nav-link-icon"><i class="icon-user"></i></div>
                     Апп Хэрэглэгчид
                 </a>

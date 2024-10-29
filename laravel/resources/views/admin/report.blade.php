@@ -364,23 +364,29 @@
                         tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
 
                         var msie = window.navigator.userAgent.indexOf("MSIE ");
-                        var sa;
-                        var fileName = 'Мэдэгдлүүдийн тайлан'
+                        var sa;                        
+                        const today = new Date();
+                        const yyyy = today.getFullYear();
+                        let mm = today.getMonth() + 1; // Months start at 0!
+                        let dd = today.getDate();
+                        let hh = today.getHours();
+                        let min = today.getMinutes();
+                        let sec = today.getSeconds();
+                        var fileName = "Мэдэгдлүүдийн статистик(" + yyyy + mm + dd + hh + min + sec + ").xls";
 
                         if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
                             txtArea1.document.open("txt/html", "replace");
                             txtArea1.document.write(tab_text);
                             txtArea1.document.close();
                             txtArea1.focus();
-                            sa = txtArea1.document.execCommand("SaveAs", true, "Report.xls");
-                            // sa = txtArea1.document.execCommand("SaveAs", true, fileName);
+                            sa = txtArea1.document.execCommand("SaveAs", true, fileName);
                         } else {
                             // For other browsers
                             // sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
                             var result = 'data:application/vnd.ms-excel,' + encodeURIComponent(tab_text);
                             var link = document.createElement("a");
-                            document.body.appendChild(link);
-                            link.download = "Мэдэгдлийн статистик(" + Date.now() + ").xls"; //You need to change file_name here.
+                            document.body.appendChild(link);                            
+                            link.download = "Мэдэгдлүүдийн статистик(" + yyyy + mm + dd + hh + min + sec + ").xls"; //You need to change file_name here.
                             link.href = result;
                             link.click();
                         }

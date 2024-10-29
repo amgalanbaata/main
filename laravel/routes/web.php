@@ -67,7 +67,7 @@ Route::post('admin/user/profile/edit', [UserController::class, 'profileEdit'])->
 Route::get('/admin/location', [LocationController::class, 'index']);
 Route::get('/admin/location/add', [LocationController::class, 'create']);
 Route::post('/admin/location/add', [LocationController::class, 'create']);
-Route::post('/admin/location/edit/{id}', [LocationController::class, 'edit']);
+Route::get('/admin/location/edit/{id}', [LocationController::class, 'edit']);
 // report
 Route::get('/admin/report', [ReportController::class, 'index']);
 Route::post('/admin/report', [ReportController::class, 'generate'])->name('report.generate');

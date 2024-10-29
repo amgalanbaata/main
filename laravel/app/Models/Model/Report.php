@@ -19,6 +19,12 @@ class Report extends Model
     protected $startDate;
     protected $endDate;
 
+    public function __construct($startDate, $endDate)
+    {
+        $this->startDate = Carbon::parse($startDate);
+        $this->endDate = Carbon::parse($endDate);
+    }
+
     public function getStatusCounts($tcode, $startDate, $endDate)
     {
         if($tcode == 0) {
