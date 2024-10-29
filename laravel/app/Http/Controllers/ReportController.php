@@ -13,21 +13,22 @@ class ReportController extends Controller
 {
     public function index()
     {
-        // if (Session::get('admin_token') == '') {
+        if (Session::get('admin_token') != '') {
 
             $model = new Admin();
             $typeCounts = $model->getTypeCount(Session::get('admin_is'));
             $startDate = '';
             $endDate = '';
             $counts = $model->getCountsByStatusReport(Session::get('admin_is'));
+            // $counts = $model->getStatusCounts(Session::get('admin_is'));
 
             return view('admin.report', ['counts' => $counts, 'typeCounts' => $typeCounts, 'startDate' => $startDate,
                 'endDate' => $endDate]);
-        // }
-        // else {
-        //     Session::forget('admin_token');
-        //     return redirect('admin');
-        // }
+        }
+        else {
+            Session::forget('admin_token');
+            return redirect('admin');
+        }
     }
 
     public function generate(Request $request)

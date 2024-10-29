@@ -108,7 +108,7 @@ class Admin extends Model
     public function getCountsByStatus($tcode) {
         if($tcode == 0) {
             $counts = [
-                'new' => DB::table('posts')->where('type', 1)->count(),
+                'new' => DB::table('posts')->where('status', 1)->count(),
                 'Duplicated' => DB::table('posts')->where('status', 2)->count(),
                 'Additional information is required' => DB::table('posts')->where('status', 3)->count(),
                 'Refused' => DB::table('posts')->where('status', 4)->count(),
@@ -117,12 +117,12 @@ class Admin extends Model
             ];
         } else {
             $counts = [
-                'new' => DB::table('posts')->where('type', $tcode)->count(),
-                'Duplicated' => DB::table('posts')->where('status', 2)->count(),
-                'Additional information is required' => DB::table('posts')->where('status', 3)->count(),
-                'Refused' => DB::table('posts')->where('status', 4)->count(),
-                'Conduct_soil_analysis' => DB::table('posts')->where('status', 5)->count(),
-                'Register_directly_on_location' => DB::table('posts')->where('status', 6)->count(),
+                'new' => DB::table('posts')->where('type', $tcode)->where('status', 1)->count(),
+                'Duplicated' => DB::table('posts')->where('type', $tcode)->where('status', 2)->count(),
+                'Additional information is required' => DB::table('posts')->where('type', $tcode)->where('status', 3)->count(),
+                'Refused' => DB::table('posts')->where('type', $tcode)->where('status', 4)->count(),
+                'Conduct_soil_analysis' => DB::table('posts')->where('type', $tcode)->where('status', 5)->count(),
+                'Register_directly_on_location' => DB::table('posts')->where('type', $tcode)->where('status', 6)->count(),
             ];
         }
         return $counts;
@@ -131,7 +131,7 @@ class Admin extends Model
     public function getCountsByStatusReport($tcode) {
         if($tcode == 0) {
             $counts = [
-                'new' => DB::table('posts')->where('type', 1)->count(),
+                'new' => DB::table('posts')->where('status', 1)->count(),
                 'Duplicated' => DB::table('posts')->where('status', 2)->count(),
                 'Additional information is required' => DB::table('posts')->where('status', 3)->count(),
                 'Refused' => DB::table('posts')->where('status', 4)->count(),
