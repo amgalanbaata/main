@@ -233,11 +233,19 @@ class ApiController extends Controller
     public function statusName() {
         // Query the database for the 'name' field
         $statusNames = DB::table('status')->get(['id', 'status_code', 'name']);
+        $arr = array();
+        $i = 0;
+        foreach($statusNames as $statusName) {
+            $arr[$i]['id'] = (int) $statusName->id;
+            $arr[$i]['type_code'] = $statusName->type_code;
+            $arr[$i]['name'] = $statusName->name;
+            $i++;
+        }
 
         // Check if there is data
-        if ($statusNames->isNotEmpty()) {
+        if (count($arr) > 0) {
             // Return the names as a JSON response with UTF-8 encoding
-            return response()->json($statusNames, 200, ['Content-Type' => 'application/json; charset=UTF-8'], JSON_UNESCAPED_UNICODE);
+            return response()->json($arr, 200, ['Content-Type' => 'application/json; charset=UTF-8'], JSON_UNESCAPED_UNICODE);
         } else {
             // Return an empty array with a 404 status code
             return response()->json([], 400);
