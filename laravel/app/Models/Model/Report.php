@@ -47,8 +47,8 @@ class Report extends Model
         $locationsCount = 0;
         if($tcode == 0) {
             $locationsCount = DB::table('posts')
-            ->joun('location', function ($join) {
-                $join->on('posts.longitude', '==', 'locations.longitude')
+            ->join('locations', function ($join) {
+                $join->on('posts.longitude', '=', 'locations.longitude')
                 ->on('posts.latitude', '=', 'locations.latitude');
             })
             ->whereNotNull('posts.longitude')

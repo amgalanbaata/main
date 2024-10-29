@@ -34,13 +34,14 @@
                                   <form action="admin" method="POST">
                                       @csrf
                                       <div class="form-floating mb-3">
-                                          <input class="form-control" name="username" type="text" placeholder="Нэвтрэх нэр" />
+                                          <input class="form-control" name="username" type="text" placeholder="Нэвтрэх нэр" onkeypress="document.getElementById('valid').innerHTML = '';" />
                                           <label for="inputUsername">Нэвтрэх нэр</label>
                                       </div>
                                       <div class="form-floating mb-3">
-                                          <input class="form-control" name="password" type="password" placeholder="Нууц үг" />
+                                          <input class="form-control" name="password" type="password" placeholder="Нууц үг" onkeypress="document.getElementById('valid').innerHTML = '';" />
                                           <label for="inputPassword">Нууц үг</label>
                                       </div>
+                                      <p style="color: red;font-size: 15px;" id="valid">{{$message}}</p>
                                       <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                           <!-- <a class="small" href="password.html">Forgot Password?</a> -->
                                           <p></p>

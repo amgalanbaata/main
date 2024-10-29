@@ -30,7 +30,7 @@
                                         <input class="form-check-input" type="checkbox" id="check1" value="true" name="check1"
                                             @if($condition['check1']) checked @endif
                                             onchange="javascript:this.form.submit()">
-                                        <label class="form-check-label" for="check1">шинээр ирсэн
+                                        <label class="form-check-label" for="check1">Шинээр ирсэн
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">

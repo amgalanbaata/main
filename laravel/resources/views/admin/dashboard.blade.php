@@ -224,7 +224,7 @@
                                         <!-- Left Column -->
                                         <div class="type-column">
                                             <div class="type-section bg-warning text-dark">
-                                                <h5>Хог хягдал</h5>
+                                                <h5>Хог хаягдал</h5>
                                                 <h3>{{ $typeCounts['Хог хягдал'] }}</h3>
                                             </div>
                                             <div class="type-section bg-info text-dark">

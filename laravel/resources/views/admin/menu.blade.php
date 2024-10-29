@@ -28,7 +28,7 @@
                 @endif
                 <a class="nav-link {{ Request::is('admin/report*') ? 'active' : '' }}" href="/admin/report">
                     <div class="sb-nav-link-icon"><i class="icon-file"></i></div>
-                    Мэдэгдлийн Тайлан
+                    Статистик
                 </a>
                 {{-- @if(Session::get('admin_is') == 0) --}}
                 <a class="nav-link {{ Request::is('admin/location/*') ? 'active' : '' }}" href="/admin/location">

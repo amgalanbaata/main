@@ -207,7 +207,7 @@
                         <form action="" method="POST">
                             @csrf
                             <input type="hidden" id="action_type" name="action_type" value="update">
-                            <div class="status">
+                            <div class="status" style="border: 1px solid #dfdfdf;padding: 10px;border-radius: 10px;">
                                 <strong class="statusS">Статус:</strong>
                                 <input type="text" name="id" value="{{ $post->id }}" style="display: none">
                                 <div class="form-check form-check-inline">
@@ -242,7 +242,7 @@
                                 <br>
                             </div>
                             @if(Session::get('admin_is') == 0)
-                            <div class="type mt-2 mb-2">
+                            <div class="type mt-2 mb-2" style="border: 1px solid #dfdfdf;padding: 10px;border-radius: 10px;">
                                 <strong class="typeS mt-10 mr-10">Төрөл:</strong>
                                 <div class="form-check form-check-inline ml-10">
                                     <input class="form-check-input" type="radio" id="type1" name="type" value="1" {{ $post->type == 1 ? 'checked' : '' }}>
@@ -266,7 +266,7 @@
                             </div>
                             @else
                                 <!-- Display type as a word instead of radio buttons -->
-                                <div class="type mt-2 mb-2">
+                                <div class="type mt-2 mb-2" style="border: 1px solid #dfdfdf;padding: 10px;border-radius: 10px;">
                                     <strong class="typeS mt-10 mr-10">Төрөл:</strong>
                                     <span class="type-value">
                                         @switch($post->type)

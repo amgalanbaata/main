@@ -45,18 +45,24 @@ class ReportController extends Controller
 
         $startDate = $validated['start_date'];
         $endDate = $validated['end_date'];
+        $model = new Admin();
+        $tcode = Session::get('admin_is');
+        $typeCounts = $model->getTypeCount($tcode);
 
-            // Generate HTML report
-            $report = new Report($startDate, $endDate);
-            $statusCounts = $report->getStatusCounts(Session::get('admin_is'), $startDate, $endDate);
-            // dd($startDate);
+        // Generate HTML report
+        $report = new Report();
+        $statusCounts = $report->getStatusCounts(Session::get('admin_is'), $startDate, $endDate);
+        $registeredLocation = $report->getLocationCounts($tcode);
+        // dd($startDate);
 
-            return view('admin.report', [
-                'counts' => $statusCounts,
-                'startDate' => $startDate,
-                'endDate' => $endDate,
-                'showReport' => true
-            ]);
+        return view('admin.report', [
+            'counts' => $statusCounts,
+            'typeCounts' => $typeCounts,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'registeredLocation' => $registeredLocation,
+            'showReport' => true
+        ]);
     }
 
 

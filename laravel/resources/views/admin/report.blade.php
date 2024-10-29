@@ -155,7 +155,7 @@
                 </style>
                 @include('admin.header')
                 <div class="container-fluid">
-                    <h1>Тайлан</h1>
+                    <h1>Статистик</h1>
                     <div class="content">
                         <form action="{{ route('report.generate') }}" method="POST">
                             @csrf
@@ -179,7 +179,7 @@
                         </form>
                         <div>
                             <h2 id="reportDate" class="reportDate bg-primary text-white p-3">
-                                Тайлан {{ $startDate && $endDate ? "$startDate -> $endDate" : '-> Бүгд' }}
+                                Статистик {{ $startDate && $endDate ? "($startDate -> $endDate)" : ' (Бүгд)' }}
                             </h2>
                             <div class="d-flex">
                                 <table class="table-custom" id="reportTable">
@@ -376,10 +376,25 @@
                             // sa = txtArea1.document.execCommand("SaveAs", true, fileName);
                         } else {
                             // For other browsers
-                            sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
+                            // sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
+                            var result = 'data:application/vnd.ms-excel,' + encodeURIComponent(tab_text);
+                            var link = document.createElement("a");
+                            document.body.appendChild(link);
+                            link.download = "Мэдэгдлийн статистик(" + Date.now() + ").xls"; //You need to change file_name here.
+                            link.href = result;
+                            link.click();
                         }
 
                         return sa;
+                    }
+                </script>
+                <script>
+                    function statusFunction(status) {
+                        document.getElementById('status').value = status;
+                        document.querySelector('form.row').submit();
+                    }
+                    function setActionType(actionType) {
+                        document.getElementById('action_type').value = actionType;
                     }
                 </script>
             </body>

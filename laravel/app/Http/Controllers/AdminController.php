@@ -19,7 +19,7 @@ class AdminController extends Controller
             return redirect('/admin/dashboard');
         } else {
             Session::forget('admin_token');
-            return view('admin.login');
+            return view('admin.login', ['message' => '']);
         }
     }
 
@@ -49,7 +49,8 @@ class AdminController extends Controller
             return view('admin.dashboard', ['counts' => $counts, 'data' => $data, 'image_path' => $image_path, 'typeCounts' => $typeCounts, 'agreedCounts' => $agreedCounts, 'newCounts' => $newCounts]);
         } else {
             Session::forget('admin_token');
-            return redirect('admin');
+            // return redirect('admin');
+            return view('admin.login', ['message' => 'Имэйл эсвэл нууц үг буруу байна.']);
         }
     }
 
