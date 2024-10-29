@@ -108,6 +108,50 @@
                         text-transform: uppercase;
                         border-bottom: 2px solid #004d99;
                     }
+                    /* table2 */
+                    .table2 {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-top: 10px;
+                        background-color: #ffffff;
+                        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                        border-radius: 8px;
+                        overflow: hidden;
+                    }
+
+                    .table2 thead {
+                        background-color: #1c755f;
+                        color: #ffffff;
+                    }
+
+                    .table2 th, .table2 td {
+                        padding: 12px;
+                        text-align: left;
+                        border-bottom: 1px solid #1c755f;
+                    }
+
+                    .table2 th {
+                        font-size: 1.1rem;
+                        text-transform: uppercase;
+                    }
+
+                    .table2 tbody tr:hover {
+                        background-color: #f1f1f1;
+                    }
+
+                    .table2 tbody tr:nth-child(even) {
+                        background-color: #f9f9f9;
+                    }
+
+                    .table2 td {
+                        color: #333;
+                        font-size: 1rem;
+                    }
+                    .table2 {
+                        margin-left: 10px;
+                        border: 1px solid #1c755f;
+                        margin-bottom: auto;
+                    }
                 </style>
                 @include('admin.header')
                 <div class="container-fluid">
@@ -134,41 +178,134 @@
                             </div>
                         </form>
                         <div>
-                            <h2 class="reportDate bg-primary text-white p-3 ">Тайлан {{ $startDate ?? '' }} -> {{ $endDate ?? '' }}</h2>
-                            <table class="table-custom" id="reportTable">
-                                <thead>
-                                    <tr>
-                                        <th>Статус</th>
-                                        <th>Тоо</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Шинээр ирсэн</td>
-                                        <td>{{ $counts['new'] ?? 0 }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Давхардсан</td>
-                                        <td>{{ $counts['Duplicated'] ?? 0 }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Нэмэлт мэдээлэл шаардлагатай</td>
-                                        <td>{{ $counts['Additional information is required'] ?? 0 }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Татгалзсан</td>
-                                        <td>{{ $counts['Refused'] ?? 0 }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Хөрсний шинжилгээ хийх</td>
-                                        <td>{{ $counts['Conduct_soil_analysis'] ?? 0 }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Байршилд шууд бүртгэх</td>
-                                        <td>{{ $counts['Register_directly_on_location'] ?? 0 }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <h2 id="reportDate" class="reportDate bg-primary text-white p-3">
+                                Тайлан {{ $startDate && $endDate ? "$startDate -> $endDate" : '-> Бүгд' }}
+                            </h2>
+                            <div class="d-flex">
+                                <table class="table-custom" id="reportTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Статус</th>
+                                            <th>Тоо</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Шинээр ирсэн</td>
+                                            <td>{{ $counts['new'] ?? 0 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Давхардсан</td>
+                                            <td>{{ $counts['Duplicated'] ?? 0 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Нэмэлт мэдээлэл шаардлагатай</td>
+                                            <td>{{ $counts['Additional information is required'] ?? 0 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Татгалзсан</td>
+                                            <td>{{ $counts['Refused'] ?? 0 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Хөрсний шинжилгээ хийх</td>
+                                            <td>{{ $counts['Conduct_soil_analysis'] ?? 0 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Байршилд шууд бүртгэх</td>
+                                            <td>{{ $counts['Register_directly_on_location'] ?? 0 }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                @if (Session::get('admin_is') == 0)
+                                <table class="table2">
+                                    <thead>
+                                        <tr>
+                                            <th>Төрөл</th>
+                                            <th>Тоо</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Хог хягдал</td>
+                                            <td>{{ $typeCounts['Хог хягдал'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Бохир</td>
+                                            <td>{{ $typeCounts['Бохир'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Эвдрэл доройтол</td>
+                                            <td>{{ $typeCounts['эвдрэл доройтол'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Бусад</td>
+                                            <td>{{ $typeCounts['Бусад'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Цэгээр бүртгэгдсэн</td>
+                                            <td>{{ $registeredLocation }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                @elseif (Session::get('admin_is') == 2)
+                                <table class="table2">
+                                    <thead>
+                                        <tr>
+                                            <th>Төрөл</th>
+                                            <th>Тоо</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Хог хягдал</td>
+                                            <td>{{ $typeCounts['Хог хягдал'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Цэгээр бүртгэгдсэн</td>
+                                            <td>{{ $registeredLocation }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                @elseif (Session::get('admin_is') == 3)
+                                <table class="table2">
+                                    <thead>
+                                        <tr>
+                                            <th>Төрөл</th>
+                                            <th>Тоо</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Бохир</td>
+                                            <td>{{ $typeCounts['Бохир'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Цэгээр бүртгэгдсэн</td>
+                                            <td>{{ $registeredLocation }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                @elseif (Session::get('admin_is') == 4)
+                                <table class="table2">
+                                    <thead>
+                                        <tr>
+                                            <th>Төрөл</th>
+                                            <th>Тоо</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Эвдрэл доройтол</td>
+                                            <td>{{ $typeCounts['эвдрэл доройтол'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Цэгээр бүртгэгдсэн</td>
+                                            <td>{{ $registeredLocation }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -207,14 +344,11 @@
                         // Get the report date text
                         var reportDate = document.querySelector('.reportDate').innerText;
 
-                        // Create the Excel-compatible HTML structure with the report date as the first row
                         var tab_text = "<table border='2px' style='border-collapse:collapse; width: 40%;'>";
                         tab_text += "<tr><th colspan='2' style='background-color: #007BFF; color: white; padding: 10px; font-size: 18px;'>" + reportDate + "</th></tr>";
 
-                        // Get the table content
                         var tab = document.getElementById('reportTable');
 
-                        // Add padding and style adjustments for the table rows
                         for (var j = 0; j < tab.rows.length; j++) {
                             tab_text += "<tr>";
                             for (var i = 0; i < tab.rows[j].cells.length; i++) {
@@ -225,37 +359,27 @@
 
                         tab_text += "</table>";
 
-                        // Remove links, images, and input fields from the exported content
                         tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");
                         tab_text = tab_text.replace(/<img[^>]*>/gi, "");
                         tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, "");
 
                         var msie = window.navigator.userAgent.indexOf("MSIE ");
                         var sa;
+                        var fileName = 'Мэдэгдлүүдийн тайлан'
 
-                        // Check if the browser is Internet Explorer
                         if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
                             txtArea1.document.open("txt/html", "replace");
                             txtArea1.document.write(tab_text);
                             txtArea1.document.close();
                             txtArea1.focus();
                             sa = txtArea1.document.execCommand("SaveAs", true, "Report.xls");
+                            // sa = txtArea1.document.execCommand("SaveAs", true, fileName);
                         } else {
                             // For other browsers
                             sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
                         }
 
                         return sa;
-                    }
-                </script>
-
-                <script>
-                    function statusFunction(status) {
-                        document.getElementById('status').value = status;
-                        document.querySelector('form.row').submit();
-                    }
-                    function setActionType(actionType) {
-                        document.getElementById('action_type').value = actionType;
                     }
                 </script>
             </body>

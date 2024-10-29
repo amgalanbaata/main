@@ -8,22 +8,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PostsExport;
+use App\Models\Model\Location;
 
 class ReportController extends Controller
 {
     public function index()
     {
         if (Session::get('admin_token') != '') {
-
+            $tcode = Session::get('admin_is');
+            // $tcode = 0;
             $model = new Admin();
-            $typeCounts = $model->getTypeCount(Session::get('admin_is'));
+            $typeCounts = $model->getTypeCount($tcode);
             $startDate = '';
             $endDate = '';
-            $counts = $model->getCountsByStatusReport(Session::get('admin_is'));
-            // $counts = $model->getStatusCounts(Session::get('admin_is'));
+            $counts = $model->getCountsByStatusReport($tcode);
+
+            $model = new Report();
+            $registeredLocation = $model->getLocationCounts($tcode);
+            // dd($tcode);
 
             return view('admin.report', ['counts' => $counts, 'typeCounts' => $typeCounts, 'startDate' => $startDate,
-                'endDate' => $endDate]);
+                'endDate' => $endDate, 'registeredLocation' => $registeredLocation]);
         }
         else {
             Session::forget('admin_token');
@@ -40,16 +45,11 @@ class ReportController extends Controller
 
         $startDate = $validated['start_date'];
         $endDate = $validated['end_date'];
-        $actionType = $request->input('action_type');
 
-
-        if ($actionType == 'excel') {
-            // Generate Excel report
-            return Excel::download(new PostsExport($startDate, $endDate), 'posts_report.xlsx');
-        } else {
             // Generate HTML report
             $report = new Report($startDate, $endDate);
             $statusCounts = $report->getStatusCounts(Session::get('admin_is'), $startDate, $endDate);
+            // dd($startDate);
 
             return view('admin.report', [
                 'counts' => $statusCounts,
@@ -57,7 +57,6 @@ class ReportController extends Controller
                 'endDate' => $endDate,
                 'showReport' => true
             ]);
-        }
     }
 
 

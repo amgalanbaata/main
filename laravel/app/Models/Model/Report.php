@@ -19,12 +19,6 @@ class Report extends Model
     protected $startDate;
     protected $endDate;
 
-    public function __construct($startDate, $endDate)
-    {
-        $this->startDate = Carbon::parse($startDate);
-        $this->endDate = Carbon::parse($endDate);
-    }
-
     public function getStatusCounts($tcode, $startDate, $endDate)
     {
         if($tcode == 0) {
@@ -48,6 +42,41 @@ class Report extends Model
         }
         return $counts;
     }
+
+    public function getLocationCounts($tcode) {
+        $locationsCount = 0;
+        if($tcode == 0) {
+            $locationsCount = DB::table('posts')
+            ->joun('location', function ($join) {
+                $join->on('posts.longitude', '==', 'locations.longitude')
+                ->on('posts.latitude', '=', 'locations.latitude');
+            })
+            ->whereNotNull('posts.longitude')
+            ->whereNotNull('posts.latitude')
+            ->count();
+        } else {
+            $locationsCount = DB::table('posts')
+            ->join('locations', function ($join) {
+                $join->on('posts.longitude', '=', 'locations.longitude')
+                ->on('posts.latitude', '=', 'locations.latitude');
+            })
+            ->where('posts.type', $tcode)
+            ->whereNotNull('posts.longitude')
+            ->whereNotNull('posts.latitude')
+            ->count();
+            // dd($locationsCount);
+        }
+        return $locationsCount;
+    }
+
+
+    // public function getLocationAddCounts($tcode, $longitude, $latidute) {
+    //     if($tcode == 0) {
+    //         $counts = DB::table('posts')
+    //     } else {
+
+    //     }
+    // }
 
 
     // public function getNewCounts($adminType) {
