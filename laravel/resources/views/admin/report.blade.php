@@ -120,16 +120,16 @@
                             <div class="d-flex">
                                 <div class="form-group">
                                 <label for="start_date">Эхлэх огноо:</label>
-                                <input type="date" name="start_date" class="form-control" required>
+                                <input type="date" name="start_date" class="form-control" value="{{$startDate}}" required>
                                 </div>
                                 <div class="form-group">
                                 <label for="end_date">Дуусах огноо:</label>
-                                <input type="date" name="end_date" class="form-control" required>
+                                <input type="date" name="end_date" class="form-control" value="{{$endDate}}" required>
                                 </div>
                             </div>
                             <div>
                                 <button type="submit" id="seeReportBtn" class="btn btn-primary mt-4 mb-2" onclick="setActionType('html')">Мэдээлэл шүүх</button>
-                                <button type="submit" class="btn btn-primary mt-4 mb-2" onclick="exportTableToExcel()">Тайлан гаргах</button>
+                                <button type="button" class="btn btn-primary mt-4 mb-2" onclick="exportTableToExcel()">Тайлан гаргах</button>
                             </div>
                             </div>
                         </form>
@@ -180,7 +180,7 @@
                     var chart = new CanvasJS.Chart("chartContainer", {
                         animationEnabled: true,
                         title: {
-                            text: "Мэдэгдэлийн статус хуваарилалт"
+                            text: "Мэдэгдлийн статус хуваарилалт"
                         },
                         data: [{
                             type: "pie",

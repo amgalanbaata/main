@@ -17,9 +17,12 @@ class ReportController extends Controller
 
             $model = new Admin();
             $typeCounts = $model->getTypeCount(Session::get('admin_is'));
+            $startDate = '';
+            $endDate = '';
             $counts = $model->getCountsByStatusReport(Session::get('admin_is'));
 
-            return view('admin.report', ['counts' => $counts, 'typeCounts' => $typeCounts]);
+            return view('admin.report', ['counts' => $counts, 'typeCounts' => $typeCounts, 'startDate' => $startDate,
+                'endDate' => $endDate]);
         // }
         // else {
         //     Session::forget('admin_token');
