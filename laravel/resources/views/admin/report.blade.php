@@ -217,7 +217,7 @@
                                     </tbody>
                                 </table>
                                 @if (Session::get('admin_is') == 0)
-                                <table class="table2">
+                                <table class="table2" id="table2">
                                     <thead>
                                         <tr>
                                             <th>Төрөл</th>
@@ -248,7 +248,7 @@
                                     </tbody>
                                 </table>
                                 @elseif (Session::get('admin_is') == 2)
-                                <table class="table2">
+                                <table class="table2" id="table2">
                                     <thead>
                                         <tr>
                                             <th>Төрөл</th>
@@ -267,7 +267,7 @@
                                     </tbody>
                                 </table>
                                 @elseif (Session::get('admin_is') == 3)
-                                <table class="table2">
+                                <table class="table2" id="table2">
                                     <thead>
                                         <tr>
                                             <th>Төрөл</th>
@@ -286,7 +286,7 @@
                                     </tbody>
                                 </table>
                                 @elseif (Session::get('admin_is') == 4)
-                                <table class="table2">
+                                <table class="table2" id="table2">
                                     <thead>
                                         <tr>
                                             <th>Төрөл</th>
@@ -350,11 +350,29 @@
                         var tab = document.getElementById('reportTable');
 
                         for (var j = 0; j < tab.rows.length; j++) {
-                            tab_text += "<tr>";
-                            for (var i = 0; i < tab.rows[j].cells.length; i++) {
-                                tab_text += "<td style='padding: 8px; font-size: 14px; border: 1px solid #000;'>" + tab.rows[j].cells[i].innerHTML + "</td>";
+                            if(j == 0) {
+                                tab_text += "<tr><th colspan='2' style='background-color: #007BFF; color: white; padding: 10px; font-size: 18px;'>Статус</th></tr>";
+                            } else {
+                                tab_text += "<tr>";
+                                for (var i = 0; i < tab.rows[j].cells.length; i++) {
+                                    tab_text += "<td style='padding: 8px; font-size: 14px; border: 1px solid #000;'>" + tab.rows[j].cells[i].innerHTML + "</td>";
+                                }
+                                tab_text += "</tr>";
+                            }                            
+                        }
+
+                        tab = document.getElementById('table2');
+
+                        for (var j = 0; j < tab.rows.length; j++) {
+                            if(j == 0) {
+                                tab_text += "<tr><th colspan='2' style='background-color: #007BFF; color: white; padding: 10px; font-size: 18px;'>Төрөл</th></tr>";
+                            } else {
+                                tab_text += "<tr>";
+                                for (var i = 0; i < tab.rows[j].cells.length; i++) {
+                                    tab_text += "<td style='padding: 8px; font-size: 14px; border: 1px solid #000;'>" + tab.rows[j].cells[i].innerHTML + "</td>";
+                                }
+                                tab_text += "</tr>";
                             }
-                            tab_text += "</tr>";
                         }
 
                         tab_text += "</table>";
