@@ -237,7 +237,7 @@ class ApiController extends Controller
         $i = 0;
         foreach($statusNames as $statusName) {
             $arr[$i]['id'] = (int) $statusName->id;
-            $arr[$i]['type_code'] = $statusName->type_code;
+            $arr[$i]['type_code'] = $statusName->status_code;
             $arr[$i]['name'] = $statusName->name;
             $i++;
         }
