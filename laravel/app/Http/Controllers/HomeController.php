@@ -13,7 +13,7 @@ class HomeController extends Controller
         if (Session::get('admin_token') != '') {
             return redirect('/admin/dashboard');
         } else {
-            return view('admin.login');
+            return view('admin.login', ['message' => '']);
         }
     }
 }
