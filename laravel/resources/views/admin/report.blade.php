@@ -266,7 +266,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                @elseif (Session::get('admin_is') == 3)
+                                @elseif (Session::get('admin_is') == 4)
                                 <table class="table2" id="table2">
                                     <thead>
                                         <tr>
@@ -285,7 +285,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                @elseif (Session::get('admin_is') == 4)
+                                @elseif (Session::get('admin_is') == 3)
                                 <table class="table2" id="table2">
                                     <thead>
                                         <tr>

@@ -23,7 +23,7 @@ class UserController extends Controller
                 $type = [
                     ['type_code' => 0, 'name' => 'Админ'],
                     ['type_code' => 2, 'name' => 'Хог хягдал'],
-                    ['type_code' => 3, 'name' => 'эвдрэл доройтол'],
+                    ['type_code' => 3, 'name' => 'Эвдрэл доройтол'],
                     ['type_code' => 4, 'name' => 'Бохир'],
                 ];
 

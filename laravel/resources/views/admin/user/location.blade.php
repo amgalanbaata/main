@@ -76,7 +76,9 @@
                                         <th>Өргөрөг</th>
                                         <th>Уртраг</th>
                                         <th>Бохирдлын түвшин</th>
+                                        @if(Session::get('admin_is') == 0)
                                         <th>Үйлдлүүд</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -122,10 +122,10 @@
                                                         <i class="fas fa-times-circle text-danger"></i> {{ $data->status_name }}
                                                         @break
                                                     @case(5)
-                                                        <i class="fas fa-times-circle text-danger"></i> {{ $data->status_name }}
+                                                        <i class="fas fa-leaf text-warning"></i> {{ $data->status_name }}
                                                         @break
                                                     @case(6)
-                                                        <i class="fas fa-times-circle text-danger"></i> {{ $data->status_name }}
+                                                        <i class="fas fa-map-marker text-success"></i> {{ $data->status_name }}
                                                         @break
                                                     @default
                                                         {{ $data->status_name }}

@@ -207,6 +207,24 @@
                         <form action="" method="POST">
                             @csrf
                             <input type="hidden" id="action_type" name="action_type" value="update">
+                            @if ($post->agreed == "Зөвшөөрсөн" && isset($location))
+                            <div class="status" style="border: 1px solid #dfdfdf;padding: 10px;border-radius: 10px;">
+                                <strong class="statusS">Статус:</strong>
+                                <input type="text" name="id" value="{{ $post->id }}" style="display: none">
+                                <span class="type-value">
+                                    @switch($post->status)
+                                        @case(5)
+                                            Хөрсний шинжилгээ хийх
+                                            @break
+                                        @case(6)
+                                            Байршилд шууд бүртгэх
+                                            @break
+                                        @default
+                                            Тодорхойгүй
+                                    @endswitch
+                                </span>
+                            </div>
+                            @else
                             <div class="status" style="border: 1px solid #dfdfdf;padding: 10px;border-radius: 10px;">
                                 <strong class="statusS">Статус:</strong>
                                 <input type="text" name="id" value="{{ $post->id }}" style="display: none">
@@ -241,6 +259,7 @@
                                 </div>
                                 <br>
                             </div>
+                            @endif
                             @if(Session::get('admin_is') == 0)
                             <div class="type mt-2 mb-2" style="border: 1px solid #dfdfdf;padding: 10px;border-radius: 10px;">
                                 <strong class="typeS mt-10 mr-10">Төрөл:</strong>
