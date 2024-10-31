@@ -174,6 +174,7 @@ class ApiController extends Controller
                 $arr[$i]['status'] = $post['status'];
                 $arr[$i]['latitude'] = $post['latitude'];
                 $arr[$i]['longitude'] = $post['longitude'];
+                $arr[$i]['admin_comment'] = $post['admin_comment'];
                 $arr[$i]['date'] = substr($post['created_at'],0,10);
                 $arr[$i]['image1'] = null;
                 $arr[$i]['image2'] = null;

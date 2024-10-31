@@ -1,5 +1,9 @@
 @include('admin.head')
 <html>
+    <style>
+        th {text-align: center !important;}
+        td {text-align: center !important;}
+    </style>
     <body class="sb-nav-fixed">
         @include('admin.header')
         <div id="layoutSidenav">

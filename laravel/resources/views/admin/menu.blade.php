@@ -32,7 +32,7 @@
                 </a>
                 {{-- @if(Session::get('admin_is') == 0) --}}
                 <a class="nav-link {{ Request::is('admin/location*') || Request::is('locations*') ? 'active' : '' }}" href="/admin/location">
-                    <div class="sb-nav-link-icon"><i class="icon-list"></i></div>
+                    <div class="sb-nav-link-icon"><i class="icon-globe"></i></div>
                     Байршил
                 </a>
                 {{-- @endif --}}

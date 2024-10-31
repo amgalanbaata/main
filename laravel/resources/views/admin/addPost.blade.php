@@ -58,7 +58,7 @@
                                 <span class="file-names" id="fileNames"></span>
                             </div>
                             <input type="file" id="fileInput" accept="image/*" multiple onchange="handleFileSelect(event)">
-                                <form method="POST" action="">
+                                <form method="POST" action="" id="medegdel">
                                     @csrf
                                     <input type="hidden" id="image1" name="image1" value="">
                                     <input type="hidden" id="image2" name="image2" value="">
@@ -71,7 +71,7 @@
                                         <input type="text" class="form-control" id="name" name="name" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="number" class="form-label">Дугаар</label>
+                                        <label for="number" class="form-label">Утас эсвэл имэйл</label>
                                         <input type="text" class="form-control" id="number" name="number" required>
                                     </div>
                                     <div class="mb-3">
@@ -115,7 +115,7 @@
                                     </div>
 
                                     <br>
-                                    <button type="submit" class="btn btn-primary mt-5">Мэдэгдэл илгээх</button>
+                                    <button type="button" class="btn btn-primary mt-5" onclick="confirmAddLocation()">Мэдэгдэл илгээх</button>
                                 </form>
                             </div>
                         </div>
@@ -181,33 +181,72 @@
             });
         });
     }
+    var k = 0;
+    var fileNames = '';
 
-        function handleFileSelect(event) {
-            const files = event.target.files;
-            const maxFiles = 3;
-            const input = event.target;
-            const fileNames = Array.from(input.files).map(file => file.name).join(' ,');
-            document.getElementById('fileNames').textContext = fileNames || 'Файл сонгосон байхгүй';
+    function handleFileSelect(event) {
+        const files = event.target.files;
+        const maxFiles = 3;
+        const input = event.target;
+        fileNames = fileNames + ', ' + Array.from(input.files).map(file => file.name).join(' ,');
+        document.getElementById('fileNames').innerHTML = fileNames || 'Файл сонгосон байхгүй';
 
-            if (files && files.length > 0) {
-                if (files.length > maxFiles) {
-                    alert('Maximum ' + maxFiles + ' files allowed.');
-                    // Clear file input
-                    document.getElementById('fileInput').value = '';
-                    return;
-                }
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    const reader = new FileReader();
+        if (files && files.length > 0) {
+            if (k >= maxFiles) {
+                alert('Хамгийн ихдээ 3 зураг оруулж болно.');
+                // Clear file input
+                document.getElementById('fileInput').value = '';
+                return;
+            }
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
 
-                    reader.onload = function(event) {
-                        const base64String = event.target.result;
-                        var k = i + 1;
-                        document.getElementById('image' + k).value = base64String.replace(/^data:image\/(png|jpeg|jpg);base64,/, "");
-                    };
-                    reader.readAsDataURL(file);
-                }
+                reader.onload = function(event) {
+                    const base64String = event.target.result;
+                    k++;
+                    document.getElementById('image' + k).value = base64String.replace(/^data:image\/(png|jpeg|jpg);base64,/, "");
+                };
+                reader.readAsDataURL(file);
             }
         }
+    }
+
+    function confirmAddLocation() {
+        var form = document.getElementById('medegdel');
+
+        if (k == 0) {
+            alert("Та ядаж 1 зураг заавал оруулна уу.");
+            return;
+        }
+
+        var title = form.querySelector('input[name="name"]');
+        if (!title.value.trim()) {
+            alert("Нэрээ заавал оруулна уу.");
+            title.focus();
+            return;
+        }
+        var number = form.querySelector('input[name="number"]');
+        if (!number.value.trim()) {
+            alert("Утас эсвэл имэйл ээ оруулна уу.");
+            number.focus();
+            return;
+        }
+
+        var comment = form.querySelector('textarea[name="comment"]');
+        if (!comment.value.trim()) {
+            alert("Тайлбар заавал оруулна уу.");
+            comment.focus();
+            return;
+        }
+
+        var latitude = form.querySelector('input[name="latitude"]');
+        if (!latitude.value.trim()) {
+            alert("Та газрын зураг дээр заавал цэгээ оруулна уу.");
+            return;
+        }
+
+        form.submit();
+    }
     </script>
 </html>

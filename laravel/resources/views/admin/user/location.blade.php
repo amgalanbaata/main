@@ -35,6 +35,8 @@
             background-color: #007bff;
             color: white;
         } */
+        th {text-align: center !important;}
+        td {text-align: center !important;}
     </style>
     <body class="sb-nav-fixed" onload="initMap()">
         @include('admin.header')

@@ -10,6 +10,8 @@
         #datatablesSimple tbody tr td:nth-child(2) {
             color: royalblue !important;
         }
+        th {text-align: center !important;}
+        td {text-align: center !important;}
     </style>
     <body class="sb-nav-fixed">
     @include('admin.header')
@@ -68,7 +70,7 @@
                                     <thead>
                                         <tr>
                                             <th>Нэр</th>
-                                            <th>Утас</th>
+                                            <th>Утас/Имэйл</th>
                                             <th>Сэтгэгдэл</th>
                                             <th>Статус</th>
                                             <th>Төрөл</th>
@@ -81,7 +83,7 @@
                                     <tfoot>
                                         <tr>
                                             <th>Нэр</th>
-                                            <th>Утас</th>
+                                            <th>Утас/Имэйл</th>
                                             <th>Сэтгэгдэл</th>
                                             <th>Статус</th>
                                             <th>Төрөл</th>
@@ -117,6 +119,12 @@
                                                         <i class="fas fa-check-circle text-success"></i> {{ $data->status_name }}
                                                     @break
                                                     @case(4)
+                                                        <i class="fas fa-times-circle text-danger"></i> {{ $data->status_name }}
+                                                        @break
+                                                    @case(5)
+                                                        <i class="fas fa-times-circle text-danger"></i> {{ $data->status_name }}
+                                                        @break
+                                                    @case(6)
                                                         <i class="fas fa-times-circle text-danger"></i> {{ $data->status_name }}
                                                         @break
                                                     @default
