@@ -56,7 +56,7 @@
                                 <img class="small-image" src="" alt="Post Image" id="img1" style="display:none;width: 150px;">
                                 <img class="small-image" src="" alt="Post Image" id="img2" style="display:none;width: 150px;">
                                 <img class="small-image" src="" alt="Post Image" id="img3" style="display:none;width: 150px;">
-                                <i class="fas fa-times-circle text-danger" style="display:none;font-size: 25px;" id="delimg" onclick="deleteImage()"></i>
+                                <i class="fas fa-times-circle text-danger" style="display:none;font-size: 25px;" id="delimg" title="Зураг устгах" onclick="deleteImage()"></i>
                             <div style="margin-top: 15px;">
                                 <label for="fileInput" class="custom-file-input">Зураг оруулах</label>
                                 <span class="file-names" id="fileNames"></span>
