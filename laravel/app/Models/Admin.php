@@ -43,9 +43,13 @@ class Admin extends Model
     {
         $posts = [];
         try {
-            $posts = Post::select('posts.*', 'status.name AS status_name', 'type.name AS type_name')
+            $posts = Post::select('posts.*', 'status.name AS status_name', 'type.name AS type_name', 'locations.color')
                         ->join('status', 'posts.status', '=', 'status.status_code')
-                        ->join('type', 'posts.type', '=', 'type.type_code');
+                        ->join('type', 'posts.type', '=', 'type.type_code')
+                        ->leftJoin('locations', function ($join) {
+                            $join->on('posts.longitude', '=', 'locations.longitude')
+                            ->on('posts.latitude', '=', 'locations.latitude');
+                        });
 
             if ($check1) {
                 $posts->orWhere('status', 1);

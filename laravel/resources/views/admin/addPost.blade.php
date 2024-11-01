@@ -53,7 +53,11 @@
                         <div class="card mb-4">
                             <div class="card-body">
                                 <!-- Form to add a new post -->
-                            <div>
+                                <img class="small-image" src="" alt="Post Image" id="img1" style="display:none;width: 150px;">
+                                <img class="small-image" src="" alt="Post Image" id="img2" style="display:none;width: 150px;">
+                                <img class="small-image" src="" alt="Post Image" id="img3" style="display:none;width: 150px;">
+                                <i class="fas fa-times-circle text-danger" style="display:none;font-size: 25px;" id="delimg" onclick="deleteImage()"></i>
+                            <div style="margin-top: 15px;">
                                 <label for="fileInput" class="custom-file-input">Зураг оруулах</label>
                                 <span class="file-names" id="fileNames"></span>
                             </div>
@@ -188,9 +192,7 @@
         const files = event.target.files;
         const maxFiles = 3;
         const input = event.target;
-        fileNames = fileNames + ', ' + Array.from(input.files).map(file => file.name).join(' ,');
-        document.getElementById('fileNames').innerHTML = fileNames || 'Файл сонгосон байхгүй';
-
+        // fileNames = fileNames + ', ' + Array.from(input.files).map(file => file.name).join(' ,');
         if (files && files.length > 0) {
             if (k >= maxFiles) {
                 alert('Хамгийн ихдээ 3 зураг оруулж болно.');
@@ -198,6 +200,7 @@
                 document.getElementById('fileInput').value = '';
                 return;
             }
+            // document.getElementById('fileNames').innerHTML = fileNames || 'Файл сонгосон байхгүй';
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
                 const reader = new FileReader();
@@ -206,9 +209,22 @@
                     const base64String = event.target.result;
                     k++;
                     document.getElementById('image' + k).value = base64String.replace(/^data:image\/(png|jpeg|jpg);base64,/, "");
+                    document.getElementById('img' + k).src = base64String;
+                    document.getElementById('img' + k).style.display = 'inline-block';
+                    document.getElementById('delimg').style.display = 'inline-block';
                 };
                 reader.readAsDataURL(file);
             }
+        }
+    }
+
+    function deleteImage() {
+        document.getElementById('image' + k).value = "";
+        document.getElementById('img' + k).src = "";
+        document.getElementById('img' + k).style.display = 'none';
+        k--;
+        if(k == 0) {
+            document.getElementById('delimg').style.display = 'none';
         }
     }
 

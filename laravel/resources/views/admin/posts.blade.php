@@ -168,6 +168,16 @@
                     }
                 });
             }
+            var table = document.getElementsByTagName("table")[0];
+            var rows = table.rows;
+            var i = 0;
+            @foreach($posts as $key => $data)
+                @if ($data->color != '')
+                    rows[i+1].style.background = "#7dcf7d";
+                    rows[i+1].style.color = "#ffffff";
+                @endif
+                i++;
+            @endforeach
         });
     </script>
 </html>

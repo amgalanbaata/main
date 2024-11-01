@@ -226,7 +226,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Хог хягдал</td>
+                                            <td>Хог хаягдал</td>
                                             <td>{{ $typeCounts['Хог хягдал'] }}</td>
                                         </tr>
                                         <tr>
@@ -257,7 +257,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Хог хягдал</td>
+                                            <td>Хог хаягдал</td>
                                             <td>{{ $typeCounts['Хог хягдал'] }}</td>
                                         </tr>
                                         <tr>
