@@ -34,7 +34,7 @@
                                         <input type="committee" class="form-control" id="committee" name="committee" value="{{ $user->committee }}" required>
                                     </div>
                                     <button type="submit" class="btn btn-primary mt-4">Шинэчлэх</button>
-                                    <a href="{{ route('users.index') }}" class="btn btn-secondary mt-4">Cancel</a>
+                                    <a href="{{ route('users.index') }}" class="btn btn-secondary mt-4">Буцах</a>
                                 </form>
                             </div>
                         </div>

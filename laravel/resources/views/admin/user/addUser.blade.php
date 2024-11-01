@@ -24,7 +24,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="email">Мэйл</label>
+                                        <label for="email">Имэйл</label>
                                         <input type="text" class="form-control" id="email" name="email" required>
                                     </div>
 
@@ -37,7 +37,7 @@
                                         <strong>Төрөл хуваарилах:</strong>
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" id="type2" name="type_code" value="2" required>
-                                            <label class="form-check-label" for="type2">Хог хягдал</label>
+                                            <label class="form-check-label" for="type2">Хог хаягдал</label>
                                         </div>
 
                                         <div class="form-check">

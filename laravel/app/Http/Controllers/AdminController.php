@@ -35,12 +35,13 @@ class AdminController extends Controller
         $admin = $model->adminLogin($username, $password);
         $agreedCounts = $model->getAgreedCounts();
         $newCounts = $model->getNewCounts(Session::get('admin_is'));
-        if (count($model->adminLogin($username, $password)) > 0) {
+        if (count($admin) > 0) {
             Session::put('admin_id', $admin[0]->id);
             Session::put('admin_token', $token);
+            Session::put('admin_name', $admin[0]->username);
             $counts = $model->getCountsByStatus(Session::get('admin_is'));
             $typeCounts = $model->getTypeCount(Session::get('admin_is'));
-            $admin_is = $model->adminLogin($username, $password);
+            $admin_is = $admin;
             Session::put('admin_is', $admin_is[0]->type_code);
             return view('admin.dashboard', ['counts' => $counts, 'data' => $data, 'image_path' => $image_path, 'typeCounts' => $typeCounts, 'agreedCounts' => $agreedCounts, 'newCounts' => $newCounts]);
         } elseif (Session::get('admin_token') != '') {
@@ -49,6 +50,7 @@ class AdminController extends Controller
             return view('admin.dashboard', ['counts' => $counts, 'data' => $data, 'image_path' => $image_path, 'typeCounts' => $typeCounts, 'agreedCounts' => $agreedCounts, 'newCounts' => $newCounts]);
         } else {
             Session::forget('admin_token');
+            Session::flush();
             // return redirect('admin');
             return view('admin.login', ['message' => 'Имэйл эсвэл нууц үг буруу байна.']);
         }
@@ -154,6 +156,7 @@ class AdminController extends Controller
     public function logout()
     {
         Session::forget('admin_token');
+        Session::flush();
         return redirect('admin');
     }
 

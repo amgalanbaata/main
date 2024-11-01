@@ -89,7 +89,7 @@
                                 <input type="text" class="form-control" id="phone" name="phone" value="{{ $admin->phone }}" required>
                             </div>
                             <div class="form-group">
-                                <label for="email">Мэйл</label>
+                                <label for="email">Имэйл</label>
                                 <input type="text" class="form-control" id="email" name="email" value="{{ $admin->email }}" required>
                             </div>
                             <div class="form-group">
@@ -110,7 +110,7 @@
                                     <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
                                 </div>
                             </div>
-                            <button class="btn btn-primary" type="submit" value="Submit">Шинэчилэх</button>
+                            <button class="btn btn-primary" type="submit" value="Submit">Шинэчлэх</button>
                             </div>
                         </form>
                     </div>

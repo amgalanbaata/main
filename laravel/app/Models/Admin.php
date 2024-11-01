@@ -14,7 +14,7 @@ class Admin extends Model
     {
         try {
             $admin = DB::table('admin')
-                ->where('username', $username)
+                ->where('email', $username)
                 ->where('password', $password)
                 ->get();
             return $admin;

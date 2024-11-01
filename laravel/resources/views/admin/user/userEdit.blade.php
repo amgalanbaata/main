@@ -21,7 +21,7 @@
                                         <input type="text" class="form-control" id="phone" name="phone" value="{{ $user->phone }}" required>
                                     </div>
                                     <div class="form-group mt-3">
-                                        <label for="email">Мэйл</label>
+                                        <label for="email">Имэйл</label>
                                         <input type="text" class="form-control" id="email" name="email" value="{{ $user->email }}" required>
                                     </div>
 
@@ -36,7 +36,7 @@
 
                                         <div class="form-grout form-group-inline">
                                             <input class="form-check-input" type="radio" id="type2" name="type_code" value="2" {{ $user->type_code == 2 ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="type2">Хог хягдал</label>
+                                            <label class="form-check-label" for="type2">Хог хаягдал</label>
                                         </div>
 
                                         <div class="form-grout form-group-inline">
@@ -52,7 +52,7 @@
                                     </div>
                                     @endif
                                     <button type="submit" class="btn btn-primary mt-3">Шинэчлэх</button>
-                                    <a href="{{ route('users.index') }}" class="btn btn-secondary mt-3">Cancel</a>
+                                    <a href="{{ route('users.index') }}" class="btn btn-secondary mt-3">Буцах</a>
                                 </form>
                             </div>
                         </div>
