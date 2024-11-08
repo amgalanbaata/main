@@ -191,12 +191,14 @@
                                     @endif
                                 </div>
                                 <div>
-                                    <p><strong>Утасны дугаар:</strong> {{$post->number}}</p>
+                                    <p><strong>Утас/Имэйл:</strong> {{$post->number}}</p>
                                     <p><strong>Үүсгэсэн огноо:</strong>{{$post->created_at}}</p>
                                 </div>
                             </div>
                             <hr>
+                            @if($post->status != 3)
                             <p><strong>Тайлбар:</strong> {{$post->comment}}</p>
+                            @endif
                             <p><strong>Байршил:</strong>
                                 <a type="button" class="btn btn-link" href="https://www.google.com/maps/search/?api=1&query={{ $post->latitude}}, {{$post->longitude}}" target="blank">
                                     <button class="btn btn-info text-white">Байршил</button>
@@ -204,7 +206,7 @@
                             </p>
                         </div>
 
-                        <form action="" method="POST">
+                        <form action="" method="POST" id="postMain">
                             @csrf
                             <input type="hidden" id="action_type" name="action_type" value="update">
                             @if ($post->agreed == "Зөвшөөрсөн" && isset($location))
@@ -229,32 +231,32 @@
                                 <strong class="statusS">Статус:</strong>
                                 <input type="text" name="id" value="{{ $post->id }}" style="display: none">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="status1" name="status" value="1" {{ $post->status == 1 ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="radio" id="status1" name="status" value="1" {{ $post->status == 1 ? 'checked' : '' }} onclick="changeStatus()">
                                     <label class="form-check-label" for="status1">Шинээр ирсэн</label>
                                 </div>
 
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="status2" name="status" value="2" {{ $post->status == 2 ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="radio" id="status2" name="status" value="2" {{ $post->status == 2 ? 'checked' : '' }} onclick="changeStatus()">
                                     <label class="form-check-label" for="status2">Давхардсан</label>
                                 </div>
 
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="status3" name="status" value="3" {{ $post->status == 3 ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="radio" id="status3" name="status" value="3" {{ $post->status == 3 ? 'checked' : '' }} onclick="changeStatus()">
                                     <label class="form-check-label" for="status3">Нэмэлт мэдээлэл шаардлагатай</label>
                                 </div>
 
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="status4" name="status" value="4" {{ $post->status == 4 ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="radio" id="status4" name="status" value="4" {{ $post->status == 4 ? 'checked' : '' }} onclick="changeStatus()">
                                     <label class="form-check-label" for="status4">Татгалзсан</label>
                                 </div>
 
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="status5" name="status" value="5" {{ $post->status == 5 ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="radio" id="status5" name="status" value="5" {{ $post->status == 5 ? 'checked' : '' }} onclick="changeStatus()">
                                     <label class="form-check-label" for="status5">Хөрсний шинжилгээ хийх</label>
                                 </div>
 
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="status6" name="status" value="6" {{ $post->status == 6 ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="radio" id="status6" name="status" value="6" {{ $post->status == 6 ? 'checked' : '' }} onclick="changeStatus()">
                                     <label class="form-check-label" for="status6">Байршилд шууд бүртгэх</label>
                                 </div>
                                 <br>
@@ -317,10 +319,19 @@
                                 <strong>Сэтгэгдэл</strong>
                                 <textarea type="text" name="admin_comment" value="text">{{ $post->admin_comment }}</textarea>
                             </div>
-                            @if ($post->agreed != "Зөвшөөрсөн" && $post->status != 5 ||  $post->status != 6)
-                            <button type="submit" class="custom-button" onclick="document.getElementById('action_type').value='update'">Шинэчлэх</button>
+                            @if ($post->status == 3)
+                            <div class="adminComment" id="subTailbar">
+                                <strong>Нэмэлт тайлбар</strong>
+                                <textarea type="text" name="comment" value="text">{{ $post->comment }}</textarea>
+                            </div>
                             @endif
-                            @if ($post->agreed != "Зөвшөөрсөн" && Session::get('admin_is') == 0 && $post->status == 5 || $post->type == 6 )
+                            @if ($post->status != 3)
+                            <input type="hidden" name="comment" value="{{ $post->comment }}" id="subTailbar"></input>
+                            @endif
+                            @if ($post->agreed != "Зөвшөөрсөн" && $post->status != 5 ||  $post->status != 6)
+                            <button type="button" class="custom-button" onclick="document.getElementById('action_type').value='update';loadPostUpdate();">Шинэчлэх</button>
+                            @endif
+                            @if ($post->agreed != "Зөвшөөрсөн" && Session::get('admin_is') == 0 && ($post->status == 5 || $post->status == 6 ))
                             <button type="submit" class="custom-button" onclick="document.getElementById('action_type').value='resolve'">Зөвшөөрөх</button>
                             @endif
                         </form>
@@ -480,6 +491,39 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    function changeStatus() {
+        var form = document.getElementById('postMain');
+        var statusSelected = form.querySelector('input[name="status"]:checked').value;
+        if(statusSelected != 3) {
+            document.getElementById('subTailbar').style.display = 'none';
+        }
+    }
+
+    function loadPostUpdate() {
+        var form = document.getElementById('postMain');
+        var statusSelected = form.querySelector('input[name="status"]:checked').value;
+        if (statusSelected == 5 || statusSelected == 6) {
+            Swal.fire({
+            title: "Итгэлтэй байна уу?",
+            text: "Админ руу зөвшөөрөх хүсэлт илгээх гэж байна.",
+            // icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: 'Тийм',
+            cancelButtonText: 'Үгүй',
+            dangerMode: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log("Form is being submitted!");
+                    form.submit();
+                } else {
+                    console.log('Form submission canceled.');
+                }
+            });
+        } else {
+            form.submit();
+        }
+    }
+
     function confirmAddLocation() {
         var form = document.getElementById('locationForm');
 

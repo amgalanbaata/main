@@ -35,7 +35,7 @@
                                       @csrf
                                       <div class="form-floating mb-3">
                                           <input class="form-control" name="username" type="text" placeholder="Нэвтрэх нэр" onkeypress="document.getElementById('valid').innerHTML = '';" />
-                                          <label for="inputUsername">Нэвтрэх нэр</label>
+                                          <label for="inputUsername">Нэвтрэх имэйл</label>
                                       </div>
                                       <div class="form-floating mb-3">
                                           <input class="form-control" name="password" type="password" placeholder="Нууц үг" onkeypress="document.getElementById('valid').innerHTML = '';" />

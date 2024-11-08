@@ -19,6 +19,9 @@ class AdminController extends Controller
             return redirect('/admin/dashboard');
         } else {
             Session::forget('admin_token');
+            if(isset($_GET['error'])) {
+                return view('admin.login', ['message' => 'Имэйл эсвэл нууц үг буруу байна.']);
+            }
             return view('admin.login', ['message' => '']);
         }
     }
@@ -51,8 +54,9 @@ class AdminController extends Controller
         } else {
             Session::forget('admin_token');
             Session::flush();
-            // return redirect('admin');
-            return view('admin.login', ['message' => 'Имэйл эсвэл нууц үг буруу байна.']);
+            return redirect()->route('admin', ['error' => 'ng']);
+            // return redirect()->back()->with(array('message' => 'Имэйл эсвэл нууц үг буруу байна.'));
+            // return view('admin.login', ['message' => 'Имэйл эсвэл нууц үг буруу байна.']);
         }
     }
 
@@ -164,12 +168,23 @@ class AdminController extends Controller
     {
         if (Session::get('admin_token') != '') {
             $modelPost = new Post;
-            $udata = [
-                'status' => $request->status,
-                'type' => $request->type,
-                'admin_comment' => $request->admin_comment,
-                'updated_at' => now(),
-            ];
+            $udata = [];
+            if($request->status == 3) {
+                $udata = [
+                    'status' => $request->status,
+                    'type' => $request->type,
+                    'admin_comment' => $request->admin_comment,
+                    'comment' => $request->comment,
+                    'updated_at' => now(),
+                ];
+            } else {
+                $udata = [
+                    'status' => $request->status,
+                    'type' => $request->type,
+                    'admin_comment' => $request->admin_comment,
+                    'updated_at' => now(),
+                ];
+            }            
             if ($request->input('action_type') == 'locationAdd') {
                 // $request->validate([
                 //     'title' => 'required|string|max:255',

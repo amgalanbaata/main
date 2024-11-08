@@ -38,7 +38,7 @@ Route::get('/cache-path', function() {
 
 
 Route::get('/',  [HomeController::class, 'index']);
-Route::get('/admin', [AdminController::class, 'index']);
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 Route::get('/admin/logout', [AdminController::class, 'logout']);
 Route::post('/admin', [AdminController::class, 'dashboard']);
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
