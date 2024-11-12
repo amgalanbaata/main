@@ -12,7 +12,7 @@
                 <main>
                 <div class="container-fluid px-4">
                     <div class="title d-flex flex-row justify-content-between">
-                        <h1 class="mt-4">Хэрэглэгчид</h1>
+                        <h1 class="mt-4">АПП Хэрэглэгчид</h1>
                         <button class="btn btn-primary mt-4 mb-2">
                             <a href="{{ route('app-users.create') }}" class="btn btn-primary h-5">Хэрэглэгч нэмэх</a>
                         </button>
@@ -75,7 +75,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmModalLabel">Confirm Deletion</h5>
+                    <h5 class="modal-title" id="confirmModalLabel">Хэрэглэгч устгах</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
