@@ -12,6 +12,10 @@
         }
         th {text-align: center !important;}
         td {text-align: center !important;}
+        .datatable-active a {
+            background: #0d6efd;
+            color: #FFFFFF;
+        }
     </style>
     <body class="sb-nav-fixed">
     @include('admin.header')
@@ -170,14 +174,81 @@
             }
             var table = document.getElementsByTagName("table")[0];
             var rows = table.rows;
+            var posts = [];
             var i = 0;
             @foreach($posts as $key => $data)
                 @if ($data->color != '')
-                    rows[i+1].style.background = "#7dcf7d";
-                    rows[i+1].style.color = "#ffffff";
+                    if(rows[i+1]) {
+                        rows[i+1].style.background = "#7dcf7d";
+                        rows[i+1].style.color = "#ffffff";
+                    }
                 @endif
+                posts.push('{{$data->color}}');
                 i++;
             @endforeach
+
+            $(".datatable-pagination-list-item-link").on('click', function(event){
+                var table = document.getElementsByTagName("table")[0];
+                var rows2 = table.rows;
+                var i = 0;
+                for(var j = 0; j < posts.length; j++) {
+                    if(rows2[i+1]) {
+                        rows2[i+1].style.background = "#ffffff";
+                        rows2[i+1].style.color = "unset";
+                    }
+                    i++;
+                }
+                setTimeout(() => {
+                    var ii = 0;
+                    if(document.querySelector(".datatable-active a").innerHTML + 1 == event.target.dataset.page || 
+                    document.querySelector(".datatable-active a").innerHTML - 1 == event.target.dataset.page) {
+                        for(var j = (document.querySelector(".datatable-active a").innerHTML - 1)*document.querySelector(".datatable-selector").value; j < posts.length; j++) {
+                            if (posts[j] != '') {
+                                if(rows2[ii+1]) {
+                                    rows2[ii+1].style.background = "#7dcf7d";
+                                    rows2[ii+1].style.color = "#ffffff";
+                                }
+                            } else {
+                                if(rows2[ii+1]) {
+                                    rows2[ii+1].style.background = "#ffffff";
+                                    rows2[ii+1].style.color = "unset";
+                                }
+                            }
+                            ii++;
+                        }
+                    } else if(document.querySelector(".datatable-active a").innerHTML < event.target.dataset.page) {
+                        for(var j = (document.querySelector(".datatable-active a").innerHTML - 1)*document.querySelector(".datatable-selector").value; j < posts.length; j++) {
+                            if (posts[j] != '') {
+                                if(rows2[ii+1]) {
+                                    rows2[ii+1].style.background = "#7dcf7d";
+                                    rows2[ii+1].style.color = "#ffffff";
+                                }
+                            } else {
+                                if(rows2[ii+1]) {
+                                    rows2[ii+1].style.background = "#ffffff";
+                                    rows2[ii+1].style.color = "unset";
+                                }
+                            }
+                            ii++;
+                        }
+                    } else {
+                        for(var j = (document.querySelector(".datatable-active a").innerHTML - 1)*document.querySelector(".datatable-selector").value; j < posts.length; j++) {
+                            if (posts[j] != '') {
+                                if(rows2[ii+1]) {
+                                    rows2[ii+1].style.background = "#7dcf7d";
+                                    rows2[ii+1].style.color = "#ffffff";
+                                }
+                            } else {
+                                if(rows2[ii+1]) {
+                                    rows2[ii+1].style.background = "#ffffff";
+                                    rows2[ii+1].style.color = "unset";
+                                }
+                            }
+                            ii++;
+                        }
+                    }
+                }, 500);
+            });            
         });
     </script>
 </html>

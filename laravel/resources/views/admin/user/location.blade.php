@@ -37,6 +37,10 @@
         } */
         th {text-align: center !important;}
         td {text-align: center !important;}
+        .datatable-active a {
+            background: #0d6efd;
+            color: #FFFFFF;
+        }
     </style>
     <body class="sb-nav-fixed" onload="initMap()">
         @include('admin.header')
