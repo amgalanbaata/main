@@ -142,6 +142,8 @@ class AdminController extends Controller
             if(count($cat) > 0) {
                 $catid = $cat[0]->id;
                 $category = $modelType->select($cat[0]->type_id);
+            } else {
+                $category = $modelType->select($data->type);
             }
             // dd($location);
             // dd($location);
@@ -264,6 +266,8 @@ class AdminController extends Controller
             if(count($cat) > 0) {
                 $catid = $cat[0]->id;
                 $category = $modelType->select($cat[0]->type_id);
+            } else {
+                $category = $modelType->select($data->type);
             }
 
             return view('admin.post', ['post' => $data, 'image_path' => $image_path, 'category' => $category, 'catid' => $catid, 'message' => $message]);
