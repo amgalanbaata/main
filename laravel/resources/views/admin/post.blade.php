@@ -266,24 +266,36 @@
                             <div class="type mt-2 mb-2" style="border: 1px solid #dfdfdf;padding: 10px;border-radius: 10px;">
                                 <strong class="typeS mt-10 mr-10">Төрөл:</strong>
                                 <div class="form-check form-check-inline ml-10">
-                                    <input class="form-check-input" type="radio" id="type1" name="type" value="1" {{ $post->type == 1 ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="radio" id="type1" name="type" value="1" {{ $post->type == 1 ? 'checked' : '' }} onclick="changeCategory(1)">
                                     <label class="form-check-label" for="type1">Бусад</label>
                                 </div>
 
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="type2" name="type" value="2" {{ $post->type == 2 ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="radio" id="type2" name="type" value="2" {{ $post->type == 2 ? 'checked' : '' }} onclick="changeCategory(2)">
                                     <label class="form-check-label" for="type2">Хог Хаягдал</label>
                                 </div>
 
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="type3" name="type" value="3" {{ $post->type == 3 ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="radio" id="type3" name="type" value="3" {{ $post->type == 3 ? 'checked' : '' }} onclick="changeCategory(3)">
                                     <label class="form-check-label" for="type3">Эвдрэл доройтол</label>
                                 </div>
 
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" id="type4" name="type" value="4" {{ $post->type == 4 ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="radio" id="type4" name="type" value="4" {{ $post->type == 4 ? 'checked' : '' }} onclick="changeCategory(4)">
                                     <label class="form-check-label" for="type4">Бохир</label>
                                 </div>
+                                <br/>
+                                <strong class="typeS mt-10 mr-10">Категори:</strong>
+                                <select class="form-select" id="category" name="category" style="width: auto;display: inline-block;">
+                                    <option value="0">Сонгох</option>
+                                    @foreach ($category as $cat)
+                                        @if($catid == $cat->id)
+                                            <option value="{{$cat->id}}" selected>{{$cat->name}}</option>
+                                        @else
+                                            <option value="{{$cat->id}}">{{$cat->name}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
                             </div>
                             @else
                                 <!-- Display type as a word instead of radio buttons -->
@@ -306,7 +318,19 @@
                                             @default
                                                 Тодорхойгүй
                                         @endswitch
-                                    </span>
+                                    </span>                                    
+                                    <br/>
+                                    <strong class="typeS mt-10 mr-10">Категори:</strong>
+                                    <select class="form-select" id="category" name="category" style="width: auto;display: inline-block;">
+                                        <option value="0">Сонгох</option>
+                                        @foreach ($category as $cat)
+                                            @if($catid == $cat->id)
+                                                <option value="{{$cat->id}}" selected>{{$cat->name}}</option>
+                                            @else
+                                                <option value="{{$cat->id}}">{{$cat->name}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div style="display: none;">
                                     <input class="form-check-input" type="radio" id="type1" name="type" value="1" {{ $post->type == 1 ? 'checked' : '' }}>
@@ -378,9 +402,11 @@
                             <div class="info-item">
                                 <strong>Уртраг:</strong> <span>{{ $location->longitude }}</span>
                             </div>
+                            @if ($location->pdf_path)
                             <button class="custom-button fileButton">
                                 <a href="{{ asset($location->pdf_path) }}" target="_blank" class="link">Хавсаргасан Файл нээх</a>
                             </button>
+                            @endif
                         </div>
                         @else
                             <h1 class="p-8 text-center bg-yellow-50">Цэг нэмэх</h1>
@@ -604,6 +630,35 @@
             new simpleDatatables.DataTable(datatablesSimple);
         }
     });
+
+    async function changeCategory(id) {
+        const apiUrl = window.location.origin + '/admin/category';
+        const requestData = {
+            _token: document.getElementsByName("_token")[0].value,
+            type_id: id,
+        };
+
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+
+        const data = await response.json();
+        var category = $("#category");
+        category.find("option").remove();
+        category.append('<option value="0">Сонгох</option>');
+        for(var i = 0; i < data.category.length; i++) {
+            category.append('<option value="' + data.category[i].id + '">' + data.category[i].name + '</option>');
+        }
+        console.log(data);
+    }
 
     // Initialize and add the map
     function initMap() {

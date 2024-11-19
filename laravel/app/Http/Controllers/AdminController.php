@@ -7,6 +7,7 @@ use App\Models\Admin;
 use App\Models\AppUsers;
 use Session;
 use App\Models\Post;
+use App\Models\Types;
 use App\Models\Model\Location;
 use Exception;
 use Illuminate\Support\Facades\Storage;
@@ -133,13 +134,22 @@ class AdminController extends Controller
             $latitude = $data->latitude;
             $longitude = $data->longitude;
             $location = $model->locationSingleSelect($latitude, $longitude);
+
+            $modelType = new Types;
+            $cat = $modelType->selectCat($data->category);
+            $catid = 0;
+            $category = [];
+            if(count($cat) > 0) {
+                $catid = $cat[0]->id;
+                $category = $modelType->select($cat[0]->type_id);
+            }
             // dd($location);
             // dd($location);
             if ($location != null) {
-                return view('admin.post', ['post' => $data, 'image_path' => $image_path, 'message' => '', 'location' => $location, 'userData' => $userData]);
+                return view('admin.post', ['post' => $data, 'category' => $category, 'catid' => $catid, 'image_path' => $image_path, 'message' => '', 'location' => $location, 'userData' => $userData]);
             }
             else {
-                return view('admin.post', ['post' => $data, 'image_path' => $image_path, 'message' => '', 'userData' => $userData]);
+                return view('admin.post', ['post' => $data, 'category' => $category, 'catid' => $catid, 'image_path' => $image_path, 'message' => '', 'userData' => $userData]);
             }
         } else {
             Session::forget('admin_token');
@@ -175,6 +185,7 @@ class AdminController extends Controller
                     'type' => $request->type,
                     'admin_comment' => $request->admin_comment,
                     'comment' => $request->comment,
+                    'category' => $request->category,
                     'updated_at' => now(),
                 ];
             } else {
@@ -182,6 +193,7 @@ class AdminController extends Controller
                     'status' => $request->status,
                     'type' => $request->type,
                     'admin_comment' => $request->admin_comment,
+                    'category' => $request->category,
                     'updated_at' => now(),
                 ];
             }            
@@ -244,7 +256,29 @@ class AdminController extends Controller
             $model = new Admin;
             $data = $model->postSingleSelect($request->id);
             $image_path = $model->imagePathSelect($request->id);
-            return view('admin.post', ['post' => $data, 'image_path' => $image_path, 'message' => $message]);
+
+            $modelType = new Types;
+            $cat = $modelType->selectCat($data->category);
+            $catid = 0;
+            $category = [];
+            if(count($cat) > 0) {
+                $catid = $cat[0]->id;
+                $category = $modelType->select($cat[0]->type_id);
+            }
+
+            return view('admin.post', ['post' => $data, 'image_path' => $image_path, 'category' => $category, 'catid' => $catid, 'message' => $message]);
+        } else {
+            Session::forget('admin_token');
+            return redirect('admin');
+        }
+    }
+
+    public function getCategory(Request $request)
+    {
+        if (Session::get('admin_token') != '') {
+            $modelType = new Types;
+            $category = $modelType->select($request->type_id);
+            return response()->json(['result' => 'OK', 'category' => $category]);
         } else {
             Session::forget('admin_token');
             return redirect('admin');

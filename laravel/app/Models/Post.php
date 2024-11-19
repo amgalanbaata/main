@@ -21,7 +21,7 @@ class Post extends Model
         return $insertedId;
     }
 
-        public function postUpdate($id, $data)
+    public function postUpdate($id, $data)
         {
             try {
                 DB::table('posts')->where('id', $id)->update($data);

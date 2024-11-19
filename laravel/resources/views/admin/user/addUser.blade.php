@@ -14,7 +14,7 @@
                                     @csrf
 
                                     <div class="form-group">
-                                        <label for="username">Нэвтрэх нэр</label>
+                                        <label for="username">Нэр</label>
                                         <input type="text" class="form-control" id="username" name="username" required>
                                     </div>
 

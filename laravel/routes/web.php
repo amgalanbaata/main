@@ -46,6 +46,7 @@ Route::get('/admin/posts', [AdminController::class, 'posts'])->name('admin.posts
 Route::post('/admin/posts', [AdminController::class, 'posts'])->name('admin.postsPost');
 Route::get('/admin/post', [AdminController::class, 'post']);
 Route::post('/admin/post', [AdminController::class, 'updatePost']);
+Route::post('/admin/category', [AdminController::class, 'getCategory']);
 Route::get('/admin/addpost', [AdminController::class, 'addPost']);
 Route::post('/admin/addpost', [ApiController::class, 'insert']);
 Route::get('/admin/user', [UserController::class, 'index'])->name('users.index');

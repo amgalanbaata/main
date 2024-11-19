@@ -81,7 +81,7 @@
                         <form method="POST" action="{{ route('user.profile.edit') }}">
                             @csrf
                             <div class="form-group">
-                                <label for="username">Нэвтрэх нэр</label>
+                                <label for="username">Нэр</label>
                                 <input type="text" class="form-control" id="username" name="username" value="{{ $admin->username }}" required>
                             </div>
                             <div class="form-group">

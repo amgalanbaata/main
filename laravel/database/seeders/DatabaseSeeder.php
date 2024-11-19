@@ -69,5 +69,61 @@ class DatabaseSeeder extends Seeder
             ],
         ];
         DB::table('status')->insert($status);
+
+        $type_category = [
+            [
+                'type_id' => 2,
+                'name' => 'Ахуйн хог'
+            ],
+            [
+                'type_id' => 2,
+                'name' => 'Барилгын хог'
+            ],
+            [
+                'type_id' => 2,
+                'name' => 'Үйлдвэрийн хог'
+            ],
+            [
+                'type_id' => 2,
+                'name' => 'Хөдөө аж ахуйн хог'
+            ],
+            [
+                'type_id' => 2,
+                'name' => 'Эмнэлгийн хог'
+            ],
+            [
+                'type_id' => 2,
+                'name' => 'Авто техникийн хог'
+            ],
+            [
+                'type_id' => 3,
+                'name' => 'Хүнээс үүдэлтэй'
+            ],
+            [
+                'type_id' => 3,
+                'name' => 'Техник төхөөрөмж'
+            ],
+            [
+                'type_id' => 3,
+                'name' => 'Ан амьтан'
+            ],
+            [
+                'type_id' => 3,
+                'name' => 'Байгалийн'
+            ],
+            [
+                'type_id' => 4,
+                'name' => 'Бохир ус'
+            ],
+            [
+                'type_id' => 4,
+                'name' => 'Химийн элемент'
+            ],
+            [
+                'type_id' => 4,
+                'name' => 'Шатахуун тос'
+            ],
+        ];
+        DB::table('type_categories')->insert($type_category);
     }
 }

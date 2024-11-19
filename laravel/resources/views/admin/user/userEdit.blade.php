@@ -13,7 +13,7 @@
                                 <form method="POST" action="{{ route('users.update', $user->id) }}">
                                     @csrf
                                     <div class="form-group">
-                                        <label for="username">Нэвтрэх нэр</label>
+                                        <label for="username">Нэр</label>
                                         <input type="text" class="form-control" id="username" name="username" value="{{ $user->username }}" required>
                                     </div>
                                     <div class="form-group mt-3">
