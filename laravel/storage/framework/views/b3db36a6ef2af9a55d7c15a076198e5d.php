@@ -11,7 +11,7 @@
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-user"></i></a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <?php if(Session::get('admin_is') != 0): ?>
-                <li><a class="dropdown-item" href="user/settings">Нууц үг солих</a></li>
+                <li><a class="dropdown-item" href="/admin/user/profile">Профайл</a></li>
                 <?php endif; ?>
                 <li><a class="dropdown-item" href="/admin/logout">Гарах</a></li>
             </ul>
@@ -33,4 +33,4 @@
         }
     });
 </script>
-<?php /**PATH E:\TASTAS\SANKYU\ubsoil\laravel\resources\views/admin/header.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\Amka\Documents\ubsoil\laravel\resources\views/admin/header.blade.php ENDPATH**/ ?>

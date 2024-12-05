@@ -34,13 +34,14 @@
                                   <form action="admin" method="POST">
                                       <?php echo csrf_field(); ?>
                                       <div class="form-floating mb-3">
-                                          <input class="form-control" name="username" type="text" placeholder="Нэвтрэх нэр" />
+                                          <input class="form-control" name="username" type="text" placeholder="Нэвтрэх нэр" onkeypress="document.getElementById('valid').innerHTML = '';" />
                                           <label for="inputUsername">Нэвтрэх нэр</label>
                                       </div>
                                       <div class="form-floating mb-3">
-                                          <input class="form-control" name="password" type="password" placeholder="Нууц үг" />
+                                          <input class="form-control" name="password" type="password" placeholder="Нууц үг" onkeypress="document.getElementById('valid').innerHTML = '';" />
                                           <label for="inputPassword">Нууц үг</label>
                                       </div>
+                                      <p style="color: red;font-size: 15px;" id="valid"><?php echo e($message); ?></p>
                                       <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                           <!-- <a class="small" href="password.html">Forgot Password?</a> -->
                                           <p></p>
@@ -57,4 +58,4 @@
   </div>
 </body>
 </html>
-<?php /**PATH E:\TASTAS\SANKYU\ubsoil\laravel\resources\views/admin/login.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\Amka\Documents\ubsoil\laravel\resources\views/admin/login.blade.php ENDPATH**/ ?>

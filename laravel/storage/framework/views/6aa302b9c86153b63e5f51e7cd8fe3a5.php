@@ -19,8 +19,8 @@
                 <main>
                     <div class="container-fluid px-4">
                         <div class="title d-flex flex-row justify-content-between">
-                            <h1 class="mt-4">Санал хүсэлт</h1>
-                            <button class="addPost btn btn-primary mt-4 mb-2"><a class="addButton text-white" href="/admin/addpost">Санал хүсэлт нэмэх</a></button>
+                            <h1 class="mt-4">Мэдэгдлүүд</h1>
+                            <button class="addPost btn btn-primary mt-4 mb-2"><a class="addButton text-white" href="/admin/addpost">Мэдэгдэл нэмэх</a></button>
                         </div>
                         <div class="card mb-4">
                             <div class="card-body">
@@ -30,26 +30,38 @@
                                         <input class="form-check-input" type="checkbox" id="check1" value="true" name="check1"
                                             <?php if($condition['check1']): ?> checked <?php endif; ?>
                                             onchange="javascript:this.form.submit()">
-                                        <label class="form-check-label" for="check1">шинээр ирсэн
+                                        <label class="form-check-label" for="check1">Шинээр ирсэн
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="checkbox" id="check2" value="true" name="check2"
                                             <?php if($condition['check2']): ?> checked <?php endif; ?>
                                             onchange="javascript:this.form.submit()">
-                                        <label class="form-check-label" for="check2">хүлээн авсан</label>
+                                        <label class="form-check-label" for="check2">Давхардсан</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="checkbox" id="check3" value="true" name="check3"
                                             <?php if($condition['check3']): ?> checked <?php endif; ?>
                                             onchange="javascript:this.form.submit()">
-                                        <label class="form-check-label" for="check3">шийдвэрлэсэн</label>
+                                        <label class="form-check-label" for="check3">Нэмэлт мэдээлэл шаардлагатай</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="checkbox" id="check4" value="true" name="check4"
                                             <?php if($condition['check4']): ?> checked <?php endif; ?>
                                             onchange="javascript:this.form.submit()">
-                                        <label class="form-check-label" for="check4">татгалзсан</label>
+                                        <label class="form-check-label" for="check4">Татгалзсан</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="check5" value="true" name="check5"
+                                            <?php if($condition['check5']): ?> checked <?php endif; ?>
+                                            onchange="javascript:this.form.submit()">
+                                        <label class="form-check-label" for="check5">Хөрсний шинжилгээ хийх</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="check6" value="true" name="check6"
+                                            <?php if($condition['check6']): ?> checked <?php endif; ?>
+                                            onchange="javascript:this.form.submit()">
+                                        <label class="form-check-label" for="check6">Байршилд шууд бүртгэх</label>
                                     </div>
                                 </form>
                                 <table id="datatablesSimple">
@@ -60,6 +72,7 @@
                                             <th>Сэтгэгдэл</th>
                                             <th>Статус</th>
                                             <th>Төрөл</th>
+                                            <th>Зөвшөөрсөн</th>
                                             <th>Огноо</th>
                                             <th></th>
                                             <th></th>
@@ -72,6 +85,7 @@
                                             <th>Сэтгэгдэл</th>
                                             <th>Статус</th>
                                             <th>Төрөл</th>
+                                            <th>Зөвшөөрсөн</th>
                                             <th>Огноо</th>
                                             <th></th>
                                             <th></th>
@@ -116,6 +130,7 @@
                                                 <?php endswitch; ?>
                                             </td>
                                             <td><?php echo e($data->type_name); ?></td>
+                                            <td><?php echo e($data->agreed); ?></td>
                                             <td><?php echo e($data->created_at); ?></td>
                                             <td>
                                                 <a type="button" class="btn btn-link" href="https://www.google.com/maps/search/?api=1&query=<?php echo e($data->latitude); ?>, <?php echo e($data->longitude); ?>" target="blank">
@@ -141,10 +156,17 @@
         window.addEventListener('DOMContentLoaded', event => {
             const datatablesSimple = document.getElementById('datatablesSimple');
             if (datatablesSimple) {
-                new simpleDatatables.DataTable(datatablesSimple);
+                new simpleDatatables.DataTable(datatablesSimple, {
+                    labels: {
+                        placeholder: "Хайх...",
+                        perPage: "Хуудас",
+                        noRows: "Өгөгдөл алга.",
+                        info: "Нийт {rows}-с {start}-ээс {end}-ийг харуулж байна.",
+                        noResults: "Таны хайлтын асуулгад тохирох илэрц олдсонгүй.",
+                    }
+                });
             }
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 </html>
-<?php /**PATH E:\TASTAS\SANKYU\ubsoil\laravel\resources\views/admin/posts.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\Amka\Documents\ubsoil\laravel\resources\views/admin/posts.blade.php ENDPATH**/ ?>

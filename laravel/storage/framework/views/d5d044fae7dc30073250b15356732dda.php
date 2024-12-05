@@ -16,29 +16,29 @@
                     <div class="sb-nav-link-icon"><i class="icon-dashboard"></i></div>
                     Нүүр хуудас
                 </a>
-                <a class="nav-link <?php echo e(Request::is('admin/posts*') ? 'active' : ''); ?>" href="/admin/posts">
+                <a class="nav-link <?php echo e(Request::is('admin/post*') || Request::is('admin/addpost*') ? 'active' : ''); ?>" href="/admin/posts">
                     <div class="sb-nav-link-icon"><i class="icon-list"></i></div>
-                    Санал хүсэлт
+                    Мэдэгдлүүд
                 </a>
                 <?php if(Session::get('admin_is') == 0): ?>
                 <a class="nav-link <?php echo e(Request::is('admin/user*') ? 'active' : ''); ?>" href="/admin/user">
                     <div class="sb-nav-link-icon"><i class="icon-user"></i></div>
-                    Хэрэглэгчид
+                    НБОГ хэрэглэгч
                 </a>
                 <?php endif; ?>
                 <a class="nav-link <?php echo e(Request::is('admin/report*') ? 'active' : ''); ?>" href="/admin/report">
                     <div class="sb-nav-link-icon"><i class="icon-file"></i></div>
-                    Тайлан
+                    Статистик
                 </a>
-                <?php if(Session::get('admin_is') == 0): ?>
-                <a class="nav-link <?php echo e(Request::is('admin/location/*') ? 'active' : ''); ?>" href="/admin/location">
+                
+                <a class="nav-link <?php echo e(Request::is('admin/location*') || Request::is('locations*') ? 'active' : ''); ?>" href="/admin/location">
                     <div class="sb-nav-link-icon"><i class="icon-list"></i></div>
                     Байршил
                 </a>
-                <?php endif; ?>
+                
                 <?php if(Session::get('admin_is') == 0): ?>
-                <a class="nav-link <?php echo e(Request::is('admin/app-user') ? 'active' : ''); ?>" href="/admin/app-user">
-                    <div class="sb-nav-link-icon"><i class="icon-list"></i></div>
+                <a class="nav-link <?php echo e(Request::is('admin/app-user*') ? 'active' : ''); ?>" href="/admin/app-user">
+                    <div class="sb-nav-link-icon"><i class="icon-user"></i></div>
                     Апп Хэрэглэгчид
                 </a>
                 <?php endif; ?>
@@ -46,4 +46,4 @@
         </div>
     </nav>
 </div>
-<?php /**PATH E:\TASTAS\SANKYU\ubsoil\laravel\resources\views/admin/menu.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\Amka\Documents\ubsoil\laravel\resources\views/admin/menu.blade.php ENDPATH**/ ?>

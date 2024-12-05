@@ -88,6 +88,53 @@
         .bg-info h5, .bg-info h3 {
             color: #212529;
         }
+        .row {
+            justify-content: space-between;
+        }
+        .otherButton {
+            cursor: pointer;
+            width: 100%;
+        }
+        /* Badge Styles */
+        .admin-type-badge {
+            /* display: inline-block; */
+            padding: 0.3em 0.8em;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            background-color: #007bff;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .admin-type-wrapper {
+            position: absolute;
+            top: 45px;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .admin-type-wrapper {
+                top: 206px;
+            }
+            .type-counts-card {
+                margin-top: 20px;
+            }
+        }
+
+        /* Responsive Card Layout */
+        .card-admin {
+            width: 100%;
+            max-width: 300px;
+            margin: 10px auto;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-body h4 {
+            color: #212529;
+        }
     </style>
     <body class="sb-nav-fixed" onload="initMap()">
     <?php echo $__env->make('admin.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
@@ -99,10 +146,27 @@
                         <h1 class="mt-4">Нүүр хуудас</h1>
                         <form class="row" action="<?php echo e(route('admin.postsPost')); ?>" method="POST">
                             <?php echo csrf_field(); ?>
-                            <input type="text" name="status" id="status" style="display: none">
+                            <input type="hidden" name="status" id="status">
+                            <?php if(Session::get('admin_is') == 0): ?>
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
-                                    <h4 class="card-body">Шинээр ирсэн <?php echo e($counts['new']); ?></h4>
+                                    <h4 class="card-body">Зөвшөөрөх хүсэлт: <?php echo e($counts['Conduct_soil_analysis'] + $counts['Register_directly_on_location'] - $agreedCounts); ?></h4>
+                                    <button onclick="adminStatusFunction(10)" class="btn">
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        Дэлгэрэнгүй
+                                        <div class="small text-white"><i class="icon-angle-right"></i></div>
+                                    </div>
+                                    </button>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+                            <?php if(Session::get('admin_is') == 2): ?>
+                            <div class="col-xl-3 col-md-6">
+                                
+                                <div class="card bg-primary text-white mb-4">
+                                    
+                                    <h4 class="card-body">Шинээр ирсэн: <?php echo e($newCounts); ?></h4>
+                                    
                                     <button onclick="statusFunction(1)" class="btn">
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         Дэлгэрэнгүй
@@ -111,12 +175,14 @@
                                     </button>
                                 </div>
                             </div>
+                            <?php endif; ?>
+                            <?php if(Session::get('admin_is') == 3): ?>
                             <div class="col-xl-3 col-md-6">
-                                <div class="card bg-warning text-white mb-4">
-                                    <div>
-                                        <h4 class="card-body">Хүлээн авсан <?php echo e($counts['received']); ?></h4>
-                                    </div>
-                                    <button onclick="statusFunction(2)" class="btn">
+                                
+                                <div class="card bg-primary text-white mb-4">
+                                    
+                                    <h4 class="card-body">Шинээр ирсэн: <?php echo e($newCounts); ?></h4>
+                                    <button onclick="statusFunction(1)" class="btn">
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         Дэлгэрэнгүй
                                         <div class="small text-white"><i class="icon-angle-right"></i></div>
@@ -124,37 +190,75 @@
                                     </button>
                                 </div>
                             </div>
+                            <?php endif; ?>
+                            <?php if(Session::get('admin_is') == 4): ?>
+                            <div class="col-xl-3 col-md-6">
+                                
+                                <div class="card bg-primary text-white mb-4">
+                                    
+                                    <h4 class="card-body">Шинээр ирсэн: <?php echo e($newCounts); ?></h4>
+                                    <button onclick="statusFunction(1)" class="btn">
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        Дэлгэрэнгүй
+                                        <div class="small text-white"><i class="icon-angle-right"></i></div>
+                                    </div>
+                                    </button>
+                                </div>
+                            </div>
+                            <?php endif; ?>
                             <div class="col-xl-6 col-md-5">
+                                <div class="admin-type-wrapper">
+                                    <!-- Add conditionals for different admin types and styles -->
+                                    <?php if(Session::get('admin_is') == 2): ?>
+                                        <span class="admin-type-badge" style="background-color: #ffc107;">Хог хаягдал хариуцсан админ</span>
+                                    <?php elseif(Session::get('admin_is') == 3): ?>
+                                        <span class="admin-type-badge" style="background-color: #dc3545;">Эвдрэл доройтол хариуцсан админ</span>
+                                    <?php elseif(Session::get('admin_is') == 4): ?>
+                                        <span class="admin-type-badge" style="background-color: #28a745;">Бохир хариуцсан админ</span>
+                                    <?php else: ?>
+                                        <span class="admin-type-badge">Ерөнхий админ</span>
+                                    <?php endif; ?>
+                                </div>
                                 <div class="card bg-secondary text-white mb-4 shadow type-counts-card">
-                                    <div class="card-body d-flex">
+                                    <div class="card-body d-flex type-card">
                                         <!-- Left Column -->
                                         <div class="type-column">
-                                            <div class="type-section bg-dark">
-                                                <h5>Бусад</h5>
-                                                <h3><?php echo e($typeCounts['Бусад']); ?></h3>
-                                            </div>
                                             <div class="type-section bg-warning text-dark">
-                                                <h5>Хог хягдал</h5>
+                                                <h5>Хог хаягдал</h5>
                                                 <h3><?php echo e($typeCounts['Хог хягдал']); ?></h3>
-                                            </div>
-                                        </div>
-                                        <!-- Right Column -->
-                                        <div class="type-column">
-                                            <div class="type-section bg-danger">
-                                                <h5>эвдрэл доройтол</h5>
-                                                <h3><?php echo e($typeCounts['эвдрэл доройтол']); ?></h3>
                                             </div>
                                             <div class="type-section bg-info text-dark">
                                                 <h5>Бохир</h5>
                                                 <h3><?php echo e($typeCounts['Бохир']); ?></h3>
                                             </div>
                                         </div>
+                                        <!-- Right Column -->
+                                        <div class="type-column">
+                                            <div class="type-section bg-danger">
+                                                <h5>Эвдрэл доройтол</h5>
+                                                <h3><?php echo e($typeCounts['эвдрэл доройтол']); ?></h3>
+                                            </div>
+                                            <?php if(Session::get('admin_is') == 0): ?>
+                                            <button onclick="fetchPosts(7)" class="type-section bg-dark otherButton">
+                                                <h5>Бусад</h5>
+                                                <div>
+                                                    <h3><?php echo e($typeCounts['Бусад']); ?></h3>
+                                                </div>
+                                                <input type="hidden" id="check7" name="check7" value="0">
+                                            </button>
+                                            <?php else: ?>
+                                            <div class="type-section bg-dark">
+                                                <h5>Бусад</h5>
+                                                <div>
+                                                    <h3><?php echo e($typeCounts['Бусад']); ?></h3>
+                                                </div>
+                                            </div>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </form>
-                            
-                            
                         <div class="card mb-4">
                             <div class="card-body">
                                 <div id="map"></div>
@@ -225,7 +329,7 @@
         var imageUrl = "";
         var contentString = '<div class="content card-image">';
         for (var i = 0; i < images.length; i++) {
-            imageUrl = "<?php echo e(asset('storage/posts/')); ?>" + '/' + images[i].image_name;
+            imageUrl = "<?php echo e(asset('images/posts/')); ?>" + '/' + images[i].image_name;
             contentString += '<img class="image" src="' + imageUrl + '" alt="Post Image">';
         }
         contentString += '<div class="image-body">' +
@@ -235,8 +339,24 @@
         return contentString;
     }
     }
+
+    function fetchPosts(check) {
+        document.getElementById('check7').value = check;
+        // if (check) {
+        //     // Submit the form
+        //     // document.getElementById('check7').submit();
+        //     this.form.submit();
+        // }
+    }
     function statusFunction(check) {
         document.getElementById('status').value = check;
+        conosle.log(check);
+        if (check) {
+            this.form.submit();
+        }
+    }
+    function adminStatusFunction(check10) {
+        document.getElementById('status').value = check10;
         if (check) {
             this.form.submit();
         }
@@ -249,4 +369,4 @@
     }
 </style>
 </html>
-<?php /**PATH E:\TASTAS\SANKYU\ubsoil\laravel\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\Amka\Documents\ubsoil\laravel\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>

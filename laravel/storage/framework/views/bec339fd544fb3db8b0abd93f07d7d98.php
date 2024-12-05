@@ -10,5 +10,6 @@
     <?php echo app('Illuminate\Foundation\Vite')(['resources/css/admin.css', 'resources/font/font-awesome.min.css', 'resources/js/app.js']); ?>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAcYhzB6quk1LGZ0wJkwASVvUWt8TDtLw"></script>
     <script src="https://www.jqueryscript.net/demo/Stylish-Magnifying-Glass-Plugin-SergeLand-Image-Zoomer/zoomsl-3.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 </head>
-<?php /**PATH E:\TASTAS\SANKYU\ubsoil\laravel\resources\views/admin/head.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\Amka\Documents\ubsoil\laravel\resources\views/admin/head.blade.php ENDPATH**/ ?>

@@ -9,37 +9,50 @@
                     <div class="title d-flex flex-row justify-content-between">
                         <h1 class="mt-4">Хэрэглэгчид</h1>
                         <button class="btn btn-primary mt-4 mb-2">
-                            <a href="<?php echo e(route('app-users.create')); ?>" class="btn btn-primary h-5">Хэрэглэгч нэмэх</a>
+                            <a href="<?php echo e(route('users.create')); ?>" class="btn btn-primary h-5">Хэрэглэгч нэмэх</a>
                         </button>
                     </div>
-                    
                     <div class="card mb-4">
                         <div class="card-body">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>имэйл</th>
+                                        <th>Нэвтрэх нэр</th>
                                         <th>Нууц үг</th>
-                                        <th>дүүрэг</th>
-                                        <th>хороо</th>
-                                        <th>үүсгэсэн огноо</th>
-                                        <th>шинэчлэсэн огноо</th>
+                                        <th>Утас</th>
+                                        <th>Имэйл</th>
+                                        <th>Төрөл</th>
+                                        <th>Шинэчилсэн Огноо</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
                                         <td><?php echo e($user->id); ?></td>
-                                        <td><?php echo e($user->email); ?></td>
+                                        <td><?php echo e($user->username); ?></td>
                                         <td><?php echo e($user->password); ?></td>
-                                        <td><?php echo e($user->district); ?></td>
-                                        <td><?php echo e($user->committee); ?></td>
-                                        <td><?php echo e($user->created_at); ?></td>
-                                        <td><?php echo e($user->updated_at); ?></td>
+                                        <td><?php echo e($user->phone); ?></td>
+                                        <td><?php echo e($user->email); ?></td>                                        
                                         <td>
-                                            <a href="<?php echo e(route('app-users.edit', $user->id)); ?>" class="btn btn-primary">Засах</a>
-                                            <button type="button" class="btn btn-danger" onclick="openConfirmModal('<?php echo e(route('app-users.destroy', $user->id)); ?>')">Устгах</button>
+                                            <?php
+                                                $typeName = '';
+                                                foreach ($types as $type) {
+                                                    if ($type['type_code'] == $user->type_code) {
+                                                        $typeName = $type['name'];
+                                                        break;
+                                                    }
+                                                }
+                                            ?>
+                                            <?php echo e($typeName); ?>
+
+                                        </td>
+                                        <td><?php echo e($user->created_at); ?></td>
+                                        <td>
+                                            <a href="<?php echo e(route('users.edit', $user->id)); ?>" class="btn btn-primary">Засах</a>
+                                            <?php if($user->type_code != 0): ?>
+                                            <button type="button" class="btn btn-danger" onclick="openConfirmModal('<?php echo e(route('users.destroy', $user->id)); ?>')">Устгах</button>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -57,7 +70,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmModalLabel">Confirm Deletion</h5>
+                    <h5 class="modal-title" id="confirmModalLabel">Устгах хүсэлт</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -85,4 +98,4 @@
         }
     </script>
 </html>
-<?php /**PATH E:\TASTAS\SANKYU\ubsoil\laravel\resources\views/admin/appUsers/appUsers.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\Amka\Documents\ubsoil\laravel\resources\views/admin/user/users.blade.php ENDPATH**/ ?>

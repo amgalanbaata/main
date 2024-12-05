@@ -89,21 +89,20 @@ unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="form-group mb-4">
-                                    <label class="form-label">Өнгө</label>
+                                    <label class="form-label">Бохирдлын түвшин</label>
                                     <div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="color" id="colorYellow" value="yellow" <?php echo e(old('color') == 'yellow' ? 'checked' : ''); ?> required>
-                                            <label class="form-check-label" for="colorYellow">Шар</label>
+                                            <input class="form-check-input" type="radio" name="color" id="yellow" value="yellow" <?php echo e(old('color') == 'yellow' ? 'checked' : ''); ?> required>
+                                            <label class="form-check-label" for="yellow">Их</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="color" id="colorBlue" value="blue" <?php echo e(old('color') == 'blue' ? 'checked' : ''); ?> required>
-                                            <label class="form-check-label" for="colorBlue">Цэнхэр</label>
+                                            <input class="form-check-input" type="radio" name="color" id="green" value="green" <?php echo e(old('color') == 'green' ? 'checked' : ''); ?> required>
+                                            <label class="form-check-label" for="green">Дунд</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="color" id="colorBlack" value="black" <?php echo e(old('color') == 'black' ? 'checked' : ''); ?> required>
-                                            <label class="form-check-label" for="colorBlack">Хар</label>
+                                            <input class="form-check-input" type="radio" name="color" id="red" value="red" <?php echo e(old('color') == 'red' ? 'checked' : ''); ?> required>
+                                            <label class="form-check-label" for="red">Бага</label>
                                         </div>
                                     </div>
                                     <?php $__errorArgs = ['color'];
@@ -120,7 +119,7 @@ unset($__errorArgs, $__bag); ?>
 
                                 <div class="d-flex justify-content-between">
                                     <button type="submit" class="btn btn-primary">Нэмэх</button>
-                                    <a href="<?php echo e(route('locations.index')); ?>" class="btn btn-outline-secondary">Цуцлах</a>
+                                    <a href="<?php echo e(route('locations.index')); ?>" class="btn btn-outline-secondary">Буцах</a>
                                 </div>
                             </form>
                         </div>
@@ -130,4 +129,4 @@ unset($__errorArgs, $__bag); ?>
         </div>
     </body>
 </html>
-<?php /**PATH E:\TASTAS\SANKYU\ubsoil\laravel\resources\views/admin/user/addLocation.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\Amka\Documents\ubsoil\laravel\resources\views/admin/user/addLocation.blade.php ENDPATH**/ ?>
